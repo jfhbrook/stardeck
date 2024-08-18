@@ -7,27 +7,26 @@ default:
 setup:
   @just install
 
-# Format playbooks
-format:
-  yamlfmt *.yml ./group_vars/*.yml ./host_vars/*.yml ./inventory/*.yml ./tasks/*.yml
-
 # Lint playbooks and scripts
 lint:
   shellcheck scripts/*.sh
-  ./scripts/with-all-playbooks.sh just playbook inventory --syntax-check
   ./scripts/with-all-playbooks.sh ansible-lint
 
 # Get status
 status:
-  just check inventory.yml stardeck.yml
+  just check main.yml
+
+# Update
+update:
+  just playbook main.yml
 
 # Run a playbook
 playbook *argv:
   ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-playbook -i 'inventory.yml' --ask-become-pass {{ argv }}
 
 # Check a playbook
-check inventory *argv:
-  @just playbook '{{ inventory }}' --check {{ argv }}
+check *argv:
+  @just playbook inventory.yml --check {{ argv }}
 
 # Install ansible roles and collections
 install *argv:
@@ -39,7 +38,7 @@ config action *argv:
 
 # Dump ansible facts for a target
 facts target:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible -i inventory '{{ target }}' -m ansible.builtin.setup
+  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible -i inventory.yml '{{ target }}' -m ansible.builtin.setup
 
 # Create a new role
 new name:

@@ -1,0 +1,12 @@
+- name: Stardeck Development Environment
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - python3-ansible-lint
+          - shellcheck
+          # - yamlfmt  # need to create a COPR package

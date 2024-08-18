@@ -18,3 +18,5 @@
   import_playbook: mdns.yml
 - name: Git
   import_playbook: git.yml
+- name: Development
+  import_playbook: development.yml

@@ -1,18 +1,14 @@
 # TODO
 
-## Ansible
+## Mopidy and Mopidy-HTTP
 
-### Sooner
+Don't worry about a cool custom UI for now. Just use one of the canned ones.
 
-- [X] Working local playbook
-- [X] Break functionality into separate playbooks
-- [ ] Factor config into separate file
-- [ ] Install linting dependencies
+## Bluetooth Pairing
 
-### Later
-
-- [ ] Wrap ansible playbook in global package/script
-- [ ] Execute package/script without sudo password
+Get a proof of concept for bluetooth pairing on deck. I want to be able to play
+music off my laptop. I can cowpath this POC into scripts and/or a Cockpit app
+later.
 
 ## COPR Packages
 
@@ -30,16 +26,6 @@ Do it up with <https://github.com/45Drives/cockpit-file-sharing>.
 - [ ] Install `cockpit-file-sharing` from COPR
 - [ ] Configure file sharing
 - [ ] Add all my existing MP3s
-
-## Mopidy and Mopidy-HTTP
-
-Don't worry about a cool custom UI for now. Just use one of the canned ones.
-
-## Bluetooth Pairing
-
-Get a proof of concept for bluetooth pairing on deck. I want to be able to play
-music off my laptop. I can cowpath this POC into scripts and/or a Cockpit app
-later.
 
 ## Audio Startup Hints
 
