@@ -10,6 +10,10 @@
       loop:
         - free
         - nonfree
+    - name: Enable fedora-cisco-openh264
+      community.general.dnf_config_manager:
+        name: fedora-cisco-openh264
+        state: enabled
     - name: Update system
       become: true
       dnf:
@@ -63,3 +67,69 @@
           - the_silver_searcher
           - tmux
           - yq
+    - name: Install PulseAudio
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - pulseaudio 
+          - pulseaudio-libs 
+          - pulseaudio-libs-devel 
+          - pulseaudio-module-bluetooth 
+          - pulseaudio-utils 
+          - pamix 
+          - pamixer
+    - name: Install NetworkManager-tui
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - NetworkManager-tui
+    - name: Install ffmpeg
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - ffmpeg
+          - ffmpeg-libs
+          - ffmpeg-devel
+    - name: Enable ssh-agent
+      ansible.builtin.systemd_service:
+        name: ssh-agent.service
+        scope: user
+        state: started
+        enabled: true
+    - name: Install mDNS packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - nss-mdns
+          - avahi
+    - name: Enable Avahi daemon
+      become: true
+      ansible.builtin.systemd_service:
+        name: avahi-daemon.service
+        state: started
+        enabled: true
+    - name: Allow mDNS traffic
+      become: true
+      ansible.posix.firewalld:
+        service: mdns
+        state: enabled
+        permanent: true
+    - name: Set git user name
+      community.general.git_config:
+        name: user.name
+        value: "Josh Holbrook"
+        scope: global
+    - name: Set git user email
+      community.general.git_config:
+        name: user.email
+        value: "josh.holbrook@gmail.com"
+        scope: global
+    - name: Set git default branch
+      community.general.git_config:
+        name: init.defaultBranch
+        value: main
+        scope: global
