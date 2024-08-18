@@ -2,21 +2,40 @@
 
 ## Ansible
 
-Set up an Ansible playbook that runs locally. This will form the basis of
-automatic updates and system config in the future.
+### Sooner
+
+- [X] Working local playbook
+- [ ] Break functionality into separate files
+- [ ] Factor config into separate file
+- [ ] Install linting dependencies
+
+### Later
+
+- [ ] Wrap ansible playbook in global package/script
+- [ ] Execute package/script without sudo password
 
 ## Developer Environment and Dotfiles
 
-Manage dotfiles with ansible, not yadm. But otherwise, set up the same stuff
-I have on lil-nas-x.
+- [ ] Install neovim
+- [ ] Customize bashrc
+- [ ] [run ssh-add automatically](https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there)
 
-One thing I haven't done on lil-nas-x is setting up the SSH agent...
-<https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there>
+## COPR Packages
+
+Prerequisite for file sharing...
+
+- [ ] Get my current packages building again
+  - Might need a Docker image for local dev on MacOS
+- [ ] Create COPR project for `stardeck`
 
 ## File Sharing
 
-1. Do it up with <https://github.com/45Drives/cockpit-file-sharing>
-2. Add all my existing MP3s
+Do it up with <https://github.com/45Drives/cockpit-file-sharing>.
+
+- [ ] Create `cockpit-file-sharing` project on COPR
+- [ ] Install `cockpit-file-sharing` from COPR
+- [ ] Configure file sharing
+- [ ] Add all my existing MP3s
 
 ## Mopidy and Mopidy-HTTP
 

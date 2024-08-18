@@ -9,7 +9,7 @@ setup:
 
 # Format playbooks
 format:
-  yamlfmt *.yml ./group_vars/*.yml ./host_vars/*.yml ./inventory/*.yml ./tasks/*.yml ./roles/raspi-* ./roles/rc2014*
+  yamlfmt *.yml ./group_vars/*.yml ./host_vars/*.yml ./inventory/*.yml ./tasks/*.yml
 
 # Lint playbooks and scripts
 lint:
@@ -19,7 +19,7 @@ lint:
 
 # Get status
 status:
-  just check inventory/lil-nas-x.yml lil-nas-x.yml
+  just check inventory.yml stardeck.yml
 
 # Run a playbook
 playbook *argv:
