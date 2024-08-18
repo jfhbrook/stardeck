@@ -10,9 +10,9 @@ later.
 
 Prerequisite for mopidy frontend and file sharing...
 
-- [ ] Dockerfile for copr-cli + coprctl
-- [ ] Publish Docker image on github
+- [X] Dockerfile for copr-cli + coprctl
 - [ ] Get my current packages building again
+- [ ] Fix `--fedora-review` flag on create
 - [ ] Create COPR project for `stardeck`
 - [ ] Create `mopidy-iris` package
 - [ ] Create `mopidy-mobile` packages
