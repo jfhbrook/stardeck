@@ -1,23 +1,6 @@
 - name: mDNS
   hosts: localhost
   connection: local
-  vars:
-    shell_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
-    vim_become: true
-    vim_owner: "{{ shell_user }}"
-    vim_installed_plugins:
-      - name: dracula
-        repo: "https://github.com/dracula/vim.git"
-        type: start
-      - name: vim-which-key
-        repo: "https://github.com/liuchengxu/vim-which-key.git"
-        type: start
-      - name: fzf
-        repo: "https://github.com/junegunn/fzf"
-        type: start
-      - name: fzf.vim
-        repo: "https://github.com/junegunn/fzf.vim"
-        type: start
   tasks:
     - name: Install packages
       become: true
