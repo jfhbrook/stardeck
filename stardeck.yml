@@ -34,6 +34,12 @@
       - name: vim-which-key
         repo: "https://github.com/liuchengxu/vim-which-key.git"
         type: start
+      - name: fzf
+        repo: "https://github.com/junegunn/fzf"
+        type: start
+      - name: fzf.vim
+        repo: "https://github.com/junegunn/fzf.vim"
+        type: start
   roles:
     - role: jfhbrook.vim
   tasks:
@@ -60,6 +66,7 @@
         name:
           - bat
           - btop
+          - fzf
           - gh
           - git
           - htop
