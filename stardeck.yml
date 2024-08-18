@@ -1,0 +1,73 @@
+- name: Set up packages
+  hosts: localhost
+  tasks:
+    - name: Set up RPM Fusion
+      dnf:
+        name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-{{item}}-release-{{ansible_distribution_major_version}}.noarch.rpm"
+        state: present
+      loop:
+        - free
+        - nonfree
+    # - name: Enable joshiverse COPR
+    #   become: true
+    #   community.general.copr:
+    #     state: enabled
+    #     name: jfhbrook/joshiverse
+    - name: Update system
+      hosts: auto_update
+      tasks:
+        - name: Update dnf packages
+          become: true
+          dnf:
+            name: '*'
+            state: latest
+            update_cache: true
+- name: Set up environment
+  vars:
+    vim_become: true
+    vim_owner: "{{ ansible_user }}"
+    vim_installed_plugins:
+      - name: dracula
+        repo: "https://github.com/dracula/vim.git"
+        type: start
+  roles:
+    - role: jfhbrook.vim
+  tasks:
+    - name: Copy .bashrc
+      ansible.builtin.copy:
+        src: "bashrc"
+        dest: ".bashrc"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: "0644"
+    - name: Copy .vimrc
+      ansible.builtin.copy:
+        src: "vimrc"
+        dest: ".vimrc"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: "0644"
+     tags:
+        - skip_ansible_lint
+   - name: Install CLI tools
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - bat
+          - btop
+          - gh
+          - git
+          - htop
+          - jq
+          - neofetch
+          - ranger
+          - ripgrep
+          - silversearcher-ag
+          - tmux
+          # from joshiverse COPR repo
+          # - nodejs-bbgurl
+          # - nodejs-concurrently
+          # - nodejs-exercise-bike
+          # - nodejs-primitivist
+          - yq
