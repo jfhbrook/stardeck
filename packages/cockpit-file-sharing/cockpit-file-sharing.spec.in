@@ -1,5 +1,5 @@
 Name: cockpit-file-sharing
-Version: VERSION
+Version: 3.3.7
 Release: 1%{?dist}
 License: MIT
 Summary: A cockpit module to make file sharing with Samba and NFS easier.
