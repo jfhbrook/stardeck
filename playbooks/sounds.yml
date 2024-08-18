@@ -1,0 +1,10 @@
+- name: Sounds
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - ocean-sound-theme

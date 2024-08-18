@@ -1,9 +1,5 @@
 # TODO
 
-## Mopidy and Mopidy-HTTP
-
-Don't worry about a cool custom UI for now. Just use one of the canned ones.
-
 ## Bluetooth Pairing
 
 Get a proof of concept for bluetooth pairing on deck. I want to be able to play
@@ -12,11 +8,21 @@ later.
 
 ## COPR Packages
 
-Prerequisite for file sharing...
+Prerequisite for mopidy frontend and file sharing...
 
 - [ ] Get my current packages building again
   - Might need a Docker image for local dev on MacOS
 - [ ] Create COPR project for `stardeck`
+- [ ] Create `mopidy-iris` package
+- [ ] Create `mopidy-mobile` packages
+- [ ] Create `cockpit-file-sharing` package
+
+## Mopidy
+
+- [X] Install mopidy base
+- [ ] Configure mopidy as a service
+- [ ] Install [an extension](https://mopidy.com/ext/)
+- [ ] Configure favored frontend as a service
 
 ## File Sharing
 
@@ -29,7 +35,7 @@ Do it up with <https://github.com/45Drives/cockpit-file-sharing>.
 
 ## Audio Startup Hints
 
-- [ ] Install `ocean-sound-theme`
+- [X] Install `ocean-sound-theme`
 - [ ] POC playing theme sounds with ffmpeg
 - [ ] Connect sounds to events in systemd
 - [ ] Investigate sounds for bluetooth events

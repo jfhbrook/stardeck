@@ -18,5 +18,9 @@
   import_playbook: mdns.yml
 - name: Git
   import_playbook: git.yml
+- name: Sounds
+  import_playbook: sounds.yml
 - name: Development
   import_playbook: development.yml
+- name: Mopidy
+  import_playbook: mopidy.yml
