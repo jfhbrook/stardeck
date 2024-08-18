@@ -34,17 +34,7 @@ Installed. Two things to try:
 
 Will eventually need to feed "line in" into output.
 
-## ProjectM
-
-This could be THE way to get visualizations out of PulseAudio:
-
-<https://github.com/projectM-visualizer/projectm>
-
-Unfortunately, it's not SUPER straightforward to capture/stream OpenGL output.
-The easiest thing might be to run a headless Wayland and stream to that. But
-really I just need to research this more... eventually.
-
-## git, github
+## git, github, ssh
 
 Using `ssh-agent` systemd user service... doesn't auto-add key though.
 
