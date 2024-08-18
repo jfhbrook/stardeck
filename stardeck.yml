@@ -40,14 +40,14 @@
     - name: Copy .bashrc
       ansible.builtin.copy:
         src: "bashrc"
-        dest: ".bashrc"
+        dest: "/home/{{ shell_user }}/.bashrc"
         owner: "{{ shell_user }}"
         group: "{{ shell_user }}"
         mode: "0644"
     - name: Copy .vimrc
       ansible.builtin.copy:
         src: "vimrc"
-        dest: ".vimrc"
+        dest: "/home/{{ shell_user }}/.vimrc"
         owner: "{{ shell_user }}"
         group: "{{ shell_user }}"
         mode: "0644"
