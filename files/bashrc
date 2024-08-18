@@ -23,3 +23,7 @@ if [ -d ~/.bashrc.d ]; then
     done
 fi
 unset rc
+
+# ssh-agent
+# see: https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there
+ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519  | awk '{print $2}')" || ssh-add ~/.ssh/id_ed25519
