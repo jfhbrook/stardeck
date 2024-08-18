@@ -45,3 +45,7 @@ The easiest thing might be to run a headless Wayland and stream to that. But
 really I just need to research this more... eventually.
 
 ## git, github
+
+Using `ssh-agent` systemd user service... doesn't auto-add key though.
+
+<https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there>
