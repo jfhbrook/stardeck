@@ -1,0 +1,22 @@
+- name: CLI Tools
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - bat
+          - btop
+          - fzf
+          - gh
+          - git
+          - htop
+          - jq
+          - neofetch
+          - ranger
+          - ripgrep
+          - the_silver_searcher
+          - tmux
+          - yq

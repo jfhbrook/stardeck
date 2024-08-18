@@ -1,0 +1,20 @@
+- name: Packages
+  import_playbook: packages.yml
+- name: Vim
+  import_playbook: vim.yml
+- name: Shell
+  import_playbook: shell.yml
+- name: Tools
+  import_playbook: tools.yml
+- name: PulseAudio
+  import_playbook: pulseaudio.yml
+- name: WiFi
+  import_playbook: wifi.yml
+- name: ffmpeg
+  import_playbook: ffmpeg.yml
+- name: SSH Agent
+  import_playbook: ssh-agent.yml
+- name: mDNS
+  import_playbook: mdns.yml
+- name: Git
+  import_playbook: git.yml

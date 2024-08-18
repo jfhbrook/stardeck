@@ -1,0 +1,10 @@
+- name: SSH Agent
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Enable ssh-agent
+      ansible.builtin.systemd_service:
+        name: ssh-agent.service
+        scope: user
+        state: started
+        enabled: true

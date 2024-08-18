@@ -5,7 +5,7 @@
 ### Sooner
 
 - [X] Working local playbook
-- [ ] Break functionality into separate files
+- [X] Break functionality into separate playbooks
 - [ ] Factor config into separate file
 - [ ] Install linting dependencies
 

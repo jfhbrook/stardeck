@@ -1,0 +1,16 @@
+- name: PulseAudio
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - pulseaudio 
+          - pulseaudio-libs 
+          - pulseaudio-libs-devel 
+          - pulseaudio-module-bluetooth 
+          - pulseaudio-utils 
+          - pamix 
+          - pamixer
