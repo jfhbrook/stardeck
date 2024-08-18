@@ -16,8 +16,9 @@
 
 ## Developer Environment and Dotfiles
 
-- [ ] Install neovim
-  - Alternately, configure [which-key](https://github.com/liuchengxu/vim-which-key) for vanilla vim
+- [X] [which-key](https://github.com/liuchengxu/vim-which-key)
+- [ ] [fzf](https://github.com/junegunn/fzf/blob/master/README-VIM.md) 
+- [ ] [fzf.vim](https://github.com/junegunn/fzf.vim?tab=readme-ov-file)
 - [ ] Customize bashrc
 - [ ] [run ssh-add automatically](https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there)
 
