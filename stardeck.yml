@@ -1,31 +1,28 @@
 - name: Set up packages
   hosts: localhost
+  connection: local
   tasks:
     - name: Set up RPM Fusion
+      become: true
       dnf:
-        name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-{{item}}-release-{{ansible_distribution_major_version}}.noarch.rpm"
+        name: "https://download1.rpmfusion.org/{{item}}/fedora/rpmfusion-{{item}}-release-{{ansible_distribution_major_version}}.noarch.rpm"
         state: present
       loop:
         - free
         - nonfree
-    # - name: Enable joshiverse COPR
-    #   become: true
-    #   community.general.copr:
-    #     state: enabled
-    #     name: jfhbrook/joshiverse
     - name: Update system
-      hosts: auto_update
-      tasks:
-        - name: Update dnf packages
-          become: true
-          dnf:
-            name: '*'
-            state: latest
-            update_cache: true
+      become: true
+      dnf:
+        name: '*'
+        state: latest
+        update_cache: true
 - name: Set up environment
+  hosts: localhost
+  connection: local
   vars:
+    shell_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
     vim_become: true
-    vim_owner: "{{ ansible_user }}"
+    vim_owner: "{{ shell_user }}"
     vim_installed_plugins:
       - name: dracula
         repo: "https://github.com/dracula/vim.git"
@@ -37,19 +34,19 @@
       ansible.builtin.copy:
         src: "bashrc"
         dest: ".bashrc"
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ shell_user }}"
+        group: "{{ shell_user }}"
         mode: "0644"
     - name: Copy .vimrc
       ansible.builtin.copy:
         src: "vimrc"
         dest: ".vimrc"
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ shell_user }}"
+        group: "{{ shell_user }}"
         mode: "0644"
-     tags:
+      tags:
         - skip_ansible_lint
-   - name: Install CLI tools
+    - name: Install CLI tools
       become: true
       ansible.builtin.dnf:
         state: present
@@ -63,11 +60,6 @@
           - neofetch
           - ranger
           - ripgrep
-          - silversearcher-ag
+          - the_silver_searcher
           - tmux
-          # from joshiverse COPR repo
-          # - nodejs-bbgurl
-          # - nodejs-concurrently
-          # - nodejs-exercise-bike
-          # - nodejs-primitivist
           - yq

@@ -22,8 +22,8 @@ status:
   just check inventory/lil-nas-x.yml lil-nas-x.yml
 
 # Run a playbook
-playbook inventory *argv:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-playbook -i '{{ inventory }}' {{ argv }}
+playbook *argv:
+  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-playbook -i 'inventory.yml' --ask-become-pass {{ argv }}
 
 # Check a playbook
 check inventory *argv:

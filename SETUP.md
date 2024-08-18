@@ -39,3 +39,7 @@ Will eventually need to feed "line in" into output.
 Using `ssh-agent` systemd user service... doesn't auto-add key though.
 
 <https://unix.stackexchange.com/questions/132791/have-ssh-add-be-quiet-if-key-already-there>
+
+## ansible shenanigans
+
+- yamlfmt? shellcheck? ansible-lint?
