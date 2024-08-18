@@ -31,6 +31,9 @@
       - name: dracula
         repo: "https://github.com/dracula/vim.git"
         type: start
+      - name: vim-which-key
+        repo: "https://github.com/liuchengxu/vim-which-key.git"
+        type: start
   roles:
     - role: jfhbrook.vim
   tasks:
