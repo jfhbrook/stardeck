@@ -1,0 +1,33 @@
+Name: cockpit-file-sharing
+Version: VERSION
+Release: 1%{?dist}
+License: MIT
+Summary: A cockpit module to make file sharing with Samba and NFS easier.
+
+URL: https://github.com/45Drives/cockpit-file-sharing
+Source0: https://github.com/45Drives/cockpit-file-sharing/releases/download/v%{version}/cockpit-file-sharing_%{version}_generic.tar.gz
+BuildArch: x86_64
+Requires: cockpit attr coreutils glibc-common nfs-utils samba-common-tools samba-winbind-clients systemd gawk
+
+%description
+A cockpit module to make file sharing with Samba and NFS easier.
+
+%global debug_package %{nil}
+
+%prep
+%autosetup
+
+
+%build
+tar -xzf 'cockpit-file-sharing-3.3_generic.tar.gz'
+
+%install
+make DESTDIR=%{buildroot} install
+
+%check
+
+%files
+/usr/share/cockpit/file-sharing/*
+
+%changelog
+
