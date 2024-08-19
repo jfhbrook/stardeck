@@ -11,8 +11,14 @@
         - free
         - nonfree
     - name: Enable fedora-cisco-openh264
+      become: true
       community.general.dnf_config_manager:
         name: fedora-cisco-openh264
+        state: enabled
+    - name: Enable stardeck COPR
+      become: true
+      community.general.copr:
+        name: jfhbrook/stardeck
         state: enabled
     - name: Update system
       become: true
