@@ -22,7 +22,7 @@ A cockpit module to make file sharing with Samba and NFS easier.
 tar -xzf 'cockpit-file-sharing_%{version}_generic.tar.gz'
 
 %install
-make DESTDIR=%{buildroot} install
+cd 'cockpit-file-sharing_%{version}_generic' && make DESTDIR=%{buildroot} install
 
 %check
 
