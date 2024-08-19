@@ -3,16 +3,21 @@ set dotenv-load := true
 default:
   @just --list
 
-download-winsounds:
+download-win3xsounds:
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/Windows3x.zip
   cd sounds && unzip Windows3x.zip
   rm -f sounds/Windows3x.zip
+
+download-winxpsounds:
+  curl -L 'https://archive.org/compress/windowsxpstartup_201910/formats=VBR%20MP3&file=/windowsxpstartup_201910.zip' -o sounds/windowsxp.zip
+  cd sounds && unzip windowsxp.zip
+  rm -f sounds/windowsxp.zip
 
 download-btsounds:
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-is-ready-to-pair.mp3 -o sounds/the-bluetooth-device-is-ready-to-pair.mp3
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-its-connected-succesfull.mp3 -o sounds/the-bluetooth-device-its-connected-succesfull.mp3
 
-download-sounds: download-winsounds download-btsounds
+download-sounds: download-win3xsounds download-winxpsounds download-btsounds
 
 # Set everything up
 setup:
