@@ -6,7 +6,7 @@ Summary: A cockpit module to make file sharing with Samba and NFS easier.
 
 URL: https://github.com/gmsoft-tuxicoman/bt-audio
 Source0: https://raw.githubusercontent.com/gmsoft-tuxicoman/bt-audio/755096044864b92181c35fdd08bdcbb539b3e99c/bt-audio.py
-Requires: bluez gstreamer1 gstreamer1-plugins-good
+Requires: bluez gstreamer1 gstreamer1-plugins-good gstreamer1-plugins-bad-free
 
 %description
 This python script will turn your linux PC into a bluetooth speaker
