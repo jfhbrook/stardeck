@@ -17,7 +17,14 @@ download-btsounds:
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-is-ready-to-pair.mp3 -o sounds/the-bluetooth-device-is-ready-to-pair.mp3
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-its-connected-succesfull.mp3 -o sounds/the-bluetooth-device-its-connected-succesfull.mp3
 
-download-sounds: download-win3xsounds download-winxpsounds download-btsounds
+download-floppysounds:
+  yt-dlp --extract-audio https://www.youtube.com/watch?v=o_quPha61D0 --audio-format wav --output sounds/floppy-sounds.wav
+  @just cut-floppysounds
+
+cut-floppysounds:
+  ffmpeg -y -ss 23 -t 7 -i sounds/floppy-sounds.wav sounds/floppy-start.mp3
+
+download-sounds: download-win3xsounds download-winxpsounds download-btsounds download-floppysounds
 
 # Set everything up
 setup:
