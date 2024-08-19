@@ -8,6 +8,8 @@
   import_playbook: tools.yml
 - name: PulseAudio
   import_playbook: pulseaudio.yml
+- name: Bluetooth
+  import_playbook: bluetooth.yml
 - name: WiFi
   import_playbook: wifi.yml
 - name: ffmpeg
