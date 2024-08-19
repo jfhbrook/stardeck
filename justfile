@@ -3,28 +3,43 @@ set dotenv-load := true
 default:
   @just --list
 
-download-win3xsounds:
+download-win3x-sounds:
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/Windows3x.zip
   cd sounds && unzip Windows3x.zip
   rm -f sounds/Windows3x.zip
 
-download-winxpsounds:
+download-winxp-sounds:
   curl -L 'https://archive.org/compress/windowsxpstartup_201910/formats=VBR%20MP3&file=/windowsxpstartup_201910.zip' -o sounds/windowsxp.zip
   cd sounds && unzip windowsxp.zip
   rm -f sounds/windowsxp.zip
 
-download-btsounds:
+download-bt-sounds:
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-is-ready-to-pair.mp3 -o sounds/the-bluetooth-device-is-ready-to-pair.mp3
   curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-its-connected-succesfull.mp3 -o sounds/the-bluetooth-device-its-connected-succesfull.mp3
 
-download-floppysounds:
+download-floppy-sounds:
   yt-dlp --extract-audio https://www.youtube.com/watch?v=o_quPha61D0 --audio-format wav --output sounds/floppy-sounds.wav
-  @just cut-floppysounds
+  @just cut-floppy-sounds
 
-cut-floppysounds:
+cut-floppy-sounds:
   ffmpeg -y -ss 23 -t 7 -i sounds/floppy-sounds.wav sounds/floppy-start.mp3
 
-download-sounds: download-win3xsounds download-winxpsounds download-btsounds download-floppysounds
+download-videlectrix-sounds:
+  yt-dlp --extract-audio https://www.youtube.com/watch?v=xBmxHT2SUXg --audio-format wav --output sounds/videlectrix-sounds.wav
+  @just cut-videlectrix-sounds
+
+cut-videlectrix-sounds:
+  ffmpeg -y -ss 3 -t '5.5' -i sounds/videlectrix-sounds.wav sounds/videlectrix-start.mp3
+
+download-sounds:
+  @just download-win3x-sounds
+  @just download-winxps-ounds
+  @just download-bt-sounds
+  @just download-floppy-sounds
+  @just download-videlectrix-sounds
+
+play FILE:
+  ffplay '{{FILE}}' -nodisp -autoexit
 
 # Set everything up
 setup:
