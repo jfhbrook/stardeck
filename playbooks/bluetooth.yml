@@ -7,4 +7,5 @@
       ansible.builtin.dnf:
         state: present
         name:
-          - bt-audio
+          - bluez
+          - bluez-tools
