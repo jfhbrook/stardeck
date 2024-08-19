@@ -1,22 +1,29 @@
 # TODO
 
+## Get Audio Working
+
+I installed PulseAudio, but it's completely unconfigured.
+
+Some research suggests PipeWire is the default audio server, rather than
+PulseAudio - so I should switch to that. But it *also* looks like you're
+supposed to install ALSA under the hood.
+
+I'm testing that audio works by running `just play sounds/win3x/TADA.WAV`.
+
 ## Bluetooth Pairing
 
-Get a proof of concept for bluetooth pairing on deck. I want to be able to play
-music off my laptop. I can cowpath this POC into scripts and/or a Cockpit app
-later.
+Bluetooth pairing is a MESS.
 
-## COPR Packages
+First, a lot of the scripts/tools say to use `sbc`, which has more or less
+been sunset. Some documentation on that lives here:
 
-Prerequisite for mopidy frontend and file sharing...
+<https://github.com/ev3dev/ev3dev/issues/198>
 
-- [X] Dockerfile for copr-cli + coprctl
-- [ ] Get my current packages building again
-- [ ] Fix `--fedora-review` flag on create
-- [ ] Create COPR project for `stardeck`
-- [ ] Create `mopidy-iris` package
-- [ ] Create `mopidy-mobile` packages
-- [ ] Create `cockpit-file-sharing` package
+But also, Fedora uses PipeWire by default. It *appears* that PipeWire handles this differently - but perhaps better?
+
+<https://www.reddit.com/r/pipewire/comments/s3jth9/has_anyone_ever_been_able_to_play_bluetooth_audio/>
+
+I suspect that this stuff is configurable with... whatever UI-driven tools pipewire has.
 
 ## Mopidy
 
