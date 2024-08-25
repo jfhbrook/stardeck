@@ -1,0 +1,38 @@
+- name: PipeWire
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - pipewire
+          - pipewire-alsa
+          - pipewire-codec-aptx
+          - pipewire-devel
+          - pipewire-doc
+          - pipewire-gstreamer
+          # - pipewire-jack-audio-connection-kit
+          # - pipewire-jack-audio-connection-kit-devel
+          # - pipewire-jack-audio-connection-kit-libs
+          - pipewire-libs
+          # - pipewire-module-ffado
+          # - pipewire-module-filter-chain-lv2
+          # - pipewire-module-filter-chain-sofa
+          # - pipewire-module-roc
+          # - pipewire-module-x11
+          - pipewire-plugin-jack
+          # - pipewire-plugin-libcamera
+          # - pipewire-plugin-vulkan
+          - pipewire-pulseaudio
+          - pipewire-utils
+          # - pipewire-v4l2
+          # - vlc-plugin-pipewire
+          - easyeffects
+          # - helvum
+          # - qpwgraph
+          - wireplumber
+          - wireplumber-devel
+          - wireplumber-doc
+          - wireplumber-libs

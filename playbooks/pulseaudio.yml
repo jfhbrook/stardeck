@@ -7,10 +7,6 @@
       ansible.builtin.dnf:
         state: present
         name:
-          - pulseaudio 
-          - pulseaudio-libs 
-          - pulseaudio-libs-devel 
-          - pulseaudio-module-bluetooth 
           - pulseaudio-utils 
           - pamix 
           - pamixer
