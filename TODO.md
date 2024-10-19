@@ -1,14 +1,25 @@
 # TODO
 
-## Get Audio Working
+## Remote Desktop
 
-I installed PulseAudio, but it's completely unconfigured.
+The things I want to do are pretty dependent on a graphical environment,
+especially given I don't have an entire software stack to replace it.
+Therefore, _some_ form of remote desktop is more or less crucial.
 
-Some research suggests PipeWire is the default audio server, rather than
-PulseAudio - so I should switch to that. But it *also* looks like you're
-supposed to install ALSA under the hood.
+I finally got `krfb` to work, including autostart and unattended access. But
+there are two big problems that currently have me dead in the water:
 
-I'm testing that audio works by running `just play sounds/win3x/TADA.WAV`.
+1. Auto-login is not working. I configured SDDM to allow auto login and I
+   confirmed the config file has those settings, but SDDM isn't respecting
+   them. As far as I can tell, SDDM is running. Fixing this may require
+   hitting up some forums.
+2. `krfb` requests permission to screen share from Plasma every time it
+   starts. I haven't even begun to investigate this. For all I know, there
+   is no reasonable way to solve this.
+
+Note that solutions aside from `krfb`, particularly TightVNC but also
+NoMachine, struggle with KDE for Wayland reasons. The way forward here is
+almost certainly `krfb`.
 
 ## Bluetooth Pairing
 
@@ -19,31 +30,26 @@ been sunset. Some documentation on that lives here:
 
 <https://github.com/ev3dev/ev3dev/issues/198>
 
-But also, Fedora uses PipeWire by default. It *appears* that PipeWire handles this differently - but perhaps better?
+But also, Fedora uses PipeWire by default. It _appears_ that PipeWire handles
+this differently - but perhaps better?
 
 <https://www.reddit.com/r/pipewire/comments/s3jth9/has_anyone_ever_been_able_to_play_bluetooth_audio/>
 
-I suspect that this stuff is configurable with... whatever UI-driven tools pipewire has.
+I suspect that this stuff is configurable with... whatever UI-driven tools
+pipewire has.
 
 ## Mopidy
 
-- [X] Install mopidy base
+- [x] Install mopidy base
 - [ ] Configure mopidy as a service
 - [ ] Install [an extension](https://mopidy.com/ext/)
 - [ ] Configure favored frontend as a service
 
 ## File Sharing
 
-Do it up with <https://github.com/45Drives/cockpit-file-sharing>.
-
-- [ ] Create `cockpit-file-sharing` project on COPR
-- [ ] Install `cockpit-file-sharing` from COPR
-- [ ] Configure file sharing
-- [ ] Add all my existing MP3s
-
 ## Audio Startup Hints
 
-- [X] Install `ocean-sound-theme`
+- [x] Install `ocean-sound-theme`
 - [ ] POC playing theme sounds with ffmpeg
 - [ ] Connect sounds to events in systemd
 - [ ] Investigate sounds for bluetooth events
