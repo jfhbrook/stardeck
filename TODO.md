@@ -21,6 +21,13 @@ Note that solutions aside from `krfb`, particularly TightVNC but also
 NoMachine, struggle with KDE for Wayland reasons. The way forward here is
 almost certainly `krfb`.
 
+### A Small Monitor
+
+If I can't get the Stardeck to work with remote desktop consistently, I'll
+need a petite monitor I can hook it up to. My current extra monitor is no
+good because the 10:16 aspect ratio makes the Stardeck so confused it won't
+consistently display on it.
+
 ## Bluetooth Pairing
 
 Bluetooth pairing is a MESS.
