@@ -2,30 +2,30 @@
 
 ## The Basics
 
-- [ ] open ssh
-- [ ] edge
-  - [ ] edge apps
-    - [ ] youtube
-    - [ ] youtube music
-- [ ] set dark theme
-- [ ] 1password
+- [x] 1password
   - settings -> developer
     - integrate 1password CLI
     - set up ssh client
-- [ ] rpmfusion free/nonfree repos
-- [ ] git
+- [x] git
   - [ ] install with dnf
   - [ ] git config --global user.name "Josh Holbrook"
   - [ ] git config --global user.email "josh.holbrook@gmail.com"
   - [ ] git config --global init.defaultBranch main
-- [ ] clone stardeck repo
-- [ ] ansible
+- [x] clone stardeck repo
+- [ ] rpmfusion free/nonfree repos
 - [ ] yadm
   - install yadm
   - create new stardeck-dotfiles repo
   - initialize yadm
   - clone old dotfiles repo
   - add dotfiles I currently have going
+- [ ] sshd
+
+- [ ] edge
+- [ ] edge apps
+  - [ ] youtube
+  - [ ] youtube music
+
 - [ ] kitty
   - curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
   - probably snag slowpoke config
@@ -34,9 +34,6 @@
   - dnf repo?
   - if manual, just mononoki for now
 - [ ] starship
-- [ ] rustup
-- [ ] gh
-  - [ ] gh auth login
 - [ ] neovim
   - set up dotfile based on slowpoke
 - [ ] vanilla vim
@@ -60,7 +57,6 @@
   - watchexec
 - [ ] set hostname
 - [ ] coc.nvim extensions
-  - rust
   - typescript
   - python
   - go
@@ -68,12 +64,11 @@
   - [ ] follow getting started guide
   - [ ] asdf-ruby
   - [ ] asdf-java
-- [ ] uv
+- [ ] uv (python)
 - [ ] volta
-- [ ] tfswitch
-- [ ] set up update scripts
 - [ ] spruce up bashrc
-- [ ] watchexec
+- [ ] set up update scripts
+
 - [ ] podman
   - [ ] install podman
   - [ ] configure socket
@@ -83,6 +78,7 @@
 - [ ] configure ipv6 on wifi to relax/study to
 - [ ] autostart
   - [ ] 1password
+
 - [ ] copr
   - [ ] update chroots/repositories
   - [ ] yq
