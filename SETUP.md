@@ -54,9 +54,9 @@
 - [x] coc.nvim extensions
   - `:CocInstall coc-json coc-tsserver coc-pyright coc-rust-analyzer`
 - [x] nmtui
-- [ ] spruce up bashrc
-- [ ] cool ass wallpaper
-- [ ] cool ass lock screen
+- [x] cool ass wallpaper
+- [x] spruce up bashrc
+- [ ] cockpit
 - [ ] set up update scripts
 
 - [ ] edge
@@ -73,9 +73,9 @@
   - [ ] update chroots/repositories
   - [ ] yq
   - [ ] concurrently
+
 - [ ] korbenware
   - [ ] build/install copr package
-- [ ] cockpit
 
 ## Avahi
 
