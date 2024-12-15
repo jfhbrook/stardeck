@@ -13,13 +13,12 @@
   - [x] git config --global init.defaultBranch main
 - [x] clone stardeck repo
 - [x] rpmfusion free/nonfree repos
-- [ ] yadm
+- [x] yadm
   - install yadm
   - create new stardeck-dotfiles repo
   - initialize yadm
-  - clone old dotfiles repo
-  - add dotfiles I currently have going
-- [ ] sshd
+- [x] sshd
+- [ ] copy over dotfiles from elsewhere
 
 - [ ] edge
 - [ ] edge apps
