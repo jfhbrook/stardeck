@@ -45,16 +45,18 @@
   - just
 - [x] rustup
   - watchexec
-- [ ] asdf
-  - [ ] asdf-ruby
-  - [ ] asdf-java
-- [ ] uv (python)
-- [ ] volta
-- [ ] coc.nvim extensions
-  - typescript
-  - python
-  - go
+- [x] asdf and asdf-ruby
+- [x] gh cli
+- [x] uv (python)
+- [x] volta
+- [x] rust-analyzer
+  - with dnf - might regret as the official directions download a static binary
+- [x] coc.nvim extensions
+  - `:CocInstall coc-json coc-tsserver coc-pyright coc-rust-analyzer`
+- [x] nmtui
 - [ ] spruce up bashrc
+- [ ] cool ass wallpaper
+- [ ] cool ass lock screen
 - [ ] set up update scripts
 
 - [ ] edge
@@ -66,11 +68,6 @@
   - [ ] install podman
   - [ ] configure socket
   - [ ] podman desktop
-- [ ] cool ass wallpaper
-- [ ] cool ass lock screen
-- [ ] configure ipv6 on wifi to relax/study to
-- [ ] autostart
-  - [ ] 1password
 
 - [ ] copr
   - [ ] update chroots/repositories
@@ -78,7 +75,6 @@
   - [ ] concurrently
 - [ ] korbenware
   - [ ] build/install copr package
-- [ ] tmtui
 - [ ] cockpit
 
 ## Avahi
