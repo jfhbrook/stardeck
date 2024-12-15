@@ -1,8 +1,5 @@
-# Homebrew formulas to install
-# HOMEBREW_FORMULAS+=()
-
-# Homebrew casks to install
-# HOMEBREW_CASKS+=()
+# DNF packages to install
+# DNF_PACKAGES+=()
 
 # ASDF plugins to install
 # ASDF_PLUGINS+=()
