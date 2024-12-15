@@ -56,7 +56,7 @@
 - [x] nmtui
 - [x] cool ass wallpaper
 - [x] spruce up bashrc
-- [ ] cockpit
+- [x] cockpit
 - [ ] set up update scripts
 
 - [ ] edge
