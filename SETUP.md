@@ -19,6 +19,8 @@
   - initialize yadm
 - [x] sshd
 - [ ] copy over dotfiles from elsewhere
+  - .config/1Password/ssh/agent.toml
+  - .ssh/config
 
 - [ ] edge
 - [ ] edge apps
