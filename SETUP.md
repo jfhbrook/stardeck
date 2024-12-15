@@ -57,7 +57,7 @@
 - [x] cool ass wallpaper
 - [x] spruce up bashrc
 - [x] cockpit
-- [ ] set up update scripts
+- [x] set up update scripts
 
 - [ ] edge
 - [ ] edge apps

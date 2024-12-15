@@ -3,6 +3,28 @@ set dotenv-load := true
 default:
   @just --list
 
+# Get the status of the repo and of yadm
+status:
+  git status
+  yadm status
+
+# Create a new package
+new package_name:
+  exercise-bike --package_name '{{ package_name }}' ./templates/package.sh './packages/{{ package_name }}.sh'
+  ${EDITOR} './packages/{{ package_name }}.sh'
+
+# Install packages
+install *PACKAGES:
+  @bash ./scripts/install.sh {{ PACKAGES }}
+
+# Update packages
+update:
+  @bash ./scripts/update.sh
+
+# Remove packages
+remove *PACKAGES:
+  @bash ./scripts/remove.sh {{ PACKAGES }}
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip
@@ -55,35 +77,3 @@ setup:
 lint:
   shellcheck scripts/*.sh
   ./scripts/with-all-playbooks.sh ansible-lint
-
-# Get status
-status:
-  just check main.yml
-
-# Update
-update:
-  just playbook main.yml
-
-# Run a playbook
-playbook *argv:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-playbook -i 'inventory.yml' --ask-become-pass {{ argv }}
-
-# Check a playbook
-check *argv:
-  @just playbook inventory.yml --check {{ argv }}
-
-# Install ansible roles and collections
-install *argv:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-galaxy install -r requirements.yml {{ argv }}
-
-# Run ansible-config
-config action *argv:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible-config {{ action }} {{ argv }}
-
-# Dump ansible facts for a target
-facts target:
-  ANSIBLE_CONFIG="$(pwd)/ansible.cfg" ansible -i inventory.yml '{{ target }}' -m ansible.builtin.setup
-
-# Create a new role
-new name:
-  export ANSIBLE_CONFIG="$(pwd)/ansible.cfg"; cd roles && ansible-galaxy init '{{ name }}'

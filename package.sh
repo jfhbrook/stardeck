@@ -1,0 +1,17 @@
+PRESENT=(
+  1password
+  asdf
+  brass-tacks
+  cockpit
+  gh-cli
+  git
+  kitty
+  nmtui
+  node-dev
+  python-dev
+  rpmfusion
+  rust-dev
+  starship
+  vim
+  yadm
+)
