@@ -7,12 +7,12 @@
     - integrate 1password CLI
     - set up ssh client
 - [x] git
-  - [ ] install with dnf
-  - [ ] git config --global user.name "Josh Holbrook"
-  - [ ] git config --global user.email "josh.holbrook@gmail.com"
-  - [ ] git config --global init.defaultBranch main
+  - [x] install with dnf
+  - [x] git config --global user.name "Josh Holbrook"
+  - [x] git config --global user.email "josh.holbrook@gmail.com"
+  - [x] git config --global init.defaultBranch main
 - [x] clone stardeck repo
-- [ ] rpmfusion free/nonfree repos
+- [x] rpmfusion free/nonfree repos
 - [ ] yadm
   - install yadm
   - create new stardeck-dotfiles repo
