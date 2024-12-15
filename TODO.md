@@ -1,5 +1,12 @@
 # TODO
 
+## packages
+
+- nerd fonts dnf packages imo
+- starship dnf package
+  - installed to /usr/local/bin
+- watchexec
+
 ## Remote Desktop
 
 The things I want to do are pretty dependent on a graphical environment,

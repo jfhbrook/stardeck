@@ -18,28 +18,16 @@
   - create new stardeck-dotfiles repo
   - initialize yadm
 - [x] sshd
-- [ ] copy over dotfiles from elsewhere
-  - .config/1Password/ssh/agent.toml
-  - .ssh/config
-
-- [ ] edge
-- [ ] edge apps
-  - [ ] youtube
-  - [ ] youtube music
-
-- [ ] kitty
-  - curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-  - probably snag slowpoke config
-  - manually create desktop file
-- [ ] nerd fonts
-  - dnf repo?
-  - if manual, just mononoki for now
-- [ ] starship
-- [ ] neovim
-  - set up dotfile based on slowpoke
-- [ ] vanilla vim
-  - base config off slowpoke
-- [ ] CLI tools
+- [x] set up dotfiles
+- [x] vanilla vim
+- [x] neovim
+- [x] kitty
+  - install with dnf
+- [x] mononoki nerd fonts
+  - <https://blog.khmersite.net/p/installing-nerd-font-on-fedora/>
+- [x] starship
+  - installed with script
+- [x] CLI tools
   - bat
   - bats
   - eza (exa is unmaintained)
@@ -55,20 +43,24 @@
   - shellcheck
   - ag
   - just
+- [x] rustup
   - watchexec
-- [ ] set hostname
-- [ ] coc.nvim extensions
-  - typescript
-  - python
-  - go
 - [ ] asdf
-  - [ ] follow getting started guide
   - [ ] asdf-ruby
   - [ ] asdf-java
 - [ ] uv (python)
 - [ ] volta
+- [ ] coc.nvim extensions
+  - typescript
+  - python
+  - go
 - [ ] spruce up bashrc
 - [ ] set up update scripts
+
+- [ ] edge
+- [ ] edge apps
+  - [ ] youtube
+  - [ ] youtube music
 
 - [ ] podman
   - [ ] install podman
