@@ -6,6 +6,8 @@ PRESENT=(
   cockpit
   gh-cli
   git
+  joshiverse-copr
+  joshiverse
   kitty
   nmtui
   node-dev
