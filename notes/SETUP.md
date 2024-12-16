@@ -1,11 +1,12 @@
 # Setup
 
-## The Basics
+Initial manual setup of the Stardeck.
 
 - [x] 1password
   - settings -> developer
     - integrate 1password CLI
     - set up ssh client
+  - **NOTE:** Using 1password for SSH means you can't do SSH stuff headlessly!!
 - [x] git
   - [x] install with dnf
   - [x] git config --global user.name "Josh Holbrook"
@@ -58,49 +59,5 @@
 - [x] spruce up bashrc
 - [x] cockpit
 - [x] set up update scripts
-
-- [ ] edge
-- [ ] edge apps
-  - [ ] youtube
-  - [ ] youtube music
-
-- [ ] podman
-  - [ ] install podman
-  - [ ] configure socket
-  - [ ] podman desktop
-
-- [ ] copr
-  - [ ] update chroots/repositories
-  - [ ] yq
-  - [ ] concurrently
-
-- [ ] korbenware
-  - [ ] build/install copr package
-
-## Avahi
-
-Avahi is the thing that makes mDNS work. It might already Just Work, but in
-case it doesn't...
-
-<https://fedoramagazine.org/find-systems-easily-lan-mdns/>
-
-This is more or less plug and play. Relevant settings are mostly going to be
-`hostname` (configurable under `overview`)  and the short list of
-things in `/etc/avahi/avahi-daemon.conf`.
-
-Note, mDNS needs to be allowed by the firewall before it will work fully.
-
-# Cockpit Stuff
-
-* <https://github.com/45Drives/cockpit-file-sharing>
-* Old but promising: <https://github.com/cyberorg/apsetup-cockpit>
-
-## Audio
-
-Things use pipewire by default, but it should pretend to be pulseaudio. Some
-things to try:
-
-* <https://github.com/patroclos/PAmix> - TUI mixer
-* <https://github.com/cdemoulins/pamixer> - CLI mixer
-
-Will eventually need to feed "line in" into output.
+* [x] <https://github.com/patroclos/PAmix> - TUI mixer
+* [x] <https://github.com/cdemoulins/pamixer> - CLI mixer

@@ -1,41 +1,61 @@
 # TODO
 
-## packages
+## Test Tape Deck
 
-- nerd fonts dnf packages imo
-- starship dnf package
-  - installed to /usr/local/bin
-- watchexec
+I haven't actually tested the tape deck yet.
 
-## Remote Desktop
+I *believe* line in is configured appropriately. I just need to throw a tape in there and make sure everything is appropriately powered.
 
-The things I want to do are pretty dependent on a graphical environment,
-especially given I don't have an entire software stack to replace it.
-Therefore, _some_ form of remote desktop is more or less crucial.
+## COPR
 
-I finally got `krfb` to work, including autostart and unattended access. But
-there are two big problems that currently have me dead in the water:
+First, I'll need to get COPR working in its current status:
 
-1. Auto-login is not working. I configured SDDM to allow auto login and I
-   confirmed the config file has those settings, but SDDM isn't respecting
-   them. As far as I can tell, SDDM is running. Fixing this may require
-   hitting up some forums.
-2. `krfb` requests permission to screen share from Plasma every time it
-   starts. I haven't even begun to investigate this. For all I know, there
-   is no reasonable way to solve this.
+- [ ] Update chroots/repositories
+- [ ] Get (most) existing packages built
 
-Note that solutions aside from `krfb`, particularly TightVNC but also
-NoMachine, struggle with KDE for Wayland reasons. The way forward here is
-almost certainly `krfb`.
+### Packages
 
-### A Small Monitor
+I'll want to get these packages both working and installed.
 
-If I can't get the Stardeck to work with remote desktop consistently, I'll
-need a petite monitor I can hook it up to. My current extra monitor is no
-good because the 10:16 aspect ratio makes the Stardeck so confused it won't
-consistently display on it.
+- [ ] Nerd Fonts
+- [ ] Starship
+  - Currently hard installed to /usr/local/bin
+- [ ] `watchexec`
+- [ ] `yq`
+- [ ] `concurrently`
+- [ ] `exercise-bike`
+- [ ] `concurrently`
+
+## Edge and Edge Apps
+
+My preferred browser is Edge. But Edge is annoying to install, and Firefox is working fine. I might just not do this. But I still need to make that decision.
+
+- [ ] Edge
+- [ ] Edge apps
+  - [ ] youtube
+  - [ ] youtube music
+
+**NOTE:** If I really want apps, I can also do it through Chrome, which is easier to install.
+
+## Mopidy
+
+I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.
+
+- [x] Install mopidy base
+  - [ ] Get this under scripts
+- [ ] Configure mopidy as a service
+- [ ] Install [an extension](https://mopidy.com/ext/)
+- [ ] Configure favored frontend as a service
+
+## File Sharing
+
+Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
 
 ## Bluetooth Pairing
+
+I'd love to be able to do bluetooth pairing. But from what I've discovered, it's a MESS.
+
+See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 
 Bluetooth pairing is a MESS.
 
@@ -52,23 +72,6 @@ this differently - but perhaps better?
 I suspect that this stuff is configurable with... whatever UI-driven tools
 pipewire has.
 
-## Mopidy
-
-- [x] Install mopidy base
-- [ ] Configure mopidy as a service
-- [ ] Install [an extension](https://mopidy.com/ext/)
-- [ ] Configure favored frontend as a service
-
-## File Sharing
-
-## Audio Startup Hints
-
-- [x] Install `ocean-sound-theme`
-- [ ] POC playing theme sounds with ffmpeg
-- [ ] Connect sounds to events in systemd
-- [ ] Investigate sounds for bluetooth events
-- [ ] Add custom sounds
-
 ## PlusDeck Support
 
 1. Develop a dbus interface for Plusdeck
@@ -81,3 +84,32 @@ pipewire has.
 3. Write a dbus service
 4. ???
 5. Profit
+
+## Familiarize Myself with Audio CLI Tools
+
+If I want to go headless, I'll need to be able to admin audio shenanigans over SSH. I found *some* tools - more to come - but I'll need to get into the habit of actually using them.
+
+- `pamix`
+- `pamixer`
+
+## Auto Login
+
+This currently isn't working at all, though it should be possible. This will be critical if I want to go headless and can't find a way to ditch dependency on a desktop environment.
+
+## Audio Hints
+
+It will be pretty important to have audio indications that things are up and running, if the Stardeck is going to be headless. I *think* this is a relatively easy win? But low priority until I'm serious about going headless.
+
+I already have files downloaded, which is good.
+
+There are basically two angles here. One is customizing KDE's standard sounds and/or enabling any sounds it doesn't have going by default. The other is hooking audio hints into whatever stack I have going to do bluetooth pairing - a whole nother thing.
+
+- [x] Install `ocean-sound-theme`
+- [ ] POC playing theme sounds with ffmpeg
+- [ ] Connect sounds to events in systemd
+- [ ] Investigate sounds for bluetooth events
+- [ ] Add custom sounds
+
+# Cockpit Loose Ends
+
+If I get this far, I'll want to ensure that anything I'd reasonably want to do (that doesn't otherwise have an interface) can be accessed through Cockpit.
