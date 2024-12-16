@@ -1,18 +1,5 @@
 # TODO
 
-## Install Watchexec from RPM
-
-Watchexec uploads official RPMs:
-
-- <https://github.com/watchexec/watchexec/releases/tag/v2.2.1>
-- <https://www.reddit.com/r/Fedora/comments/e8vvtz/til_dnf_can_install_rpms_directly_from_urls/>
-
-Try this:
-
-```bash
-sudo dnf install https://github.com/watchexec/watchexec/releases/download/v2.2.1/watchexec-2.2.1-aarch64-unknown-linux-musl.rpm
-```
-
 ## Mopidy
 
 I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.

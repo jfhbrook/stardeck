@@ -16,5 +16,6 @@ PRESENT=(
   rust-dev
   starship
   vim
+  watchexec
   yadm
 )
