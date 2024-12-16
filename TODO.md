@@ -1,10 +1,12 @@
 # TODO
 
-## Test Tape Deck
+## Get Plusdeck Working
 
-I haven't actually tested the tape deck yet.
+The plusdeck is getting power and is playing tapes. However, you can't hear them because Linux line in isn't proxying to line out.
 
-I *believe* line in is configured appropriately. I just need to throw a tape in there and make sure everything is appropriately powered.
+This SO post looks promising:
+
+<https://askubuntu.com/questions/123798/how-to-hear-my-voice-in-speakers-with-a-mic>
 
 ## COPR
 
