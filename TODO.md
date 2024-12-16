@@ -1,5 +1,9 @@
 # TODO
 
+## Mixing
+
+Getting sound mixing out of the PC is a compelling idea. See [`./notes/mixer.md`](./notes/mixer.md).
+
 ## COPR
 
 First, I'll need to get COPR working in its current status:
