@@ -13,58 +13,6 @@ Try this:
 sudo dnf install https://github.com/watchexec/watchexec/releases/download/v2.2.1/watchexec-2.2.1-aarch64-unknown-linux-musl.rpm
 ```
 
-## COPR
-
-First, I'll need to get COPR working in its current status:
-
-- [ ] Update chroots/repositories
-- [ ] Get (most) existing packages built
-
-### Packages
-
-Fresh builds:
-
-- [x] coprctl
-- [x] korbenware
-- [x] nodejs-bbgurl
-- [x] nodejs-concurrently
-- [x] nodejs-exercise-bike
-- [x] nodejs-jfhbrook-cronkite
-- [x] nodejs-jfhbrook-fake-progress-not-frozen
-- [x] nodejs-licenseify
-- [x] nodejs-primitivist
-- [x] onedrive-gui
-- [x] python3-gshell.py
-- [x] python3-twisted_ipython
-- [x] rubygems-t
-- [x] starship
-- [ ] viu
-  - Failing - "No compatible architectures found for build"
-- [ ] yq
-  - Failing - "No compatible architectures found for build"
-- [ ] starship
-  - Fail on use: "cannot execute binary file: Exec format error"
-
-Install:
-
-- [x] korbenware
-- [x] nodejs-concurrently
-- [x] nodejs-exercise-bike
-- [x] stardeck
-- [ ] viu
-- [ ] yq
-
-Create these packages:
-
-- [ ] Starship
-  - Currently hard installed to /usr/local/bin
-
-Then get packages building on Fedora 41 in prep for upgrade.
-
-## Upgrade to F41
-
-Note that setup will be a little different, as `dnf` had a major upgrade.
-
 ## Mopidy
 
 I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.
@@ -78,6 +26,23 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 ## File Sharing
 
 Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
+
+## COPR
+
+It would be nice to manage these packages with COPR. But they require some debugging and don't currently block me.
+
+- [ ] viu
+  - Failing - "No compatible architectures found for build"
+- [ ] yq
+  - Failing - "No compatible architectures found for build"
+- [ ] starship
+  - Fail on use: "cannot execute binary file: Exec format error"
+
+## Upgrade to F41
+
+Note that setup will be a little different, as `dnf` had a major upgrade.
+
+
 
 ## Bluetooth Pairing
 
