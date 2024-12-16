@@ -1,8 +1,17 @@
 # TODO
 
-## Mixing
+## Install Watchexec from RPM
 
-Getting sound mixing out of the PC is a compelling idea. See [`./notes/mixer.md`](./notes/mixer.md).
+Watchexec uploads official RPMs:
+
+- <https://github.com/watchexec/watchexec/releases/tag/v2.2.1>
+- <https://www.reddit.com/r/Fedora/comments/e8vvtz/til_dnf_can_install_rpms_directly_from_urls/>
+
+Try this:
+
+```bash
+sudo dnf install https://github.com/watchexec/watchexec/releases/download/v2.2.1/watchexec-2.2.1-aarch64-unknown-linux-musl.rpm
+```
 
 ## COPR
 
@@ -23,10 +32,8 @@ Install these packages:
 
 Create these packages:
 
-- [ ] Nerd Fonts packages
 - [ ] Starship
   - Currently hard installed to /usr/local/bin
-- [ ] watchexec
 
 Then get packages building on Fedora 41 in prep for upgrade.
 
