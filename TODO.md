@@ -22,11 +22,35 @@ First, I'll need to get COPR working in its current status:
 
 ### Packages
 
-Install these packages:
+Fresh builds:
 
-- [ ] korbenware
-- [ ] nodejs-concurrently
-- [ ] nodejs-exercise-bike
+- [x] coprctl
+- [x] korbenware
+- [x] nodejs-bbgurl
+- [x] nodejs-concurrently
+- [x] nodejs-exercise-bike
+- [x] nodejs-jfhbrook-cronkite
+- [x] nodejs-jfhbrook-fake-progress-not-frozen
+- [x] nodejs-licenseify
+- [x] nodejs-primitivist
+- [x] onedrive-gui
+- [x] python3-gshell.py
+- [x] python3-twisted_ipython
+- [x] rubygems-t
+- [x] starship
+- [ ] viu
+  - Failing - "No compatible architectures found for build"
+- [ ] yq
+  - Failing - "No compatible architectures found for build"
+- [ ] starship
+  - Fail on use: "cannot execute binary file: Exec format error"
+
+Install:
+
+- [x] korbenware
+- [x] nodejs-concurrently
+- [x] nodejs-exercise-bike
+- [x] stardeck
 - [ ] viu
 - [ ] yq
 
