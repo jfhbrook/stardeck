@@ -20,17 +20,6 @@ I'll want to get these packages both working and installed.
 - [ ] `exercise-bike`
 - [ ] `concurrently`
 
-## Edge and Edge Apps
-
-My preferred browser is Edge. But Edge is annoying to install, and Firefox is working fine. I might just not do this. But I still need to make that decision.
-
-- [ ] Edge
-- [ ] Edge apps
-  - [ ] youtube
-  - [ ] youtube music
-
-**NOTE:** If I really want apps, I can also do it through Chrome, which is easier to install.
-
 ## Mopidy
 
 I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.
