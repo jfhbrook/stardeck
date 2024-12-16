@@ -13,16 +13,26 @@ First, I'll need to get COPR working in its current status:
 
 ### Packages
 
-I'll want to get these packages both working and installed.
+Install these packages:
 
-- [ ] Nerd Fonts
+- [ ] korbenware
+- [ ] nodejs-concurrently
+- [ ] nodejs-exercise-bike
+- [ ] viu
+- [ ] yq
+
+Create these packages:
+
+- [ ] Nerd Fonts packages
 - [ ] Starship
   - Currently hard installed to /usr/local/bin
-- [ ] `watchexec`
-- [ ] `yq`
-- [ ] `concurrently`
-- [ ] `exercise-bike`
-- [ ] `concurrently`
+- [ ] watchexec
+
+Then get packages building on Fedora 41 in prep for upgrade.
+
+## Upgrade to F41
+
+Note that setup will be a little different, as `dnf` had a major upgrade.
 
 ## Mopidy
 
