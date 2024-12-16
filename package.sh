@@ -14,6 +14,7 @@ PRESENT=(
   python-dev
   rpmfusion
   rust-dev
+  stardeck
   starship
   vim
   watchexec

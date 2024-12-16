@@ -18,8 +18,6 @@ Assuming Mopidy is a thing, I should configure samba and get some file sharing g
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
 
-
-
 ## Bluetooth Pairing
 
 I'd love to be able to do bluetooth pairing. But from what I've discovered, it's a MESS.
