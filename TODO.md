@@ -27,17 +27,6 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 
 Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
 
-## COPR
-
-It would be nice to manage these packages with COPR. But they require some debugging and don't currently block me.
-
-- [ ] viu
-  - Failing - "No compatible architectures found for build"
-- [ ] yq
-  - Failing - "No compatible architectures found for build"
-- [ ] starship
-  - Fail on use: "cannot execute binary file: Exec format error"
-
 ## Upgrade to F41
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
