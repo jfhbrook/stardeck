@@ -25,6 +25,10 @@ update:
 remove *PACKAGES:
   @bash ./scripts/remove.sh {{ PACKAGES }}
 
+# Control loopback
+loopback CMD:
+  @bash ./scripts/loopback.sh '{{ CMD }}'
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip

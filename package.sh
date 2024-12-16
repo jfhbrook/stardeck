@@ -1,6 +1,7 @@
 PRESENT=(
   1password
   asdf
+  audio
   brass-tacks
   cockpit
   gh-cli
