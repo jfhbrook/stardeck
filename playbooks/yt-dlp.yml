@@ -1,10 +1,10 @@
-- name: Mopidy
+- name: Install yt-dlp
   hosts: localhost
   connection: local
   tasks:
-    - name: Install packages
+    - name: Install yt-dlp
       become: true
       ansible.builtin.dnf:
         state: present
         name:
-          - mopidy
+          - yt-dlp

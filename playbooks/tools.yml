@@ -10,12 +10,14 @@
           - bat
           - btop
           - eza
+          - fd-find
           - fzf
           - gh
-          - git
           - htop
+          - just
           - jq
           - neofetch
+          - pandoc
           - ranger
           - ripgrep
           - the_silver_searcher

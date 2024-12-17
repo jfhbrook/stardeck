@@ -26,36 +26,31 @@ Stuff kinda works. But sudoers is a little whacky.
 ### Port from Scripts
 
 - [x] dnf update
-- [-] 1password
-- [-] asdf
-- [ ] audio
-  - Check out attic for missing things
-- [ ] brass-tacks/cool-kids-cli-tools
-  - Publish existing modules to ansible-galaxy
+- [x] 1password
+- [x] asdf
+- [-] audio
+- [-] tools
 - [ ] cockpit
   - Is there an existing role?
 - [ ] gh-cli
   - Is there an existing role?
-- [-] git
-- [ ] joshiverse
-  - COPR
-- [ ] joshiverse packages
+- [x] git
+- [-] joshiverse COPR
+- [-] joshiverse packages
 - [ ] kitty
-- [ ] mopidy
-  - Including configurence
-- [ ] nmtui
+- [-] mopidy
+- [-] nmtui
 - [ ] volta (node-dev)
 - [ ] uv (python-dev)
-- [-] rpmfusion
+- [x] rpmfusion
 - [ ] rustup (rust-dev)
 - [ ] starship
-- [ ] vim
-  - Use existing role - sorry plug, sorry yadm
+- [-] vim
 - [ ] neovim
   - DON'T use an existing role, just do up plug
   - Continue leveraging yadm
 - [ ] watchexec
-- [-] yadm
+- [x] yadm
 
 ### Port from Attic
 
@@ -67,6 +62,10 @@ Stuff kinda works. But sudoers is a little whacky.
 ### Open Question
 
 Ansible and terraform need to be installed. But there's a bootstrapping issue. Perhaps these should continue to be scripted?
+
+## COPR packages
+
+- [ ] yamlfmt
 
 ## SSH Key
 

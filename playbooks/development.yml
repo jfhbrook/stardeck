@@ -7,7 +7,6 @@
       ansible.builtin.dnf:
         state: present
         name:
-          - ffmpeg
           - python3-ansible-lint
           - shellcheck
           # - yamlfmt  # need to create a COPR package

@@ -1,12 +1,8 @@
 PRESENT=(
-  1password
   ansible
-  asdf
-  audio
   brass-tacks
   cockpit
   gh-cli
-  git
   joshiverse-copr
   joshiverse
   kitty
@@ -14,12 +10,10 @@ PRESENT=(
   nmtui
   node-dev
   python-dev
-  rpmfusion
   rust-dev
   stardeck
   starship
   terraform
   vim
   watchexec
-  yadm
 )

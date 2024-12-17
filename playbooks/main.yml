@@ -2,6 +2,8 @@
   import_playbook: config.yml
 - name: RPM Fusion
   import_playbook: rpmfusion.yml
+- name: Joshiverse COPR
+  import_playbook: joshiverse.yml
 - name: Update
   import_playbook: update.yml
 - name: 1password
@@ -12,3 +14,21 @@
   import_playbook: git.yml
 - name: YADM
   import_playbook: yadm.yml
+- name: Pulseaudio
+  import_playbook: pulseaudio.yml
+- name: Bluetooth
+  import_playbook: bluetooth.yml
+- name: Tools
+  import_playbook: tools.yml
+- name: FFMpeg
+  import_playbook: ffmpeg.yml
+- name: Development
+  import_playbook: development.yml
+- name: yt-dlp
+  import_playbook: yt-dlp.yml
+- name: Vim
+  import_playbook: vim.yml
+- name: WiFi
+  import_playbook: wifi.yml
+- name: Mopidy
+  import_playbook: mopidy.yml

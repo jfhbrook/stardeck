@@ -1,1 +1,0 @@
-ASDF_PLUGINS+=(ruby)
