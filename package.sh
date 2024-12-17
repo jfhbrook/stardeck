@@ -9,6 +9,7 @@ PRESENT=(
   joshiverse-copr
   joshiverse
   kitty
+  mopidy
   nmtui
   node-dev
   python-dev
