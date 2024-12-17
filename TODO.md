@@ -25,7 +25,45 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] Get stub module working/running
 - [ ] Port easy/straightforward stuff to ansible/terraform
 
-<https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/>
+### Port from Scripts
+
+- [ ] 1password
+  - at least, the package installs
+  - separate role for op-cli
+- [ ] asdf - options may be limited here
+- [ ] audio
+  - Check out attic for missing things
+- [ ] brass-tacks/cool-kids-cli-tools
+  - Publish existing modules to ansible-galaxy
+- [ ] cockpit
+  - Is there an existing role?
+- [ ] gh-cli
+  - Is there an existing role?
+- [ ] git
+  - Use existing role
+- [ ] joshiverse
+  - COPR
+- [ ] joshiverse packages
+- [ ] kitty
+- [ ] mopidy
+  - Including configurence
+- [ ] nmtui
+- [ ] volta (node-dev)
+- [ ] uv (python-dev)
+- [ ] rpmfusion
+  - Is there an existing role?
+- [ ] rustup (rust-dev)
+- [ ] starship
+- [ ] vim
+  - Use existing role
+- [ ] neovim
+- [ ] watchexec
+- [ ] yadm
+  - Fork [existing role](https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/)
+
+### Open Question
+
+Ansible and terraform need to be installed. But there's a bootstrapping issue. Perhaps these should continue to be scripted?
 
 ## Upgrade to F41
 
