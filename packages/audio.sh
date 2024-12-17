@@ -1,1 +1,5 @@
-DNF_PACKAGES+=(pamix pamixer)
+DNF_PACKAGES+=(
+  pulseaudio-utils 
+  pamix
+  pamixer
+)

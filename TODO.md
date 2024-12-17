@@ -61,9 +61,21 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] yadm
   - Fork [existing role](https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/)
 
+### Port from Attic
+
+- [ ] ansible.cfg?
+- [ ] bluetooth
+- [ ] development - a few tools
+- [ ] ffmpeg
+- [ ] tools - anything missing?
+
 ### Open Question
 
 Ansible and terraform need to be installed. But there's a bootstrapping issue. Perhaps these should continue to be scripted?
+
+## SSH Key
+
+1password ssh management is great on desktop, but annoying when ssh'd in. I should just fix this.
 
 ## Upgrade to F41
 
