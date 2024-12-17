@@ -57,8 +57,7 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
   - DON'T use an existing role, just do up plug
   - Continue leveraging yadm
 - [ ] watchexec
-- [ ] yadm
-  - Fork [existing role](https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/)
+- [-] yadm
 
 ### Port from Attic
 
@@ -141,3 +140,7 @@ There are basically two angles here. One is customizing KDE's standard sounds an
 # Cockpit Loose Ends
 
 If I get this far, I'll want to ensure that anything I'd reasonably want to do (that doesn't otherwise have an interface) can be accessed through Cockpit.
+
+## Bootstrapping
+
+Once I have this buttoned up, I'll want a way to bootstrap a fresh install of Fedora. This implies a bootstrap script, and potentially some functionality pulled out of Ansible. But we can cross that bridge later.
