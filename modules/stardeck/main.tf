@@ -35,3 +35,14 @@ resource "ansible_playbook" "asdf" {
     ansible_playbook.git
   ]
 }
+
+resource "ansible_playbook" "yadm" {
+  name      = ansible_host.stardeck.name
+  playbook  = "${path.module}/yadm.yml"
+  var_files = [var.config_file]
+  depends_on = [
+    ansible_playbook.git
+  ]
+}
+
+

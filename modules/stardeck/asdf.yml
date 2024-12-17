@@ -16,3 +16,15 @@
         repo: "https://github.com/asdf-vm/asdf.git"
         dest: "{{ ansible_env.HOME }}/.asdf"
         refspec: "v{{ asdf_version }}"
+    # TODO: make this a role?
+    # TODO: asdf current ruby
+    - name: Install latest ruby
+      ansible.builtin.shell: >
+        . '{{ ansible_env.HOME }}/.asdf/asdf.sh'
+
+        asdf install ruby latest
+        asdf global ruby latest
+    # TODO: asdf current ruby
+    # TODO: add to tool-versions if new
+    # TODO: mark a fact if updated tool-versions
+    # TODO: add tool-versions to yadm if changed

@@ -30,7 +30,6 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [x] dnf update
 - [-] 1password
 - [-] asdf
-  - options may be limited here
 - [ ] audio
   - Check out attic for missing things
 - [ ] brass-tacks/cool-kids-cli-tools
@@ -40,7 +39,6 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] gh-cli
   - Is there an existing role?
 - [-] git
-  - Use existing role
 - [ ] joshiverse
   - COPR
 - [ ] joshiverse packages

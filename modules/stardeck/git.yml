@@ -1,6 +1,31 @@
-- name: Update packages
+- name: Install git
   hosts: all
   connection: local
   become: true
+  tasks:
+    - name: Configure git user name
+      ansible.builtin.command:
+        argv:
+          - git
+          - config
+          - --global
+          - user.name
+          - "{{ git_user_name }}"
+    - name: Configure git user email
+      ansible.builtin.command:
+        argv:
+          - git
+          - config
+          - --global
+          - user.email
+          - "{{ git_user_email }}"
+    - name: Configure git default branch
+      ansible.builtin.command:
+        argv:
+          - git
+          - config
+          - --global
+          - init.defaultBranch
+          - main
   roles:
     - role: geerlingguy.git

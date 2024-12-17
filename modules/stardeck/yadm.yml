@@ -1,0 +1,25 @@
+- name: Update packages
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install yadm
+      ansible.builtin.dnf:
+        name:
+          - yadm
+        state: latest
+    - name: Clone dotfiles
+      when: not yadm_dotfiles.stat.exists
+      ansible.builtin.command:
+        argv:
+          - yadm
+          - clone
+          - "{{ yadm_dotfiles_repo }}"
+        creates: "{{ ansible_env.HOME }}/.local/share/yadm/repo.git"
+      register: yadm_clone
+    - name: Update dotfiles
+      when: yadm_clone is skipped
+      ansible.builtin.command:
+        argv:
+          - yadm
+          - pull
