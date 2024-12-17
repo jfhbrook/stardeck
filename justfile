@@ -8,7 +8,7 @@ default:
 # Set everything up
 setup:
   if [ ! -d .terraform ]; then terraform init; fi
-  just download-sounds
+  # just download-sounds
 
 # Lint everything
 lint:
