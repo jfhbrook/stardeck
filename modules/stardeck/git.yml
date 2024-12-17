@@ -1,0 +1,6 @@
+- name: Update packages
+  hosts: all
+  connection: local
+  become: true
+  roles:
+    - role: geerlingguy.git

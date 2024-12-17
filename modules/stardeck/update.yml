@@ -1,0 +1,13 @@
+- name: Update packages
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Update dnf packages
+      become: true
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+        update_cache: true
+      tags:
+        - skip_ansible_lint

@@ -1,0 +1,18 @@
+- name: Update packages
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install prerequisites for building ruby
+      become: true
+      dnf:
+        name:
+          - openssl-devel
+          - libffi-devel
+          - libyaml-devel
+        state: latest
+    - name: Install asdf
+      ansible.builtin.git:
+        repo: "https://github.com/asdf-vm/asdf.git"
+        dest: "{{ ansible_env.HOME }}/.asdf"
+        refspec: "v{{ asdf_version }}"

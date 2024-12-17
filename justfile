@@ -28,6 +28,10 @@ status:
   git status
   yadm status
 
+# Install galaxy
+ansible-install *argv:
+  ./scripts/with-environment.sh ansible-galaxy install -r ./requirements.yml {{ argv }}
+
 # Create a new package
 new package_name:
   exercise-bike --package_name '{{ package_name }}' ./templates/package.sh './packages/{{ package_name }}.sh'

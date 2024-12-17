@@ -27,13 +27,9 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 
 ### Port from Scripts
 
-- [ ] dnf refresh
-  - A role so I can run it first thing
-  - I think I have this in homelab
-- [ ] 1password
-  - at least, the package installs
-  - separate role for op-cli
-- [ ] asdf
+- [x] dnf update
+- [-] 1password
+- [-] asdf
   - options may be limited here
 - [ ] audio
   - Check out attic for missing things
@@ -43,7 +39,7 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
   - Is there an existing role?
 - [ ] gh-cli
   - Is there an existing role?
-- [ ] git
+- [-] git
   - Use existing role
 - [ ] joshiverse
   - COPR
