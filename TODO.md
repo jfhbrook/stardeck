@@ -1,18 +1,25 @@
 # TODO
 
+## File Sharing
+
+Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
+
+I think KDE is already configured for this - just gotta set it up and transfer my files over.
+
 ## Mopidy
 
 I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.
 
 - [x] Install mopidy base
-  - [ ] Get this under scripts
-- [ ] Configure mopidy as a service
-- [ ] Install [an extension](https://mopidy.com/ext/)
-- [ ] Configure favored frontend as a service
+- [x] Install mopidy-iris
+- [ ] Fix/install mopidy-ytmusic
+- [ ] Configure mopidy
 
-## File Sharing
+mopidy-ytmusic is currently broken for... reasons.
 
-Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
+## Ansible/Terraform It Up
+
+It's becoming rapidly clear that a lot of my setup should be handled with ansible. I don't like using ansible directly, so doing up Terraform will be valuable.
 
 ## Upgrade to F41
 
