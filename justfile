@@ -40,7 +40,7 @@ install *PACKAGES:
 
 # Update packages
 update:
-  @just -f ./playbooks/justfile playbook --ask-become-pass
+  @just -f ./playbooks/justfile playbook main.yml
   @bash ./scripts/update.sh
 
 # Remove packages

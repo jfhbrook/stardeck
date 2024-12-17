@@ -1,3 +1,5 @@
+- name: Load config
+  import_playbook: config.yml
 - name: RPM Fusion
   import_playbook: rpmfusion.yml
 - name: Update

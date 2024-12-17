@@ -16,6 +16,11 @@
         repo: "https://github.com/asdf-vm/asdf.git"
         dest: "{{ ansible_env.HOME }}/.asdf"
         refspec: "v{{ asdf_version }}"
+    - name: Install asdf-ruby
+      ansible.builtin.shell: >
+        . '{{ ansible_env.HOME }}/.asdf/asdf.sh'
+
+        asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
     # TODO: make this a role?
     # TODO: asdf current ruby
     - name: Install latest ruby
