@@ -1,6 +1,6 @@
 collections:
   - name: ansible.posix
-    version: "1.5.4"
+    version: "1.6.2"
 roles:
   - name: jfhbrook.vim
     src: "https://github.com/jfhbrook/ansible-role-vim"
