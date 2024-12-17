@@ -63,7 +63,6 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 
 ### Port from Attic
 
-- [ ] ansible.cfg?
 - [ ] bluetooth
 - [ ] development - a few tools
 - [ ] ffmpeg
