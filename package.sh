@@ -1,5 +1,6 @@
 PRESENT=(
   1password
+  ansible
   asdf
   audio
   brass-tacks
@@ -17,6 +18,7 @@ PRESENT=(
   rust-dev
   stardeck
   starship
+  terraform
   vim
   watchexec
   yadm
