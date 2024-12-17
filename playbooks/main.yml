@@ -1,0 +1,12 @@
+- name: RPM Fusion
+  import_playbook: rpmfusion.yml
+- name: Update
+  import_playbook: update.yml
+- name: 1password
+  import_playbook: 1password.yml
+- name: ASDF
+  import_playbook: asdf.yml
+- name: Git
+  import_playbook: git.yml
+- name: YADM
+  import_playbook: yadm.yml

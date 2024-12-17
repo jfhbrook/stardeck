@@ -8,6 +8,7 @@ default:
 # Set everything up
 setup:
   if [ ! -d .terraform ]; then terraform init; fi
+  @just -f ./playbooks/justfile install --force
   # just download-sounds
 
 # Lint everything
@@ -28,10 +29,6 @@ status:
   git status
   yadm status
 
-# Install galaxy
-ansible-install *argv:
-  ./scripts/with-environment.sh ansible-galaxy install -r ./requirements.yml {{ argv }}
-
 # Create a new package
 new package_name:
   exercise-bike --package_name '{{ package_name }}' ./templates/package.sh './packages/{{ package_name }}.sh'
@@ -43,7 +40,7 @@ install *PACKAGES:
 
 # Update packages
 update:
-  ./scripts/with-environment.sh terraform apply -auto-approve
+  @just -f ./playbooks/justfile playbook --ask-become-pass
   @bash ./scripts/update.sh
 
 # Remove packages
