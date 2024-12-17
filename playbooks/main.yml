@@ -20,8 +20,9 @@
   import_playbook: bluetooth.yml
 - name: Tools
   import_playbook: tools.yml
-- name: FFMpeg
-  import_playbook: ffmpeg.yml
+# Massive explosion due to RPM Fusion conflicts
+# - name: FFMpeg
+#  import_playbook: ffmpeg.yml
 - name: Development
   import_playbook: development.yml
 - name: yt-dlp

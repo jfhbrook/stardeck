@@ -1,6 +1,5 @@
 PRESENT=(
   ansible
-  brass-tacks
   cockpit
   gh-cli
   joshiverse-copr
