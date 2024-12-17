@@ -25,6 +25,8 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] Get stub module working/running
 - [ ] Port easy/straightforward stuff to ansible/terraform
 
+<https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/>
+
 ## Upgrade to F41
 
 Note that setup will be a little different, as `dnf` had a major upgrade.

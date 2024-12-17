@@ -1,7 +1,27 @@
 set dotenv-load := true
 
+destination := 'josh@stardeck.local'
+
 default:
   @just --list
+
+# Set everything up
+setup:
+  if [ ! -d .terraform ]; then terraform init; fi
+  just download-sounds
+
+# Lint everything
+lint:
+  # shellcheck scripts/*.sh
+
+# Format everything
+format:
+  terraform fmt -recursive
+  yamlfmt *.yml
+
+# Log into stardeck
+login:
+  ssh '{{ destination }}'
 
 # Get the status of the repo and of yadm
 status:
@@ -71,13 +91,3 @@ download-sounds:
 
 play FILE:
   ffplay '{{FILE}}' -nodisp -autoexit
-
-# Set everything up
-setup:
-  cd playbooks && just install
-  just download-sounds
-
-# Lint playbooks and scripts
-lint:
-  shellcheck scripts/*.sh
-  ./scripts/with-all-playbooks.sh ansible-lint
