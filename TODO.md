@@ -27,10 +27,14 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 
 ### Port from Scripts
 
+- [ ] dnf refresh
+  - A role so I can run it first thing
+  - I think I have this in homelab
 - [ ] 1password
   - at least, the package installs
   - separate role for op-cli
-- [ ] asdf - options may be limited here
+- [ ] asdf
+  - options may be limited here
 - [ ] audio
   - Check out attic for missing things
 - [ ] brass-tacks/cool-kids-cli-tools
@@ -55,8 +59,10 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] rustup (rust-dev)
 - [ ] starship
 - [ ] vim
-  - Use existing role
+  - Use existing role - sorry plug, sorry yadm
 - [ ] neovim
+  - DON'T use an existing role, just do up plug
+  - Continue leveraging yadm
 - [ ] watchexec
 - [ ] yadm
   - Fork [existing role](https://docs.debops.org/en/stable-2.1/ansible/roles/yadm/)
