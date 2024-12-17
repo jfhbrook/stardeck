@@ -1,18 +1,6 @@
 PRESENT=(
   ansible
   cockpit
-  gh-cli
-  joshiverse-copr
-  joshiverse
-  kitty
-  mopidy
-  nmtui
-  node-dev
-  python-dev
-  rust-dev
   stardeck
-  starship
   terraform
-  vim
-  watchexec
 )

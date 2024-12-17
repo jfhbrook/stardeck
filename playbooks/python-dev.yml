@@ -1,0 +1,10 @@
+- name: Install uv
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install uv
+      ansible.builtin.shell:
+        cmd: >
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+        creates: "{{ ansible_env.HOME }}/.local/bin/uv"

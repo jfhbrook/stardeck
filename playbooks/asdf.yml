@@ -1,11 +1,11 @@
-- name: Update packages
+- name: Configure asdf
   hosts: all
   connection: local
   become: true
   tasks:
     - name: Install prerequisites for building ruby
       become: true
-      dnf:
+      ansible.builtin.dnf:
         name:
           - openssl-devel
           - libffi-devel

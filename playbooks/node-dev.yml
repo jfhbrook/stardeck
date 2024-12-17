@@ -1,0 +1,16 @@
+- name: Install Volta and Node.js
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install Volta
+      ansible.builtin.shell:
+        cmd: >
+          curl https://get.volta.sh | bash
+        creates: "{{ ansible_env.HOME }}/.volta"
+    - name: Install Node.js
+      ansible.builtin.shell: >
+        export VOLTA_HOME="$HOME/.volta"
+        export PATH="$VOLTA_HOME/bin:$PATH"
+
+        volta install node

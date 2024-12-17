@@ -33,3 +33,17 @@
   import_playbook: wifi.yml
 - name: Mopidy
   import_playbook: mopidy.yml
+- name: Kitty
+  import_playbook: kitty.yml
+- name: Watchexec
+  import_playbook: watchexec.yml
+- name: Starship
+  import_playbook: starship.yml
+- name: GitHub CLI
+  import_playbook: github-cli.yml
+- name: Node.js Dev
+  import_playbook: node-dev.yml
+- name: Python Dev
+  import_playbook: python-dev.yml
+- name: Rust Dev
+  import_playbook: rust-dev.yml

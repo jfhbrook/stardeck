@@ -1,0 +1,16 @@
+- name: Install Starship
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Download install script
+      ansible.builtin.get_url:
+        url: https://starship.rs/install.sh
+        dest: /tmp/install-starship.sh
+    - name: Install Starship
+      ansible.builtin.command:
+        argv:
+          - sh
+          - /tmp/install-starship.sh
+          - --yes
+        creates: /usr/local/bin/starship

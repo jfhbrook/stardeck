@@ -28,28 +28,28 @@ Stuff kinda works. But sudoers is a little whacky.
 - [x] dnf update
 - [x] 1password
 - [x] asdf
-- [-] audio
-- [-] tools
+- [x] audio
+- [x] tools
 - [ ] cockpit
   - Is there an existing role?
-- [ ] gh-cli
+- [0] gh-cli
   - Is there an existing role?
 - [x] git
-- [-] joshiverse COPR
-- [-] joshiverse packages
-- [ ] kitty
-- [-] mopidy
-- [-] nmtui
-- [ ] volta (node-dev)
-- [ ] uv (python-dev)
+- [x] joshiverse COPR
+- [x] joshiverse packages
+- [-] kitty
+- [x] mopidy
+- [x] nmtui
+- [-] volta (node-dev)
+- [-] uv (python-dev)
 - [x] rpmfusion
-- [ ] rustup (rust-dev)
-- [ ] starship
-- [-] vim
+- [-] rustup (rust-dev)
+- [-] starship
+- [x] vim
 - [ ] neovim
   - DON'T use an existing role, just do up plug
   - Continue leveraging yadm
-- [ ] watchexec
+- [-] watchexec
 - [x] yadm
 
 ### Port from Attic

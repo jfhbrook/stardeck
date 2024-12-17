@@ -1,0 +1,10 @@
+- name: Install kitty
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install kitty
+      ansible.builtin.dnf:
+        name:
+          - kitty
+        state: latest
