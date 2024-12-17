@@ -3,7 +3,12 @@
   connection: local
   become: true
   tasks:
-    - name: Configure git user name
+    - name: Install git
+      ansible.builtin.dnf:
+        name:
+          - git
+        state: latest
+    - name: Configure user name
       ansible.builtin.command:
         argv:
           - git
@@ -11,7 +16,7 @@
           - --global
           - user.name
           - "{{ git_user_name }}"
-    - name: Configure git user email
+    - name: Configure user email
       ansible.builtin.command:
         argv:
           - git
@@ -19,7 +24,7 @@
           - --global
           - user.email
           - "{{ git_user_email }}"
-    - name: Configure git default branch
+    - name: Configure default branch
       ansible.builtin.command:
         argv:
           - git
@@ -27,5 +32,3 @@
           - --global
           - init.defaultBranch
           - main
-  roles:
-    - role: geerlingguy.git

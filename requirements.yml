@@ -5,5 +5,3 @@ roles:
   - name: jfhbrook.vim
     src: "https://github.com/jfhbrook/ansible-role-vim"
     version: main
-  - name: geerlingguy.git
-    version: "3.0.1"
