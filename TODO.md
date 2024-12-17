@@ -48,8 +48,7 @@ It's becoming rapidly clear that a lot of my setup should be handled with ansibl
 - [ ] nmtui
 - [ ] volta (node-dev)
 - [ ] uv (python-dev)
-- [ ] rpmfusion
-  - Is there an existing role?
+- [-] rpmfusion
 - [ ] rustup (rust-dev)
 - [ ] starship
 - [ ] vim

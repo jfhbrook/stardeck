@@ -3,10 +3,19 @@ resource "ansible_host" "stardeck" {
   variables = var.vars
 }
 
+resource "ansible_playbook" "rpmfusion" {
+  name      = ansible_host.stardeck.name
+  playbook  = "${path.module}/rpmfusion.yml"
+  var_files = [var.config_file]
+}
+
 resource "ansible_playbook" "update" {
   name      = ansible_host.stardeck.name
   playbook  = "${path.module}/update.yml"
   var_files = [var.config_file]
+  depends_on = [
+    ansible_playbook.rpmfusion
+  ]
 }
 
 resource "ansible_playbook" "op" {
