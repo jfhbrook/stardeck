@@ -9,7 +9,6 @@
           - yadm
         state: latest
     - name: Clone dotfiles
-      when: not yadm_dotfiles.stat.exists
       ansible.builtin.command:
         argv:
           - yadm

@@ -43,6 +43,7 @@ install *PACKAGES:
 
 # Update packages
 update:
+  ./scripts/with-environment.sh terraform apply -auto-approve
   @bash ./scripts/update.sh
 
 # Remove packages
