@@ -1,0 +1,4 @@
+- name: Configure Stardeck
+  hosts: all
+  become: true
+  tasks: []

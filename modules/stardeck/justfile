@@ -1,0 +1,10 @@
+default:
+  @just --list
+
+format:
+  terraform fmt -recursive
+  yamlfmt *.yml
+
+lint:
+  ../../scripts/terraform-lint.sh
+  just -f ../../playbooks/justfile ansible-lint -i "$(pwd)/.ansible-lint-ignore" "$(pwd)/main.yml"

@@ -21,6 +21,10 @@ mopidy-ytmusic is currently broken for... reasons.
 
 It's becoming rapidly clear that a lot of my setup should be handled with ansible. I don't like using ansible directly, so doing up Terraform will be valuable.
 
+- [ ] Install ansible and terraform
+- [ ] Get stub module working/running
+- [ ] Port easy/straightforward stuff to ansible/terraform
+
 ## Upgrade to F41
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
