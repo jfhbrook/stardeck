@@ -17,51 +17,17 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 
 mopidy-ytmusic is currently broken for... reasons.
 
-## Ansible/Terraform It Up
+## Ansible It Up
 
-It's becoming rapidly clear that a lot of my setup should be handled with ansible. I don't like using ansible directly, so doing up Terraform will be valuable.
+It's becoming rapidly clear that a lot of my setup should be handled with ansible.
 
-Stuff kinda works. But sudoers is a little whacky.
-
-### Port from Scripts
-
-- [x] dnf update
-- [x] 1password
-- [x] asdf
-- [x] audio
-- [x] tools
-- [ ] cockpit
-  - Is there an existing role?
-- [0] gh-cli
-  - Is there an existing role?
-- [x] git
-- [x] joshiverse COPR
-- [x] joshiverse packages
-- [-] kitty
-- [x] mopidy
-- [x] nmtui
-- [-] volta (node-dev)
-- [-] uv (python-dev)
-- [x] rpmfusion
-- [-] rustup (rust-dev)
-- [-] starship
-- [x] vim
-- [ ] neovim
-  - DON'T use an existing role, just do up plug
-  - Continue leveraging yadm
-- [-] watchexec
-- [x] yadm
-
-### Port from Attic
-
-- [ ] bluetooth
-- [ ] development - a few tools
-- [ ] ffmpeg
-- [ ] tools - anything missing?
-
-### Open Question
-
-Ansible and terraform need to be installed. But there's a bootstrapping issue. Perhaps these should continue to be scripted?
+- [ ] neovim package
+- [ ] bootstrap script
+  - ansible
+  - just
+- [ ] install/update scripts
+  - inline rust-dev
+- [ ] link script
 
 ## COPR packages
 

@@ -1,6 +1,5 @@
 PRESENT=(
   ansible
-  cockpit
+  rust-dev
   stardeck
-  terraform
 )

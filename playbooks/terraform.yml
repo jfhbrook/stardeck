@@ -1,22 +1,22 @@
-- name: Install GitHub CLI
+- name: Install Terraform
   hosts: all
   connection: local
   become: true
   tasks:
-    - name: Install config-manager
+    - name: Install dnf-plugins-core
       become: true
       ansible.builtin.dnf:
-        name: 'dnf-command(config-manager)'
+        name: dnf-plugins-core
         state: latest
-    - name: Set up GitHub CLI RPM Repository
+    - name: Set up Hashicorp RPM Repository
       become: true
       ansible.builtin.command:
         argv:
           - dnf
           - config-manager
           - --add-repo
-          - https://cli.github.com/packages/rpm/gh-cli.repo
-    - name: Install gh CLI
+          - https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    - name: Install terraform
       ansible.builtin.dnf:
-        name: gh
+        name: terraform
         state: latest

@@ -16,7 +16,7 @@ for package in ${PRESENT[@]}; do
 done
 
 set -x
-sudo dnf -y update
+# sudo dnf -y update
 asdf update
 set +x
 

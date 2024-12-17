@@ -10,7 +10,7 @@
         creates: "{{ ansible_env.HOME }}/.volta"
     - name: Install Node.js
       ansible.builtin.shell: >
-        export VOLTA_HOME="$HOME/.volta"
+        export VOLTA_HOME="{{ ansible_env.HOME }}/.volta"
         export PATH="$VOLTA_HOME/bin:$PATH"
 
-        volta install node
+        '{{ ansible_env.HOME }}/.volta/bin/volta' install node
