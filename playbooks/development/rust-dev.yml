@@ -24,9 +24,7 @@
           - "{{ ansible_env.HOME }}/.cargo/bin/rustup"
           - update
           - "{{ item }}"
-        loop:
-          - stable
-          - nightly
+        loop: "{{ rust_toolchains }}"
     - name: Install packages
       ansible.builtin.dnf:
         name:
