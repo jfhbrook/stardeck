@@ -1,9 +1,5 @@
 # TODO
 
-## Fix ffmpeg playbook
-
-<https://rpmfusion.org/Howto/Multimedia>
-
 ## File Sharing
 
 Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
@@ -16,7 +12,8 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 
 - [x] Install mopidy base
 - [x] Install mopidy-iris
-- [ ] Fix/install mopidy-ytmusic
+- [x] Fix/install mopidy-ytmusic
+- [ ] Install mopidy-local
 - [ ] Configure mopidy
 
 mopidy-ytmusic is currently broken for... reasons. I think I need to build older versions of the dependencies on COPR...
