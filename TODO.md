@@ -25,6 +25,10 @@ mopidy-ytmusic is currently broken for... reasons. I think I need to build older
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
 
+## Upgrade Packages in mopidy-ytmusic
+
+They're using REAL old versions of things. Go make the patches and help someone out.
+
 ## Bluetooth Pairing
 
 I'd love to be able to do bluetooth pairing. But from what I've discovered, it's a MESS.
