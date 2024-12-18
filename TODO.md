@@ -4,6 +4,8 @@
 
 Samba is a little finnicky. I need to configure users, then create a `/sharing` folder with the expected permissions. Selinux might be in the mix, sadly.
 
+<https://docs.fedoraproject.org/en-US/quick-docs/samba/>
+
 Once that's configured, it should Just Work.
 
 ## Mopidy
