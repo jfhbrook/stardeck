@@ -6,44 +6,54 @@
   import_playbook: joshiverse.yml
 - name: Update
   import_playbook: update.yml
+
 - name: 1password
   import_playbook: 1password.yml
 - name: Git
   import_playbook: git.yml
-- name: YADM
+- name: Yadm
   import_playbook: yadm.yml
-- name: Pulseaudio
-  import_playbook: pulseaudio.yml
-- name: Bluetooth
-  import_playbook: bluetooth.yml
-- name: Tools
-  import_playbook: tools.yml
-# Massive explosion due to RPM Fusion conflicts
-# - name: FFMpeg
-#  import_playbook: ffmpeg.yml
-- name: Development
-  import_playbook: development.yml
-- name: yt-dlp
-  import_playbook: yt-dlp.yml
-- name: Vim
-  import_playbook: vim.yml
-- name: WiFi
-  import_playbook: wifi.yml
-- name: Mopidy
-  import_playbook: mopidy.yml
+
 - name: Kitty
   import_playbook: kitty.yml
+
+- name: Brass Tacks
+  import_playbook: tools.yml
 - name: Watchexec
   import_playbook: watchexec.yml
 - name: Starship
   import_playbook: starship.yml
 - name: GitHub CLI
   import_playbook: github-cli.yml
+- name: Pulseaudio Tools
+  import_playbook: pulseaudio.yml
+- name: Bluetooth Tools
+  import_playbook: bluetooth.yml
+- name: WiFi Tools
+  import_playbook: wifi.yml
+# Massive explosion due to RPM Fusion conflicts
+# - name: FFMpeg
+#  import_playbook: ffmpeg.yml
+
+- name: Vim
+  import_playbook: vim.yml
+- name: Neovim
+  import_playbook: neovim.yml
+
+- name: Cockpit
+  import_playbook: cockpit.yml
+
+- name: Development Tools
+  import_playbook: development.yml
 - name: Node.js Dev
   import_playbook: node-dev.yml
 - name: Python Dev
   import_playbook: python-dev.yml
 - name: Terraform
   import_playbook: terraform.yml
-- name: Cockpit
-  import_playbook: cockpit.yml
+
+- name: yt-dlp
+  import_playbook: yt-dlp.yml
+- name: Mopidy
+  import_playbook: mopidy.yml
+
