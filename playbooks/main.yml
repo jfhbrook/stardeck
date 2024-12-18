@@ -41,6 +41,8 @@
 
 - name: Cockpit
   import_playbook: cockpit.yml
+- name: Samba
+  import_playbook: samba.yml
 
 - name: Development Tools
   import_playbook: development.yml

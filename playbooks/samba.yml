@@ -1,0 +1,22 @@
+- name: Set up Samba
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          - samba
+          - kdenetwork-filesharing
+        state: latest
+    - name: Enable service
+      become: true
+      ansible.builtin.systemd_service:
+        name: smb
+        state: started
+        enabled: true
+    - name: Configure firewall
+      become: true
+      ansible.builtin.shell: >
+        firewall-cmd --add-service=samba;
+        firewall-cmd --add-service=samba --permanent
