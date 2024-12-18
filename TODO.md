@@ -15,19 +15,7 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 - [ ] Fix/install mopidy-ytmusic
 - [ ] Configure mopidy
 
-mopidy-ytmusic is currently broken for... reasons.
-
-## Ansible It Up
-
-It's becoming rapidly clear that a lot of my setup should be handled with ansible.
-
-- [-] bootstrap script
-- [-] install/update scripts
-- [-] link script
-
-## COPR packages
-
-- [ ] yamlfmt
+mopidy-ytmusic is currently broken for... reasons. I think I need to build older versions of the dependencies on COPR...
 
 ## SSH Key
 
@@ -70,6 +58,10 @@ pipewire has.
 3. Write a dbus service
 4. ???
 5. Profit
+
+## More COPR packages
+
+- [ ] yamlfmt
 
 ## Familiarize Myself with Audio CLI Tools
 
