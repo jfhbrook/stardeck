@@ -34,6 +34,7 @@ samba_shares:
     group: usershares
     write_list: josh +usershares
     guest_ok: true
+    read_only: false
 
 #
 # Software versions
