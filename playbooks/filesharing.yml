@@ -35,5 +35,5 @@
     #      && restorecon -R /share
     - name: Configure firewall
       ansible.builtin.shell: >
-        firewall-cmd --add-service=samba
+        firewall-cmd --add-service=samba \
           && firewall-cmd --add-service=samba --permanent
