@@ -1,12 +1,20 @@
+# See: https://rpmfusion.org/Howto/Multimedia
 - name: ffmpeg
   hosts: localhost
   connection: local
   tasks:
-    - name: Install ffmpeg
+    - name: Switch to full ffmpeg
+      become: true
+      ansible.builtin.shell: >
+        if rpm -qa | grep -E '^ffmpeg-free-' > /dev/null; then
+          dnf swap ffmpeg-free ffmpeg --allowerasing;
+          dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin;
+        fi
+    - name: Install packages
       become: true
       ansible.builtin.dnf:
         state: present
         name:
-          - ffmpeg
+          - intel-media-driver
           - ffmpeg-libs
           - ffmpeg-devel
