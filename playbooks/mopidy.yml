@@ -9,4 +9,5 @@
         name:
           - mopidy
           - python-mopidy-iris
+          - python-mopidy-local
           - python-mopidy-ytmusic

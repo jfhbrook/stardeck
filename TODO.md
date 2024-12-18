@@ -13,10 +13,8 @@ I'm not actually wild about Mopidy. But it would definitely be nice to have a wa
 - [x] Install mopidy base
 - [x] Install mopidy-iris
 - [x] Fix/install mopidy-ytmusic
-- [ ] Install mopidy-local
+- [x] Install mopidy-local
 - [ ] Configure mopidy
-
-mopidy-ytmusic is currently broken for... reasons. I think I need to build older versions of the dependencies on COPR...
 
 ## SSH Key
 
