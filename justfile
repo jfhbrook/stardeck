@@ -7,7 +7,6 @@ default:
 
 # Set up the environment
 setup:
-  if [ ! -d .terraform ]; then terraform init; fi
   @just -f ./playbooks/justfile install --force
   # just download-sounds
 

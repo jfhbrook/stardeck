@@ -7,4 +7,4 @@
 - name: Development
   import_playbook: development/main.yml
 - name: File Sharing
-  import_playbook: filesharing/main.yml
+  import_playbook: filesharing.yml

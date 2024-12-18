@@ -1,7 +1,39 @@
-yadm_dotfiles_repo: "git@github.com:jfhbrook/stardeck-dotfiles.git"
+#
+# Git
+#
 git_user_name: "Josh Holbrook"
 git_user_email: "josh.holbrook@gmail.com"
+
+#
+# Yadm
+#
+yadm_dotfiles_repo: "git@github.com:jfhbrook/stardeck-dotfiles.git"
+
+#
+# Rust development
+#
 rust_toolchains:
   - stable
   - nightly
+
+#
+# File sharing
+#
+samba_guest_account: true
+sambda_mdns_name: "stardeck.local"
+samba_netbios_name: "stardeck"
+samba_shares_root: "/srv/shares"
+samba_users:
+  - name: josh
+    password: popcorn
+samba_shares:
+  - name: Music
+    comment: "Music and jams!"
+    group: usershares
+    write_list: josh
+    guest_ok: true
+
+#
+# Software versions
+#
 watchexec_version: "2.2.1"
