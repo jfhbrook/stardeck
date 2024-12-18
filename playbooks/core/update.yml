@@ -1,9 +1,9 @@
-- name: Update packages
+- name: System Update
   hosts: all
   connection: local
   become: true
   tasks:
-    - name: Update dnf packages
+    - name: Update packages
       become: true
       ansible.builtin.dnf:
         name: '*'

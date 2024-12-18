@@ -1,13 +1,13 @@
-- name: Install git
+- name: Git
   hosts: all
   connection: local
   become: true
   tasks:
-    - name: Install git
+    - name: Install packages
       ansible.builtin.dnf:
         name:
           - git
-        state: latest
+        state: present
     - name: Configure user name
       ansible.builtin.command:
         argv:

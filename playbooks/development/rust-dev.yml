@@ -18,7 +18,7 @@
           - default
           - --no-modify-path
         creates: "{{ ansible_env.HOME }}/.cargo"
-    - name: Update Rust
+    - name: Update Rust Toolchains
       ansible.builtin.command:
         argv:
           - "{{ ansible_env.HOME }}/.cargo/bin/rustup"
@@ -29,4 +29,4 @@
       ansible.builtin.dnf:
         name:
           - rust-analyzer
-        state: latest
+        state: present

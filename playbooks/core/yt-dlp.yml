@@ -1,8 +1,8 @@
-- name: Install yt-dlp
+- name: YT-DLP
   hosts: localhost
   connection: local
   tasks:
-    - name: Install yt-dlp
+    - name: Install packages
       become: true
       ansible.builtin.dnf:
         state: present

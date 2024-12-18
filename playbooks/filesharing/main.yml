@@ -8,7 +8,7 @@
         name:
           - samba
           - kdenetwork-filesharing
-        state: latest
+        state: present
     - name: Enable service
       become: true
       ansible.builtin.systemd_service:

@@ -1,4 +1,4 @@
-- name: Configure Cockpit
+- name: Cockpit
   hosts: localhost
   connection: local
   tasks:

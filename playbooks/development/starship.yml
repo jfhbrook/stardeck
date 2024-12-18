@@ -1,4 +1,4 @@
-- name: Install Starship
+- name: Starship
   hosts: all
   connection: local
   become: true

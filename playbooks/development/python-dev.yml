@@ -1,4 +1,4 @@
-- name: Install uv
+- name: Python Development Tools
   hosts: all
   connection: local
   become: true

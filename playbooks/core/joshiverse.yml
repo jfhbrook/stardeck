@@ -1,4 +1,4 @@
-- name: Joshiverse COPR
+- name: Joshiverse
   hosts: localhost
   connection: local
   tasks:

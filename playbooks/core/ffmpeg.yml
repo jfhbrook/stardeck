@@ -1,5 +1,5 @@
 # See: https://rpmfusion.org/Howto/Multimedia
-- name: ffmpeg
+- name: FFMpeg
   hosts: localhost
   connection: local
   tasks:

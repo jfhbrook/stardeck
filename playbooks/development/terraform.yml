@@ -1,4 +1,4 @@
-- name: Install Terraform
+- name: Terraform
   hosts: all
   connection: local
   become: true
@@ -7,7 +7,7 @@
       become: true
       ansible.builtin.dnf:
         name: dnf-plugins-core
-        state: latest
+        state: present
     - name: Set up Hashicorp RPM Repository
       become: true
       ansible.builtin.command:
@@ -16,7 +16,7 @@
           - config-manager
           - --add-repo
           - https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-    - name: Install terraform
+    - name: Install packages
       ansible.builtin.dnf:
         name: terraform
-        state: latest
+        state: present

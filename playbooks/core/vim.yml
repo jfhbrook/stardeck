@@ -21,7 +21,7 @@
   roles:
     - role: jfhbrook.vim
   tasks:
-    - name: Install Vim dependencies
+    - name: Install packages
       become: true
       ansible.builtin.dnf:
         state: present

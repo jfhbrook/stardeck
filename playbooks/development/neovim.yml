@@ -1,13 +1,13 @@
-- name: Install neovim
+- name: Neovim
   hosts: all
   connection: local
   become: true
   tasks:
-    - name: Install neovim
+    - name: Install packages
       ansible.builtin.dnf:
         name:
           - neovim
-        state: latest
+        state: present
     - name: Install plug
       ansible.builtin.shell:
         cmd: >

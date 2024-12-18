@@ -1,4 +1,4 @@
-- name: Update packages
+- name: Configure yadm
   hosts: all
   connection: local
   become: true
@@ -7,7 +7,7 @@
       ansible.builtin.dnf:
         name:
           - yadm
-        state: latest
+        state: present
     - name: Clone dotfiles
       ansible.builtin.command:
         argv:

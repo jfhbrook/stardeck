@@ -1,4 +1,4 @@
-- name: Install Volta and Node.js
+- name: Node.js Development Tools
   hosts: all
   connection: local
   become: true

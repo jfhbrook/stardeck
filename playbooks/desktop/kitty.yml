@@ -1,10 +1,10 @@
-- name: Install kitty
+- name: Kitty
   hosts: all
   connection: local
   become: true
   tasks:
-    - name: Install kitty
+    - name: Install packages
       ansible.builtin.dnf:
         name:
           - kitty
-        state: latest
+        state: present
