@@ -40,6 +40,10 @@ update:
 loopback CMD:
   @bash ./scripts/loopback.sh '{{ CMD }}'
 
+# Change samba password
+smbpasswd USER:
+  sudo smbpasswd -U '{{ USER }}'
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip
