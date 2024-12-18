@@ -1,0 +1,22 @@
+- name: Yadm
+  import_playbook: yadm.yml
+- name: Git
+  import_playbook: git.yml
+- name: GitHub CLI
+  import_playbook: github-cli.yml
+- name: Neovim
+  import_playbook: neovim.yml
+- name: Node.js Dev
+  import_playbook: node-dev.yml
+- name: Python Dev
+  import_playbook: python-dev.yml
+- name: Stardeck Dev
+  import_playbook: stardeck-dev.yml
+- name: Starship
+  import_playbook: starship.yml
+- name: Terraform
+  import_playbook: terraform.yml
+- name: Tools
+  import_playbook: tools.yml
+- name: Watchexec
+  import_playbook: watchexec.yml

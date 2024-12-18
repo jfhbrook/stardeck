@@ -1,0 +1,22 @@
+- name: RPM Fusion
+  import_playbook: rpmfusion.yml
+- name: Joshiverse COPR
+  import_playbook: joshiverse.yml
+- name: Update
+  import_playbook: update.yml
+- name: Bluetooth Tools
+  import_playbook: bluetooth.yml
+- name: Cockpit
+  import_playbook: cockpit.yml
+- name: FFMpeg
+  import_playbook: ffmpeg.yml
+- name: Mopidy
+  import_playbook: mopidy.yml
+- name: Pulseaudio Tools
+  import_playbook: pulseaudio.yml
+- name: Vim
+  import_playbook: vim.yml
+- name: WiFi
+  import_playbook: wifi.yml
+- name: yt-dlp
+  import_playbook: yt-dlp.yml
