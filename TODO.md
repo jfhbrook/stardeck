@@ -1,5 +1,9 @@
 # TODO
 
+## Fix ffmpeg playbook
+
+<https://rpmfusion.org/Howto/Multimedia>
+
 ## File Sharing
 
 Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
