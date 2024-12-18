@@ -29,8 +29,10 @@ samba_users:
 samba_shares:
   - name: Music
     comment: "Music and jams!"
+    public: true
+    user: josh
     group: usershares
-    write_list: josh
+    write_list: josh +usershares
     guest_ok: true
 
 #
