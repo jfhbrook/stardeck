@@ -19,7 +19,7 @@ rust_toolchains:
 #
 # File sharing
 #
-samba_guest_account: true
+samba_guest_account: false
 sambda_mdns_name: "stardeck.local"
 samba_netbios_name: "stardeck"
 samba_shares_root: "/srv/shares"
