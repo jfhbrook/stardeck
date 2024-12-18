@@ -1,1 +1,0 @@
-DNF_PACKAGES+=(ansible)

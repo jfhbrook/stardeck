@@ -5,7 +5,7 @@ destination := 'josh@stardeck.local'
 default:
   @just --list
 
-# Set everything up
+# Set up the environment
 setup:
   if [ ! -d .terraform ]; then terraform init; fi
   @just -f ./playbooks/justfile install --force
@@ -13,12 +13,16 @@ setup:
 
 # Lint everything
 lint:
-  # shellcheck scripts/*.sh
+  shellcheck scripts/*.sh
 
 # Format everything
 format:
   terraform fmt -recursive
   yamlfmt *.yml
+
+# Link tool
+link:
+  ./scripts/link-justfile.sh ./justfile stardeck
 
 # Log into stardeck
 login:
@@ -29,23 +33,9 @@ status:
   git status
   yadm status
 
-# Create a new package
-new package_name:
-  exercise-bike --package_name '{{ package_name }}' ./templates/package.sh './packages/{{ package_name }}.sh'
-  ${EDITOR} './packages/{{ package_name }}.sh'
-
-# Install packages
-install *PACKAGES:
-  @bash ./scripts/install.sh {{ PACKAGES }}
-
-# Update packages
+# Update stardeck
 update:
-  @just -f ./playbooks/justfile playbook main.yml
   @bash ./scripts/update.sh
-
-# Remove packages
-remove *PACKAGES:
-  @bash ./scripts/remove.sh {{ PACKAGES }}
 
 # Control loopback
 loopback CMD:

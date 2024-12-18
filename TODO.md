@@ -21,13 +21,9 @@ mopidy-ytmusic is currently broken for... reasons.
 
 It's becoming rapidly clear that a lot of my setup should be handled with ansible.
 
-- [ ] neovim package
-- [ ] bootstrap script
-  - ansible
-  - just
-- [ ] install/update scripts
-  - inline rust-dev
-- [ ] link script
+- [-] bootstrap script
+- [-] install/update scripts
+- [-] link script
 
 ## COPR packages
 
