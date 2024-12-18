@@ -1,0 +1,34 @@
+- name: Rust Development Tools
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Download install script
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/install-rustup.sh
+    - name: Install Rustup
+      ansible.builtin.command:
+        argv:
+          - sh
+          - /tmp/install-rustup.sh
+          - --default-toolchain
+          - stable
+          - --profile
+          - default
+          - --no-modify-path
+        creates: "{{ ansible_env.HOME }}/.cargo"
+    - name: Update Rust
+      ansible.builtin.command:
+        argv:
+          - "{{ ansible_env.HOME }}/.cargo/bin/rustup"
+          - update
+          - "{{ item }}"
+        loop:
+          - stable
+          - nightly
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          - rust-analyzer
+        state: latest

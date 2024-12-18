@@ -26,22 +26,5 @@ fi
 
 just -f ./playbooks/justfile playbook main.yml
 
-#
-# Install rust. The rust installer is interactive, so we can't easily do it in
-# ansible.
-#
-
-if ! which rust-analyzer > /dev/null; then
-  sudo dnf install -y rust-analyzer
-fi
-
-if [ ! -d ~/.cargo ]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
-
-for toolchain in stable nightly; do
-  (. "${HOME}/.cargo/env" && rustup update "${toolchain}") || exit 1
-done
-
 git status
 yadm status
