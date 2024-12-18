@@ -1,7 +1,6 @@
 - name: Rust Development Tools
   hosts: all
   connection: local
-  become: true
   tasks:
     - name: Download install script
       ansible.builtin.get_url:
@@ -24,8 +23,9 @@
           - "{{ ansible_env.HOME }}/.cargo/bin/rustup"
           - update
           - "{{ item }}"
-        loop: "{{ rust_toolchains }}"
+      loop: "{{ rust_toolchains }}"
     - name: Install packages
+      become: true
       ansible.builtin.dnf:
         name:
           - rust-analyzer

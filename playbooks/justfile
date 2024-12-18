@@ -22,8 +22,8 @@ ansible-lint *argv:
   ./scripts/with-environment.sh ansible-lint {{ argv }}
 
 # Run a playbook
-playbook playbook *argv:
-  ./scripts/with-environment.sh ansible-playbook -i inventory.yml --ask-become-pass '{{ playbook }}' {{ argv }}
+playbook *argv:
+  ./scripts/with-environment.sh ansible-playbook -i inventory.yml {{ argv }}
 
 # Check a playbook
 check inventory *argv:
