@@ -2,9 +2,9 @@
 
 ## File Sharing
 
-Assuming Mopidy is a thing, I should configure samba and get some file sharing going. I can also use this to upload my current mp3 collection. Heck yeah.
+Samba is a little finnicky. I need to configure users, then create a `/sharing` folder with the expected permissions. Selinux might be in the mix, sadly.
 
-I think KDE is already configured for this - just gotta set it up and transfer my files over.
+Once that's configured, it should Just Work.
 
 ## Mopidy
 
@@ -65,6 +65,10 @@ pipewire has.
 ## More COPR packages
 
 - [ ] yamlfmt
+
+## Separate Development Ansible
+
+I want the essential tasks to be separate from the "I regularly log onto this" tasks.
 
 ## Familiarize Myself with Audio CLI Tools
 
