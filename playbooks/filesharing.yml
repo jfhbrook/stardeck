@@ -15,24 +15,12 @@
         groups: usershares
         append: true
       loop: "{{ samba_users }}"
-    # - name: Create Shares Root
-    #   ansible.builtin.file:
-    #     path: "{{ samba_shares_root }}"
-    #     state: directory
-    #     mode: '0775'
-    # - name: Create Share Directories
-    #   ansible.builtin.file:
-    #     path: "{{ samba_shares_root }}/{{ item.name }}"
-    #     state: directory
-    #     mode: '0775'
-    #   loop: "{{ samba_shares }}"
     - name: Configure Samba
       ansible.builtin.include_role:
         name: vladgh.samba.server
-    # - name: Set SELinux Context on Shares Root
-    #  ansible.builtin.shell: >
-    #    semanage fcontext --add --type "samba_share_t" "{{ samba_shares_root }}(/.(*)?"
-    #      && restorecon -R /share
+    - name: Set SELinux Context on Shares Root
+      ansible.builtin.shell: >
+        semanage fcontext --add --type "samba_share_t" "{{ samba_shares_root }}(/.*)?"; restorecon -R "{{ samba_shares_root }}"
     - name: Configure firewall
       ansible.builtin.shell: >
         firewall-cmd --add-service=samba \

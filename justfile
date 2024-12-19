@@ -33,8 +33,8 @@ status:
   yadm status
 
 # Update stardeck
-update:
-  @bash ./scripts/update.sh
+apply:
+  @bash ./scripts/apply.sh
 
 # Control loopback
 loopback CMD:

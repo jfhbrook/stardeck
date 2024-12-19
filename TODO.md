@@ -1,13 +1,5 @@
 # TODO
 
-## File Sharing
-
-Samba is a little finnicky. I need to configure users, then create a `/sharing` folder with the expected permissions. Selinux might be in the mix, sadly.
-
-<https://docs.fedoraproject.org/en-US/quick-docs/samba/>
-
-Once that's configured, it should Just Work.
-
 ## Mopidy
 
 I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.

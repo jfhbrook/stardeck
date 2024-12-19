@@ -1,10 +1,23 @@
 - name: Config
   import_playbook: config.yml
+  tags:
+    - core
+    - desktop
+    - development
+    - filesharing
 - name: Core
   import_playbook: core/main.yml
+  tags:
+    - core
 - name: Desktop
   import_playbook: desktop/main.yml
+  tags:
+    - desktop
 - name: Development
   import_playbook: development/main.yml
+  tags:
+    - development
 - name: File Sharing
   import_playbook: filesharing.yml
+  tags:
+    - filesharing
