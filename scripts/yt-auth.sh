@@ -8,6 +8,7 @@ fi
 
 if [ ! -f /etc/mopidy/ytmusic/auth.json ]; then
   (cd /etc/mopidy/ytmusic && sudo mopidyctl ytmusic setup)
+  # TODO: chown mopidy:mopidy ?
 else
   (cd /etc/mopidy/ytmusic && sudo mopidyctl ytmusic reauth)
 fi
