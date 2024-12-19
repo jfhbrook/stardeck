@@ -10,7 +10,7 @@ I'd love to be able to do bluetooth pairing. But from what I've discovered, it's
 
 See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 
-- [ ] Install [helvum](https://gitlab.freedesktop.org/pipewire/helvum)
+- [x] Install [helvum](https://gitlab.freedesktop.org/pipewire/helvum)
 - [ ] Goof around with helvum
 - [ ] Figure out how to integrate with zhe pipewire config
 

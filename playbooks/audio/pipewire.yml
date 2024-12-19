@@ -2,6 +2,12 @@
   hosts: localhost
   connection: local
   tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - helvum
+        state: present
     - name: Create /etc/pipewire
       become: true
       ansible.builtin.file:

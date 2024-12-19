@@ -24,7 +24,7 @@ fi
 # Run ansible. This installs the vast majority of things.
 #
 
-just -f ./playbooks/justfile playbook --ask-become-pass main.yml
+just -f ./playbooks/justfile playbook --ask-become-pass "$@" main.yml
 
 git status
 yadm status
