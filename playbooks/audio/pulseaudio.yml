@@ -17,11 +17,11 @@
         state: started
         scope: user
         enabled: true
-    - name: Write default.pa
+    - name: Write pipewire-pulse.conf
       become: true
       ansible.builtin.copy:
-        src: "default.pa"
-        dest: "/etc/pulse/default.pa"
+        src: "pipewire-pulse.conf"
+        dest: "/etc/pipewire/pipewire-pulse.conf"
         owner: root
         group: root
         mode: "0644"

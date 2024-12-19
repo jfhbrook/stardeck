@@ -1,3 +1,5 @@
+- name: Pipewire
+  import_playbook: pipewire.yml
 - name: Pulseaudio
   import_playbook: pulseaudio.yml
 - name: FFMpeg
