@@ -10,20 +10,9 @@ I'd love to be able to do bluetooth pairing. But from what I've discovered, it's
 
 See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 
-Bluetooth pairing is a MESS.
-
-First, a lot of the scripts/tools say to use `sbc`, which has more or less
-been sunset. Some documentation on that lives here:
-
-<https://github.com/ev3dev/ev3dev/issues/198>
-
-But also, Fedora uses PipeWire by default. It _appears_ that PipeWire handles
-this differently - but perhaps better?
-
-<https://www.reddit.com/r/pipewire/comments/s3jth9/has_anyone_ever_been_able_to_play_bluetooth_audio/>
-
-I suspect that this stuff is configurable with... whatever UI-driven tools
-pipewire has.
+- [ ] Install [helvum](https://gitlab.freedesktop.org/pipewire/helvum)
+- [ ] Goof around with helvum
+- [ ] Figure out how to integrate with zhe pipewire config
 
 ## Upgrade to F41
 
@@ -78,6 +67,10 @@ There are basically two angles here. One is customizing KDE's standard sounds an
 - [ ] Connect sounds to events in systemd
 - [ ] Investigate sounds for bluetooth events
 - [ ] Add custom sounds
+
+## Fix Mopidy-YTMusic
+
+mopidy-ytmusic is broken. But I think that's because it hasn't been updated in a while. Some patches and it would probably work fine.
 
 # Cockpit Loose Ends
 
