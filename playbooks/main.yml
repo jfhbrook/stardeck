@@ -5,6 +5,7 @@
     - desktop
     - development
     - filesharing
+    - mopidy
 - name: Core
   import_playbook: core/main.yml
   tags:
@@ -21,3 +22,7 @@
   import_playbook: filesharing.yml
   tags:
     - filesharing
+- name: Mopidy
+  import_playbook: mopidy.yml
+  tags:
+    - mopidy
