@@ -48,6 +48,9 @@ smbpasswd USER:
 logs SERVICE:
   journalctl -b -u '{{ SERVICE }}.service'
 
+yt-auth:
+  ./scripts/yt-auth.sh
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip
