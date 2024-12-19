@@ -1,26 +1,8 @@
 # TODO
 
-## Mopidy
-
-I'm not actually wild about Mopidy. But it would definitely be nice to have a way to play music headlessly. It's also a relatively easy win. I'd like to spend some time to play with it and get a basic setup going. Minimum is playing off disk, but ideally I can also do YouTube Music.
-
-- [x] Install mopidy base
-- [x] Install mopidy-iris
-- [x] Fix/install mopidy-ytmusic
-- [x] Install mopidy-local
-- [ ] Configure mopidy
-
 ## SSH Key
 
 1password ssh management is great on desktop, but annoying when ssh'd in. I should just fix this.
-
-## Upgrade to F41
-
-Note that setup will be a little different, as `dnf` had a major upgrade.
-
-## Upgrade Packages in mopidy-ytmusic
-
-They're using REAL old versions of things. Go make the patches and help someone out.
 
 ## Bluetooth Pairing
 
@@ -42,6 +24,18 @@ this differently - but perhaps better?
 
 I suspect that this stuff is configurable with... whatever UI-driven tools
 pipewire has.
+
+## Upgrade to F41
+
+Note that setup will be a little different, as `dnf` had a major upgrade.
+
+## Mopidy, Again
+
+I got files playing, and that's good enough for now. But there are... loose ends.
+
+- [ ] Configure mopidy-local
+- [ ] Actually figure out the deal with mopidy-ytmusic
+- [ ] Upgrade ancient packages in mopidy-ytmusic
 
 ## PlusDeck Support
 
