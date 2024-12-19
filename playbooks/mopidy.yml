@@ -22,3 +22,21 @@
       ansible.builtin.shell: >
         firewall-cmd --add-port=6680/tcp;
         firewall-cmd --add-port=6680/tcp --permanent
+    - name: Write mopidy.conf
+      become: true
+      ansible.builtin.copy:
+        src: "mopidy.conf"
+        dest: "/etc/mopidy/mopidy.conf"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart mopidy
+      tags:
+        - skip_ansible_lint
+  handlers:
+    - name: Restart mopidy
+      become: true
+      ansible.builtin.systemd_service:
+        name: mopidy
+        state: restarted
+        enabled: true

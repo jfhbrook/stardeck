@@ -32,7 +32,7 @@
           - the_silver_searcher
           - perl
           - ctags
-    - name: Copy .vimrc
+    - name: Write .vimrc
       ansible.builtin.copy:
         src: "vimrc"
         dest: "/home/{{ shell_user }}/.vimrc"

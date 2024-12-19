@@ -8,10 +8,6 @@
   import_playbook: bluetooth.yml
 - name: Cockpit
   import_playbook: cockpit.yml
-- name: FFMpeg
-  import_playbook: ffmpeg.yml
-- name: Pulseaudio Tools
-  import_playbook: pulseaudio.yml
 - name: Vim
   import_playbook: vim.yml
 - name: WiFi

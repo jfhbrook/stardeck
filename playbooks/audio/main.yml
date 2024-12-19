@@ -1,0 +1,4 @@
+- name: Pulseaudio
+  import_playbook: pulseaudio.yml
+- name: FFMpeg
+  import_playbook: ffmpeg.yml

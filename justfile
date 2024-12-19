@@ -44,6 +44,10 @@ loopback CMD:
 smbpasswd USER:
   sudo smbpasswd -U '{{ USER }}'
 
+# Logs for a service
+logs SERVICE:
+  journalctl -b -u '{{ SERVICE }}.service'
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip

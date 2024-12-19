@@ -2,6 +2,7 @@
   import_playbook: config.yml
   tags:
     - core
+    - audio
     - desktop
     - development
     - filesharing
@@ -10,6 +11,10 @@
   import_playbook: core/main.yml
   tags:
     - core
+- name: Audio
+  import_playbook: audio/main.yml
+  tags:
+    - audio
 - name: Desktop
   import_playbook: desktop/main.yml
   tags:

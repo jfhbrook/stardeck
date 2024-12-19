@@ -1,0 +1,29 @@
+- name: PulseAudio
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - pipewire-pulseaudio
+          - pulseaudio-utils 
+          - pamix 
+          - pamixer
+    - name: Enable pipewire-pulse service
+      ansible.builtin.systemd_service:
+        name: pipewire-pulse
+        state: started
+        scope: user
+        enabled: true
+    - name: Write default.pa
+      become: true
+      ansible.builtin.copy:
+        src: "default.pa"
+        dest: "/etc/pulse/default.pa"
+        owner: root
+        group: root
+        mode: "0644"
+      tags:
+        - skip_ansible_lint
