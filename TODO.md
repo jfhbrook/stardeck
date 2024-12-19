@@ -29,18 +29,14 @@ pipewire has.
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
 
-## Mopidy, Again
-
-I got files playing, and that's good enough for now. But there are... loose ends.
-
-- [ ] Configure mopidy-local
-- [ ] Actually figure out the deal with mopidy-ytmusic
-- [ ] Upgrade ancient packages in mopidy-ytmusic
-
 ## PlusDeck Support
 
 1. Develop a dbus interface for Plusdeck
 2. Develop a Cockpit application for Plusdeck
+
+## MP3 Tagging
+
+My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
 
 ## CrystalFontz Support
 
