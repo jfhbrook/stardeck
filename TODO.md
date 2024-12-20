@@ -33,14 +33,6 @@ Note that setup will be a little different, as `dnf` had a major upgrade.
 
 This would be hilarious, AND would make the HEOS app work with the Stardeck.
 
-## More COPR packages
-
-- [ ] yamlfmt
-
-## Separate Development Ansible
-
-I want the essential tasks to be separate from the "I regularly log onto this" tasks.
-
 ## Familiarize Myself with Audio CLI Tools
 
 If I want to go headless, I'll need to be able to admin audio shenanigans over SSH. I found *some* tools - more to come - but I'll need to get into the habit of actually using them.
