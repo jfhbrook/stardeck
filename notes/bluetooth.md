@@ -43,11 +43,20 @@ connect 44:90:BB:BC:FF:DF
 trust 44:90:BB:BC:FF:DF
 ```
 
-I think all these steps are necessary, but I don't fully understand what they mean. Reading documentation to understand that is a TODO.
+I think all these steps are necessary, but I don't fully understand what they all mean. Figuring out what's fully necessary here is a TODO.
 
-Link dump:
+I *believe* the primary documentatio I was following here was from this post:
 
-- <https://unix.stackexchange.com/questions/381342/bluetooth-a2dp-pulseaudio-source-to-play-sound-from-phone-to-linux-with-bluez-5>
+    <https://unix.stackexchange.com/questions/381342/bluetooth-a2dp-pulseaudio-source-to-play-sound-from-phone-to-linux-with-bluez-5>
+
+## Forgetting a Device
+
+For testing, forgetting a device is useful too. In `bluetoothctl`:
+
+```
+devices Paired  # Show what devices are paired
+remove FD:13:1F:49:36:14  # This was my trackball, lol
+```
 
 ## Configuring Pulseaudio and/or Pipewire
 
