@@ -6,5 +6,3 @@
   import_playbook: bluetooth.yml
 - name: FFMpeg
   import_playbook: ffmpeg.yml
-- name: Plus Deck 2C
-  import_playbook: plusdeck.yml
