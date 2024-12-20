@@ -1,0 +1,26 @@
+- name: Bluetooth
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - bluez
+          - bluez-tools
+    - name: Write source.conf
+      become: true
+      ansible.builtin.copy:
+        src: "source.conf"
+        dest: "/etc/bluetooth/source.conf"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart bluetooth
+  handlers:
+    - name: Restart bluetooth
+      become: true
+      ansible.builtin.systemd_service:
+        name: bluetooth
+        state: restarted

@@ -11,3 +11,5 @@ But also, Fedora uses PipeWire by default. It _appears_ that PipeWire handles th
 <https://www.reddit.com/r/pipewire/comments/s3jth9/has_anyone_ever_been_able_to_play_bluetooth_audio/>
 
 I suspect that this stuff is configurable with... whatever UI-driven tools pipewire has.
+
+<https://gist.github.com/zw/3349078>

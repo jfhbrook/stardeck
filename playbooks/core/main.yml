@@ -4,8 +4,6 @@
   import_playbook: joshiverse.yml
 - name: Update
   import_playbook: update.yml
-- name: Bluetooth Tools
-  import_playbook: bluetooth.yml
 - name: Cockpit
   import_playbook: cockpit.yml
 - name: Vim

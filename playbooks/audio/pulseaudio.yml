@@ -25,5 +25,10 @@
         owner: root
         group: root
         mode: "0644"
-      tags:
-        - skip_ansible_lint
+      notify: Restart pipewire-pulse
+  handlers:
+    - name: Restart pipewire-pulse
+      become: true
+      ansible.builtin.systemd_service:
+        name: pipewire-pulse
+        state: restarted

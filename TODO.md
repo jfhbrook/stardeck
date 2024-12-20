@@ -14,6 +14,19 @@ See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 - [ ] Goof around with helvum
 - [ ] Figure out how to integrate with zhe pipewire config
 
+- <https://www.reddit.com/r/linuxquestions/comments/sqg220/how_do_i_make_my_device_appear_as_a_bluetooth/>
+- <https://fam-ribbers.com/blog/2019-11-17-share-a-sound-system-between-multiple-devices-using-a-raspberry-pi/>
+- <https://stackoverflow.com/questions/70535290/bluetoothclass-of-devices-what-is-what>
+- <https://www.ampedrftech.com/cod.htm>
+
+## Sleep on Power Button
+
+Can I get the laptop to sleep when I hit the power button?
+
+## HEOS Support for Mopidy
+
+This would be hilarious, AND would make the HEOS app work with the Stardeck.
+
 ## Upgrade to F41
 
 Note that setup will be a little different, as `dnf` had a major upgrade.
