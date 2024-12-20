@@ -8,6 +8,8 @@
 
 Can I get the laptop to sleep when I hit the power button?
 
+<https://wiki.archlinux.org/title/Power_management#Power_management_with_systemd>
+
 ## MP3 Tagging
 
 My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
