@@ -14,7 +14,8 @@ Can I get the laptop to sleep when I hit the power button?
 
 My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
 
-<https://mutagen.readthedocs.io/en/latest/>
+- <https://methodmatters.github.io/editing-id3-tags-mp3-meta-data-in-python/>
+- <https://mutagen.readthedocs.io/en/latest/>
 
 ## Upgrade to F41
 
