@@ -10,14 +10,11 @@ I'd love to be able to do bluetooth pairing. But from what I've discovered, it's
 
 See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 
-- [x] Install [helvum](https://gitlab.freedesktop.org/pipewire/helvum)
-- [ ] Goof around with helvum
-- [ ] Figure out how to integrate with zhe pipewire config
-
-- <https://www.reddit.com/r/linuxquestions/comments/sqg220/how_do_i_make_my_device_appear_as_a_bluetooth/>
-- <https://fam-ribbers.com/blog/2019-11-17-share-a-sound-system-between-multiple-devices-using-a-raspberry-pi/>
-- <https://stackoverflow.com/questions/70535290/bluetoothclass-of-devices-what-is-what>
-- <https://www.ampedrftech.com/cod.htm>
+- [x] Initial pairing
+- [ ] Write down steps to pair
+- [-] Configure bluetooth correctly
+- [ ] Research bluetooth source in pipewire
+- [ ] ???
 
 ## Sleep on Power Button
 
