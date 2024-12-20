@@ -4,6 +4,8 @@
   import_playbook: joshiverse.yml
 - name: Update
   import_playbook: update.yml
+- name: SSH
+  import_playbook: ssh.yml
 - name: Cockpit
   import_playbook: cockpit.yml
 - name: Vim

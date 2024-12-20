@@ -2,6 +2,7 @@
   import_playbook: config.yml
   tags:
     - core
+    - ssh
     - audio
     - desktop
     - development
