@@ -22,7 +22,28 @@ Hints: <https://askubuntu.com/questions/80960/how-to-change-bluetooth-broadcast-
 
 ## Pairing to a Device
 
-TK
+Here are the steps I did that led to me successfully pairing my iPhone. I'm not sure what reference I followed - TODO.
+
+I ran `bluetoothctl`, which put me in a REPL. I then ran:
+
+```
+discoverable on
+pairable on
+scan on  # See available devices
+scan off  # Stop scanning
+pair 44:90:BB:BC:FF:DF  # My iPhone
+```
+
+At this point, it should show up in my iPhone's bluetooth menu as a thing I can pair with. Once I click on it, things will go through a flow, and it will show up as connected.
+
+From there, I ran:
+
+```
+connect 44:90:BB:BC:FF:DF
+trust 44:90:BB:BC:FF:DF
+```
+
+I think all these steps are necessary, but I don't fully understand what they mean. Reading documentation to understand that is a TODO.
 
 Link dump:
 

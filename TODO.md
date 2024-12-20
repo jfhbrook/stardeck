@@ -11,7 +11,7 @@ I'd love to be able to do bluetooth pairing. But from what I've discovered, it's
 See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 
 - [x] Initial pairing
-- [ ] Write down steps to pair
+- [x] Write down steps to pair
 - [-] Configure bluetooth correctly
 - [ ] Research bluetooth source in pipewire
 - [ ] ???
