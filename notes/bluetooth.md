@@ -12,6 +12,8 @@ I was able to confirm the device class setting using this device type calculator
 
 For more details, see [`./playbooks/audio/files/source.conf`](./playbooks/audio/files/source.conf).
 
+**NOTE:** The main config is at `/etc/bluetooth/main.conf`, and it has a lot of handy comments. Worth referencing.
+
 ### Changing Device Name
 
 The currently configured name is just the hostname (`%h`). It would be nice to fix this up to be `Stardeck` instead.
