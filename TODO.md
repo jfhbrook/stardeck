@@ -4,22 +4,13 @@
 
 1password ssh management is great on desktop, but annoying when ssh'd in. I should just fix this.
 
-## Configure Loopback in Pipewire
-
-I've figured out how to configure loopback with pipewire-pulseaudio. But I was also able to configure it live with Helvium. I should be able to codify that with wireplumber.
-
-This should be a low lift thing compared to bluetooth, and teach me about configuring wireplumber.
-
-- [ ] Where is wireplumber default config?
-- [ ] How is wireplumber configured?
-
 ## Sleep on Power Button
 
 Can I get the laptop to sleep when I hit the power button?
 
-## HEOS Support for Mopidy
+## MP3 Tagging
 
-This would be hilarious, AND would make the HEOS app work with the Stardeck.
+My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
 
 ## Upgrade to F41
 
@@ -30,10 +21,6 @@ Note that setup will be a little different, as `dnf` had a major upgrade.
 1. Develop a dbus interface for Plusdeck
 2. Develop a Cockpit application for Plusdeck
 
-## MP3 Tagging
-
-My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
-
 ## CrystalFontz Support
 
 1. Write a driver/client library
@@ -41,6 +28,10 @@ My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is
 3. Write a dbus service
 4. ???
 5. Profit
+
+## HEOS Support for Mopidy
+
+This would be hilarious, AND would make the HEOS app work with the Stardeck.
 
 ## More COPR packages
 
