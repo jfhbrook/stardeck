@@ -22,6 +22,8 @@ Hints: <https://askubuntu.com/questions/80960/how-to-change-bluetooth-broadcast-
 
 ## Pairing to a Device
 
+**NOTE:** This also seems possible with KDE's bluetooth widget. But I'll have to try and reproduce it there.
+
 Here are the steps I did that led to me successfully pairing my iPhone. I'm not sure what reference I followed - TODO.
 
 I ran `bluetoothctl`, which put me in a REPL. I then ran:
