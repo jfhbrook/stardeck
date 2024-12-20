@@ -1,9 +1,5 @@
 # TODO
 
-## SSH Key
-
-1password ssh management is great on desktop, but annoying when ssh'd in. I should just fix this.
-
 ## Sleep on Power Button
 
 Can I get the laptop to sleep when I hit the power button?

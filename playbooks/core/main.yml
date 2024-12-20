@@ -6,11 +6,13 @@
   import_playbook: update.yml
 - name: SSH
   import_playbook: ssh.yml
+- name: WiFi
+  import_playbook: wifi.yml
+- name: LoginD
+  import_playbook: logind.yml
 - name: Cockpit
   import_playbook: cockpit.yml
 - name: Vim
   import_playbook: vim.yml
-- name: WiFi
-  import_playbook: wifi.yml
 - name: YT-DLP
   import_playbook: yt-dlp.yml
