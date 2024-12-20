@@ -16,6 +16,10 @@ See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
 - [ ] Research bluetooth source in pipewire
 - [ ] ???
 
+## Configure Loopback in Pipewire
+
+I've figured out how to configure loopback with pipewire-pulseaudio. But I was also able to configure it live with Helvium. I should be able to codify that with wireplumber.
+
 ## Sleep on Power Button
 
 Can I get the laptop to sleep when I hit the power button?
