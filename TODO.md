@@ -35,10 +35,6 @@ If I want to go headless, I'll need to be able to admin audio shenanigans over S
 - `pamix`
 - `pamixer`
 
-## Auto Login
-
-This currently isn't working at all, though it should be possible. This will be critical if I want to go headless and can't find a way to ditch dependency on a desktop environment.
-
 ## Audio Hints
 
 It will be pretty important to have audio indications that things are up and running, if the Stardeck is going to be headless. I *think* this is a relatively easy win? But low priority until I'm serious about going headless.
