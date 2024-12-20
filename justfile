@@ -1,5 +1,6 @@
 set dotenv-load := true
 
+email := 'josh.holbrook@gmail.com'
 destination := 'josh@stardeck.local'
 
 default:
@@ -8,6 +9,7 @@ default:
 # Set up the environment
 setup:
   @just -f ./playbooks/justfile install --force
+  if [ ! -f ~/.ssh/id_ed25519 ]; then just ssh-keygen && gh auth login; fi
   # just download-sounds
 
 # Lint everything
@@ -35,6 +37,10 @@ status:
 # Update stardeck
 apply *ARGV:
   @bash ./scripts/apply.sh {{ ARGV }}
+
+# Generate an SSH key
+ssh-keygen:
+  if [ ! -f ~/.ssh/id_ed25519 ]; then ssh-keygen -t ed25519 -C '{{ email }}'; fi
 
 # Control loopback
 loopback CMD:
