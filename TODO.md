@@ -4,21 +4,14 @@
 
 1password ssh management is great on desktop, but annoying when ssh'd in. I should just fix this.
 
-## Bluetooth Pairing
-
-I'd love to be able to do bluetooth pairing. But from what I've discovered, it's a MESS.
-
-See [`./notes/bluetooth.md`](./notes/bluetooth.md) for more details.
-
-- [x] Initial pairing
-- [x] Write down steps to pair
-- [-] Configure bluetooth correctly
-- [ ] Research bluetooth source in pipewire
-- [ ] ???
-
 ## Configure Loopback in Pipewire
 
 I've figured out how to configure loopback with pipewire-pulseaudio. But I was also able to configure it live with Helvium. I should be able to codify that with wireplumber.
+
+This should be a low lift thing compared to bluetooth, and teach me about configuring wireplumber.
+
+- [ ] Where is wireplumber default config?
+- [ ] How is wireplumber configured?
 
 ## Sleep on Power Button
 

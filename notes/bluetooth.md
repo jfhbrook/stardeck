@@ -60,16 +60,12 @@ devices Paired  # Show what devices are paired
 remove FD:13:1F:49:36:14  # This was my trackball, lol
 ```
 
-## Configuring Pulseaudio and/or Pipewire
+## Configuring Pipewire
 
-This blog post shows how to configure pulseaudio:
+Pipewire with the default configuration Just Works. If you go into pipewire's lua scripts, you can see how it works - it listens for an audio source to pop up from bluez, and then automatically wires it to audio out. Easy-peasy - all you need to do is configure bluetooth correctly.
+
+### Pulseaudio
+
+On OS's other than Fedora, you *may* need to do this with pulseaudio. This post shows how to do it:
 
 <https://fam-ribbers.com/blog/2019-11-17-share-a-sound-system-between-multiple-devices-using-a-raspberry-pi/>
-
-This will probably work. Fedora uses pipewire, not pulseaudio, but I also have `pipewire-pulseaudio` installed. I'm actually already using that to expose a TCP sound server, so I can probably continue to follow this approach. Basically, I would want to go to [`./playbooks/audio/files/pipewire-pulse.conf`](./playbooks/audio/files/pipewire-pulse.conf) and add that module call to the `pulse.cmd` block. Though, I'd probably have to install those modules, too.
-
-However, it *might* be possible to make this happen natively with pipewire. The documentation online is probably not as good and they *might* delegate this to pipewire-pulse. But if I can get it to show up as a source, I should be able to prototype the patch with Helvium, and productionize it with wireplumber (`/etc/wireplumber`).
-
-Link dump:
-
-- <https://gist.github.com/zw/3349078>
