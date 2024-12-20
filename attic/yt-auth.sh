@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+#
+# This hacky script was built for authenticating mopidy-ytmusic. Today, this
+# mopidy plugin is super busted, so I don't need to keep it around.
+#
+# If I do decide to dust off mopidy-ytmusic, it could very well be worth
+# trying to pull authentication from yt-dl or yt-dlp - a suggestion from Tom K.
+#
+
 set -euo pipefail
 
 if [ ! -d /etc/mopidy/ytmusic ]; then

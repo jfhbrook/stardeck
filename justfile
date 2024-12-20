@@ -48,9 +48,6 @@ smbpasswd USER:
 logs SERVICE:
   journalctl -b -u '{{ SERVICE }}.service'
 
-yt-auth:
-  ./scripts/yt-auth.sh
-
 # Put the computer to sleep
 nini:
   sudo systemctl suspend
