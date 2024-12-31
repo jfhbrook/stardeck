@@ -1,5 +1,13 @@
 # TODO
 
+## CrystalFontz Support
+
+1. Write a driver/client library
+2. Write higher level interface/notification functions
+3. Write a dbus service
+4. ???
+5. Profit
+
 ## MP3 Tagging
 
 My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
@@ -11,14 +19,6 @@ My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is
 
 1. Develop a dbus interface for Plusdeck
 2. Develop a Cockpit application for Plusdeck
-
-## CrystalFontz Support
-
-1. Write a driver/client library
-2. Write higher level interface/notification functions
-3. Write a dbus service
-4. ???
-5. Profit
 
 ## HEOS Support for Mopidy
 
