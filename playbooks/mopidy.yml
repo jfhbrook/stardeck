@@ -10,7 +10,6 @@
           - mopidy
           - python-mopidy-iris
           - python-mopidy-local
-          - python-mopidy-ytmusic
     - name: Enable service
       become: true
       ansible.builtin.systemd_service:

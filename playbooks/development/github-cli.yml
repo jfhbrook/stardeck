@@ -6,7 +6,7 @@
     - name: Install config-manager
       become: true
       ansible.builtin.dnf:
-        name: 'dnf-command(config-manager)'
+        name: dnf5-plugins
         state: present
     - name: Set up GitHub CLI RPM Repository
       become: true
@@ -14,8 +14,9 @@
         argv:
           - dnf
           - config-manager
-          - --add-repo
-          - https://cli.github.com/packages/rpm/gh-cli.repo
+          - addrepo
+          - "--from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo"
+        creates: /etc/yum.repos.d/gh-cli.repo
     - name: Install packages
       ansible.builtin.dnf:
         name: gh

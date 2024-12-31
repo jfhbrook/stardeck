@@ -12,6 +12,9 @@
         - nonfree
     - name: Enable fedora-cisco-openh264
       become: true
-      community.general.dnf_config_manager:
-        name: fedora-cisco-openh264
-        state: enabled
+      ansible.builtin.command:
+        argv:
+          - dnf
+          - config-manager
+          - setopt
+          - fedora-cisco-openh264.enabled=1

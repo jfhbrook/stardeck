@@ -1,19 +1,11 @@
 # TODO
 
-## Rip and Back Up Music
-
-Try recovering the data off all the CDs I didn't rip because my bluray drive GOUGED them!!
-
 ## MP3 Tagging
 
 My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
 
 - <https://methodmatters.github.io/editing-id3-tags-mp3-meta-data-in-python/>
 - <https://mutagen.readthedocs.io/en/latest/>
-
-## Upgrade to F41
-
-Note that setup will be a little different, as `dnf` had a major upgrade.
 
 ## PlusDeck Support
 
