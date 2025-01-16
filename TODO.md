@@ -1,12 +1,28 @@
 # TODO
 
-## CrystalFontz Support
+## MP3 Tagging
 
-1. Write a driver/client library
-2. Write higher level interface/notification functions
-3. Write a dbus service
-4. ???
-5. Profit
+I have like 80gb of MP3s now, but the tagging and naming is a mess. I've started sorting through this on Windows. I should finish this up. Cool thing, Jupyter and pandas are involved.
+
+- <https://methodmatters.github.io/editing-id3-tags-mp3-meta-data-in-python/>
+- <https://mutagen.readthedocs.io/en/latest/>
+
+## PlusDeck Driver
+
+- [ ] Update to follow conventions developed in crystalfontz driver
+- [ ] Write a CLI
+- [ ] Develop a dbus service
+
+## CrystalFontz Driver
+
+The driver is mostly complete, but I think I want to expose it as a dbus service. I'd also like to support special characters
+
+## Stardeck CLI/Service
+
+- Use dbus, imo
+- Update/apply command that calls ansible's Python API
+- Display welcome and exit screens on LCD
+- Display tape deck events on LCD
 
 ## MP3 Tagging
 
@@ -15,12 +31,11 @@ My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is
 - <https://methodmatters.github.io/editing-id3-tags-mp3-meta-data-in-python/>
 - <https://mutagen.readthedocs.io/en/latest/>
 
-## PlusDeck Support
+## Plusdeck UI
 
-1. Develop a dbus interface for Plusdeck
-2. Develop a Cockpit application for Plusdeck
+Two options: embed in Cockpit, or expose as a separate service. Leaning towards the latter, so I can skeumorph it up.
 
-## HEOS Support for Mopidy
+## HEOS Support
 
 This would be hilarious, AND would make the HEOS app work with the Stardeck.
 
@@ -56,3 +71,9 @@ If I get this far, I'll want to ensure that anything I'd reasonably want to do (
 ## Bootstrapping
 
 Once I have this buttoned up, I'll want a way to bootstrap a fresh install of Fedora. This implies a bootstrap script, and potentially some functionality pulled out of Ansible. But we can cross that bridge later.
+
+## Sleep on Power Button
+
+The machine ostensibly will sleep if I hit the power button. But KDE seems to interfere with that. Something to investigate more fully. In practice, I don't put the device to sleep and it runs really quiet.
+
+<https://wiki.archlinux.org/title/Power_management#Power_management_with_systemd>
