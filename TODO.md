@@ -15,14 +15,37 @@ I have like 80gb of MP3s now, but the tagging and naming is a mess. I've started
 
 ## CrystalFontz Driver
 
-The driver is mostly complete, but I think I want to expose it as a dbus service. I'd also like to support special characters
+The driver is mostly complete, but...
+
+- [ ] Develop a dbus service
+- [ ] Flesh out special character support
 
 ## Stardeck CLI/Service
 
-- Use dbus, imo
-- Update/apply command that calls ansible's Python API
-- Display welcome and exit screens on LCD
-- Display tape deck events on LCD
+```
+[cli]--(service)->[dbus]
+     `-(update)-->[ansible]
+```
+
+### Ansible
+
+Ideally, I can run ansible using `sudo`. Or, at least, set up passwordless sudo for the commands Ansible needs to execute.
+
+I should be able to separate out the "development" playbooks from the "production" playbooks, and run them separately.
+
+I should also be able to leverage dnf/rpm to install dependencies, rather than using the playbooks per se.
+
+Read the config file from `/etc/stardeck.yaml`, of course.
+
+I'd like to leverage tagging to separate "config" tasks and actual install/update commands. I can expose "config" tasks through the dbus service as a "reload" capability, and call the "update" tasks directly through the CLI.
+
+### Service
+
+Develop flows using [reactivex](https://rxpy.readthedocs.io/en/latest/get_started.html). Or at least, try `reactivex`.
+
+Wrap those up in a dbus service. The service can be used to trigger actions manually - for example, reloading the config.
+
+The most interesting functionality, aside from Ansible, would be controlling the LCD and integrating tape deck events into that output.
 
 ## MP3 Tagging
 
