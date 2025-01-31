@@ -16,6 +16,18 @@
   import_playbook: audio/main.yml
   tags:
     - audio
+- name: Dialout
+  import_playbook: dialout.yml
+  tags:
+    - serial
+- name: Crystalfontz
+  import_playbook: crystalfontz.yml
+  tags:
+    - crystalfontz
+- name: Plusdeck
+  import_playbook: plusdeck.yml
+  tags:
+    - plusdeck
 - name: Desktop
   import_playbook: desktop/main.yml
   tags:

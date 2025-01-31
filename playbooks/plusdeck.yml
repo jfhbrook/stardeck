@@ -1,0 +1,10 @@
+- name: Plusdeck
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - plusdeck
