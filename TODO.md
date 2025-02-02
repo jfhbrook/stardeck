@@ -26,6 +26,7 @@ A Python CLI that wraps `ansible`.
 
 - [ ] Use a list of users in `stardeck.yml`, not `ansible_user`
   - `developer` flag? or separate out `development` playbooks?
+  - See: <https://serverfault.com/questions/662443/running-ansible-task-as-a-specific-user>
 - [ ] Logic like `plusdeck`/`crystalfontz` for loading config file, globally at `/etc/stardeck.yml`. Use `configurence`?
 - [ ] Avoid `--ask-become-pass` by allowing to run as sudo?
 
