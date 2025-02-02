@@ -41,6 +41,8 @@ Wrap those up in a dbus service. The service can be used to trigger actions manu
 
 The most interesting functionality, aside from Ansible, would be controlling the LCD and integrating tape deck events into that output.
 
+This should also handle loopback in a clever way, using <https://pypi.org/project/pulsectl-asyncio/>.
+
 ## MP3 Tagging
 
 My MP3s are kinda garbage in mopidy because they aren't tagged properly. This is probably something I could fix with some light scripting.
