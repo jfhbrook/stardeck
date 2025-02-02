@@ -9,8 +9,8 @@ I have like 80gb of MP3s now, but the tagging and naming is a mess. I've started
 
 ## PlusDeck Driver
 
-- [ ] Update to follow conventions developed in crystalfontz driver
-- [ ] Write a CLI
+A basic dbus service exists! Just have to button it up.
+
 - [ ] Develop a dbus service
 
 ## CrystalFontz Driver
@@ -20,26 +20,20 @@ The driver is mostly complete, but...
 - [ ] Develop a dbus service
 - [ ] Flesh out special character support
 
-## Stardeck CLI/Service
+### stardeck-playbook
 
-```
-[cli]--(service)->[dbus]
-     `-(update)-->[ansible]
-```
+A Python CLI that wraps `ansible`.
 
-### Ansible
-
-Ideally, I can run ansible using `sudo`. Or, at least, set up passwordless sudo for the commands Ansible needs to execute.
-
-I should be able to separate out the "development" playbooks from the "production" playbooks, and run them separately.
+- [ ] Use a list of users in `stardeck.yml`, not `ansible_user`
+  - `developer` flag? or separate out `development` playbooks?
+- [ ] Logic like `plusdeck`/`crystalfontz` for loading config file, globally at `/etc/stardeck.yml`. Use `configurence`?
+- [ ] Avoid `--ask-become-pass` by allowing to run as sudo?
 
 I should also be able to leverage dnf/rpm to install dependencies, rather than using the playbooks per se.
 
-Read the config file from `/etc/stardeck.yaml`, of course.
-
 I'd like to leverage tagging to separate "config" tasks and actual install/update commands. I can expose "config" tasks through the dbus service as a "reload" capability, and call the "update" tasks directly through the CLI.
 
-### Service
+## stardeckd/stardeckctl
 
 Develop flows using [reactivex](https://rxpy.readthedocs.io/en/latest/get_started.html). Or at least, try `reactivex`.
 
