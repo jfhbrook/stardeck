@@ -36,7 +36,7 @@ I'd like to leverage tagging to separate "config" tasks and actual install/updat
 
 ## stardeckd/stardeckctl
 
-Develop flows using [reactivex](https://rxpy.readthedocs.io/en/latest/get_started.html). Or at least, try `reactivex`.
+Way to get information on open windows: <https://github.com/jinliu/kdotool>
 
 Wrap those up in a dbus service. The service can be used to trigger actions manually - for example, reloading the config.
 
