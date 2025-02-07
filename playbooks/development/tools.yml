@@ -23,3 +23,8 @@
           - the_silver_searcher
           - tmux
           - yq
+    - name: Download gomplate
+      ansible.builtin.get_url:
+        url: "https://github.com/hairyhenderson/gomplate/releases/download/v4.3.0/gomplate_linux-amd64"
+        dest: "{{ ansible_env.HOME }}/.local/bin/gomplate"
+        mode: "755"
