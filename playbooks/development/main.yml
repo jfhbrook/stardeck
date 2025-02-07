@@ -6,6 +6,8 @@
   import_playbook: github-cli.yml
 - name: Neovim
   import_playbook: neovim.yml
+- name: Golang Dev
+  import_playbook: golang-dev.yml
 - name: Node.js Dev
   import_playbook: node-dev.yml
 - name: Python Dev
