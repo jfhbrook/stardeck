@@ -8,3 +8,14 @@
         state: present
         name:
           - plusdeck
+    - name: Create plusdeck group
+      become: true
+      ansible.builtin.group:
+        name: plusdeck
+        state: present
+    - name: Add user to plusdeck group
+      become: true
+      ansible.builtin.user:
+        name: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+        groups: plusdeck
+        append: yes
