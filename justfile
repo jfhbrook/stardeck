@@ -58,6 +58,14 @@ logs SERVICE:
 nini:
   sudo systemctl suspend
 
+dbus-services bus:
+  if [[ ! '{{ bus }}' == 'session' ]] && [[ ! '{{ bus }}' == 'system' ]]; then echo "bus must be 'session' or 'system'"; exit 1; fi
+  dbus-send --{{ bus }} --print-reply --dest=org.freedesktop.DBus  /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+
+dbus-object bus dest:
+  if [[ ! '{{ bus }}' == 'session' ]] && [[ ! '{{ bus }}' == 'system' ]]; then echo "bus must be 'session' or 'system'"; exit 1; fi
+  dbus-send --{{ bus }} --dest={{ dest }} --print-reply "/" org.freedesktop.DBus.Introspectable.Introspect
+
 download-win3x-sounds:
   mkdir -p sounds/win3x
   curl -L https://winsounds.com/downloads/Windows3x.zip -o sounds/win3x/Windows3x.zip
