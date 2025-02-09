@@ -14,6 +14,8 @@
   import_playbook: python-dev.yml
 - name: Rust Dev
   import_playbook: rust-dev.yml
+- name: Perl Dev
+  import_playbook: perl-dev.yml
 - name: Stardeck Dev
   import_playbook: stardeck-dev.yml
 - name: Starship

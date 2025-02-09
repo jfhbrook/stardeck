@@ -1,0 +1,12 @@
+- name: Python Development Tools
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install golang
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - perl
+          - perl-Carton
