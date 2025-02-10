@@ -15,7 +15,9 @@ if (env.XDG_CONFIG_DIR) {
 
 export { XDG_CONFIG_DIR };
 
-export const STARDECK_HOME = path.dirname(path.dirname(import.meta.url.replace(/^file:/, '')));
+export const STARDECK_HOME = path.dirname(
+  path.dirname(import.meta.url.replace(/^file:/, '')),
+);
 
 export const GLOBAL_CONFIG_DIR = '/etc/stardeck';
 export const LOCAL_CONFIG_DIR = path.join(XDG_CONFIG_DIR, 'stardeck');
@@ -73,6 +75,15 @@ export function loadStardeckConfig(filename) {
   }
   return loadConfigFile(readYamlFile, 'stardeck.yml');
 }
+
+export function findStardeckConfig(filename) {
+  if (filename) {
+    return filename;
+  }
+  return findConfigFile('stardeck.yml');
+}
+
+
 
 export function findAnsibleConfig(filename) {
   if (filename) {

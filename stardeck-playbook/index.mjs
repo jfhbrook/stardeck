@@ -1,3 +1,4 @@
+import { ansiblePlaybookArgv, ansiblePlaybookEnv, VERBOSITY } from './ansible.mjs';
 import {
   XDG_CONFIG_DIR,
   STARDECK_HOME,
@@ -11,11 +12,15 @@ import {
   loadConfigFile,
   findConfigFile,
   loadStardeckConfig,
+  findStardeckConfig,
   findAnsibleConfig,
   INVENTORY_FILE,
 } from './config/index.mjs';
 
 export {
+  ansiblePlaybookArgv,
+  ansiblePlaybookEnv,
+  VERBOSITY,
   XDG_CONFIG_DIR,
   STARDECK_HOME,
   GLOBAL_CONFIG_DIR,
@@ -28,6 +33,7 @@ export {
   loadConfigFile,
   findConfigFile,
   loadStardeckConfig,
+  findStardeckConfig,
   findAnsibleConfig,
   INVENTORY_FILE,
 };

@@ -4,7 +4,7 @@ import process from 'node:process';
 
 import minimist from 'minimist';
 
-import { loadStardeckConfig } from './index.mjs';
+import { ansiblePlaybookArgv, ansiblePlaybookEnv, findAnsibleConfig, INVENTORY_FILE, findStardeckConfig, loadStardeckConfig, VERBOSITY } from './index.mjs';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS
 
@@ -37,18 +37,21 @@ function main() {
   }
 
   let update = argv.update;
-
-  console.log(features);
-  console.log(update);
-
   const config = loadStardeckConfig();
-
-  console.log(config);
 
   if (argv.help) {
     console.log(HELP);
     process.exit(0);
   }
+
+  console.log(ansiblePlaybookArgv({
+    inventoryFile: INVENTORY_FILE,
+    verbosity: VERBOSITY.INFO,
+    check: true,
+    diff: true,
+    askBecomePass: true,
+    varFiles: [findStardeckConfig()],
+  }));
 }
 
 main();
