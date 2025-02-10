@@ -6,24 +6,38 @@ import minimist from 'minimist';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS
 
-COMMANDS:
-  config  Configure
-  update  Update
+OPTIONS:
+  -h|--help          Show this help text and exit.
+  --feature FEATURE  Target a feature. May be specified more than once.
+  --no-update        Do not run software updates.
 `;
 
 function main() {
   const argv = minimist(process.argv.slice(2), {
     alias: { h: 'help' },
-    boolean: ['help'],
+    boolean: ['help', 'update'],
+    string: ['feature'],
     default: {
       help: false,
+      update: true
     },
+    alias: {
+      h: 'help'
+    },
+    '--': true
   });
 
-  if (!argv._.length) {
-    console.log(HELP);
-    process.exit(1);
+  let features = argv.feature;
+  if (typeof features === 'undefined') {
+    features = []
+  } else if (typeof features === 'string') {
+    features = [features];
   }
+
+  let update = argv.update;
+
+  console.log(features);
+  console.log(update);
 
   if (argv.help) {
     console.log(HELP);
