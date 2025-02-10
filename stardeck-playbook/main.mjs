@@ -4,6 +4,8 @@ import process from 'node:process';
 
 import minimist from 'minimist';
 
+import { loadStardeckConfig } from './index.mjs';
+
 const HELP = `USAGE: stardeck-playbook OPTIONS
 
 OPTIONS:
@@ -19,17 +21,17 @@ function main() {
     string: ['feature'],
     default: {
       help: false,
-      update: true
+      update: true,
     },
     alias: {
-      h: 'help'
+      h: 'help',
     },
-    '--': true
+    '--': true,
   });
 
   let features = argv.feature;
   if (typeof features === 'undefined') {
-    features = []
+    features = [];
   } else if (typeof features === 'string') {
     features = [features];
   }
@@ -38,6 +40,10 @@ function main() {
 
   console.log(features);
   console.log(update);
+
+  const config = loadStardeckConfig();
+
+  console.log(config);
 
   if (argv.help) {
     console.log(HELP);
