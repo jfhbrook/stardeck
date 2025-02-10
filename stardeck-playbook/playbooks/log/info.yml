@@ -5,5 +5,5 @@
   tasks:
     - name: Info
       ansible.builtin.debug:
-        msg: "{{ message }}"
+        msg: '{{ message }}'
         verbosity: 1

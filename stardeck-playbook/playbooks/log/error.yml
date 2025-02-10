@@ -5,5 +5,5 @@
   tasks:
     - name: Warning
       ansible.builtin.fail:
-        msg: "{{ message }}"
+        msg: '{{ message }}'
       ignore_errors: true

@@ -5,5 +5,5 @@
   tasks:
     - name: Warning
       ansible.builtin.debug:
-        msg: "{{ message }}"
+        msg: '{{ message }}'
         verbosity: 0
