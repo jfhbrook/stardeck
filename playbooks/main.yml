@@ -4,6 +4,9 @@
     - core
     - ssh
     - audio
+    - serial
+    - crystalfontz
+    - plusdeck
     - desktop
     - development
     - filesharing
