@@ -1,0 +1,9 @@
+- name: Log
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Warning
+      ansible.builtin.debug:
+        msg: "{{ message }}"
+        verbosity: 0
