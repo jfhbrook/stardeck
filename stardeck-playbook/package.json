@@ -1,0 +1,39 @@
+{
+  "name": "@jfhbrook/stardeck-playbook",
+  "version": "1.0.0",
+  "description": "Ansible playbook runner for Stardeck",
+  "type": "module",
+  "main": "index.mjs",
+  "bin": {
+    "stardeck-playbook": "main.mjs"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "start": "node ./main.mjs",
+    "lint": "prettier --list-different . && eslint --fix \"**.mjs\"",
+    "test": "vitest --run"
+  },
+  "keywords": [
+    "ansible",
+    "stardeck"
+  ],
+  "author": "Josh Holbrook",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.8",
+    "shell-quote": "^1.8.1",
+    "yaml": "^2.5.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.12.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "globals": "^15.10.0",
+    "prettier": "^3.0.0",
+    "vitest": "^2.1.2"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
