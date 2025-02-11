@@ -1,17 +1,18 @@
 import * as path from 'node:path';
 import { env } from 'node:process';
 
+import { INVENTORY_FILE, PLAYBOOK_DIR } from './config/index.mjs';
+
+
 export const VERBOSITY = {
   DEBUG: 3,
   VERBOSE: 2,
   INFO: 1,
   WARNING: 0,
   ERROR: 0,
-  FATAL: 0,
 };
 
-export function ansiblePlaybookArgv({
-  inventoryFile,
+export function ansiblePlaybookArgv(playbook, {
   verbosity,
   check,
   diff,
@@ -22,7 +23,7 @@ export function ansiblePlaybookArgv({
   skipTags,
   listTags,
 }) {
-  const argv = ['-i', inventoryFile];
+  const argv = ['-i', INVENTORY_FILE];
 
   if (typeof verbosity === 'number') {
     argv.push('-' + 'v'.repeat(verbosity));
@@ -67,6 +68,8 @@ export function ansiblePlaybookArgv({
   if (listTags) {
     argv.push('--list-tags');
   }
+
+  argv.push(path.join(PLAYBOOK_DIR, playbook));
 
   return argv;
 }

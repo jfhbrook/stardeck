@@ -4,7 +4,16 @@ import process from 'node:process';
 
 import minimist from 'minimist';
 
-import { ansiblePlaybookArgv, ansiblePlaybookEnv, findAnsibleConfig, INVENTORY_FILE, findStardeckConfig, loadStardeckConfig, VERBOSITY } from './index.mjs';
+import {
+  ansiblePlaybookArgv,
+  ansiblePlaybookEnv,
+  findAnsibleConfig,
+  INVENTORY_FILE,
+  findStardeckConfig,
+  loadStardeckConfig,
+  VERBOSITY,
+  logger,
+} from './index.mjs';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS
 
@@ -16,7 +25,6 @@ OPTIONS:
 
 function main() {
   const argv = minimist(process.argv.slice(2), {
-    alias: { h: 'help' },
     boolean: ['help', 'update'],
     string: ['feature'],
     default: {
@@ -28,6 +36,8 @@ function main() {
     },
     '--': true,
   });
+
+  logger.setLevel('debug');
 
   let features = argv.feature;
   if (typeof features === 'undefined') {
@@ -44,14 +54,16 @@ function main() {
     process.exit(0);
   }
 
-  console.log(ansiblePlaybookArgv({
-    inventoryFile: INVENTORY_FILE,
-    verbosity: VERBOSITY.INFO,
-    check: true,
-    diff: true,
-    askBecomePass: true,
-    varFiles: [findStardeckConfig()],
-  }));
+  logger.warning(
+    ansiblePlaybookArgv('main.yml', {
+      inventoryFile: INVENTORY_FILE,
+      verbosity: VERBOSITY.INFO,
+      check: true,
+      diff: true,
+      askBecomePass: true,
+      varFiles: [findStardeckConfig()],
+    }),
+  );
 }
 
 main();

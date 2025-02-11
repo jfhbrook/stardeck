@@ -5,6 +5,8 @@ import { env } from 'node:process';
 
 import yaml from 'yaml';
 
+import { logger } from '../logging.mjs';
+
 let XDG_CONFIG_DIR = path.join(homedir(), '.config');
 
 if (env.XDG_CONFIG_DIR) {
@@ -22,6 +24,7 @@ export const STARDECK_HOME = path.dirname(
 export const GLOBAL_CONFIG_DIR = '/etc/stardeck';
 export const LOCAL_CONFIG_DIR = path.join(XDG_CONFIG_DIR, 'stardeck');
 export const DEFAULT_CONFIG_DIR = path.join(STARDECK_HOME, 'config');
+export const PLAYBOOK_DIR = path.join(STARDECK_HOME, 'playbooks');
 
 export function localConfigPath(filename) {
   return path.join(LOCAL_CONFIG_DIR, filename);
@@ -44,11 +47,11 @@ export function loadConfigFile(reader, filename) {
   try {
     return reader(localConfigPath(filename));
   } catch (err) {
-    console.log(err);
+    logger.debug(err.message);
     try {
       return reader(globalConfigPath(filename));
     } catch (err) {
-      console.log(err);
+      logger.debug(err.message);
       return reader(defaultConfigPath(filename));
     }
   }
@@ -59,10 +62,12 @@ export function findConfigFile(filename) {
     fs.accessSync(localConfigPath(filename), fs.constants.R_OK);
     return localConfigPath(filename);
   } catch (err) {
+    logger.debug(err.message);
     try {
       fs.accessSync(globalConfigPath(filename), fs.constants.R_OK);
       return globalConfigPath(filename);
     } catch (err) {
+      logger.debug(err.message);
       fs.accessSync(defaultConfigPath(filename));
       return defaultConfigPath(filename);
     }
@@ -82,8 +87,6 @@ export function findStardeckConfig(filename) {
   }
   return findConfigFile('stardeck.yml');
 }
-
-
 
 export function findAnsibleConfig(filename) {
   if (filename) {
