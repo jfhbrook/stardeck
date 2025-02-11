@@ -3,7 +3,6 @@ import { env } from 'node:process';
 
 import { INVENTORY_FILE, PLAYBOOK_DIR } from './config/index.mjs';
 
-
 export const VERBOSITY = {
   DEBUG: 3,
   VERBOSE: 2,
@@ -12,17 +11,20 @@ export const VERBOSITY = {
   ERROR: 0,
 };
 
-export function ansiblePlaybookArgv(playbook, {
-  verbosity,
-  check,
-  diff,
-  askBecomePass,
-  varFiles,
-  extraVars,
-  tags,
-  skipTags,
-  listTags,
-}) {
+export function ansiblePlaybookArgv(
+  playbook,
+  {
+    verbosity,
+    check,
+    diff,
+    askBecomePass,
+    varFiles,
+    extraVars,
+    tags,
+    skipTags,
+    listTags,
+  },
+) {
   const argv = ['-i', INVENTORY_FILE];
 
   if (typeof verbosity === 'number') {

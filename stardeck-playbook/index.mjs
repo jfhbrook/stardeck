@@ -20,8 +20,8 @@ import {
   findAnsibleConfig,
   INVENTORY_FILE,
 } from './config/index.mjs';
-import { logger } from './logging.mjs';
-import { temporaryYamlFileTask } from './tempfile.mjs'
+import { logger, LEVELS } from './logging.mjs';
+import { temporaryYamlFileTask } from './tempfile.mjs';
 
 export {
   ansiblePlaybookArgv,
@@ -43,5 +43,6 @@ export {
   findAnsibleConfig,
   INVENTORY_FILE,
   logger,
+  LEVELS,
   temporaryYamlFileTask,
 };

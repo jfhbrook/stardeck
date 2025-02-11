@@ -6,13 +6,18 @@ const RESET = colorCode(0);
 
 export const LEVELS = {
   debug: { severity: 40, verbosity: 3, color: 35 },
-  verbose: { severity: 30, verbosiry: 2, color: 36 },
+  verb: { severity: 30, verbosiry: 2, color: 36 },
   info: { severity: 20, verbosity: 1, color: 32 },
-  warning: { severity: 10, verbosity: 0, color: 33},
+  warn: { severity: 10, verbosity: 0, color: 33 },
   error: { severity: 0, verbosity: 0, color: 31 },
-}
+};
 
-const MAX_LEN = Math.max(...Object.keys(LEVELS).map(lvl => lvl.length));
+const ALIASES = {
+  verbose: 'verb',
+  warning: 'warn',
+};
+
+const MAX_LEN = Math.max(...Object.keys(LEVELS).map((lvl) => lvl.length));
 
 for (let [name, lvl] of Object.entries(LEVELS)) {
   lvl.padding = MAX_LEN - name.length;
@@ -38,13 +43,17 @@ let logger = {
 
   setLevel(lvl) {
     this._severity = LEVELS[lvl].severity;
-  }
+  },
 };
 
 for (let lvl of Object.keys(LEVELS)) {
-  logger[lvl] = function(message, ...optionalParams) {
+  logger[lvl] = function (message, ...optionalParams) {
     this.log(lvl, message, ...optionalParams);
-  }
+  };
 }
 
-export { logger }
+for (let [alias, to] of Object.entries(ALIASES)) {
+  logger[alias] = logger[to];
+}
+
+export { logger };
