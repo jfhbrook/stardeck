@@ -43,35 +43,32 @@ export function readYamlFile(filename) {
   return yaml.parse(contents);
 }
 
-export function loadConfigFile(reader, filename) {
-  try {
-    return reader(localConfigPath(filename));
-  } catch (err) {
-    logger.debug(err.message);
-    try {
-      return reader(globalConfigPath(filename));
-    } catch (err) {
-      logger.debug(err.message);
-      return reader(defaultConfigPath(filename));
-    }
-  }
-}
+const FOUND_FILES = {};
 
 export function findConfigFile(filename) {
-  try {
-    fs.accessSync(localConfigPath(filename), fs.constants.R_OK);
-    return localConfigPath(filename);
-  } catch (err) {
-    logger.debug(err.message);
+  if (!FOUND_FILES[filename]) {
+    logger.debug(`Searching for ${filename}...`);
     try {
-      fs.accessSync(globalConfigPath(filename), fs.constants.R_OK);
-      return globalConfigPath(filename);
+      fs.accessSync(localConfigPath(filename), fs.constants.R_OK);
+      FOUND_FILES[filename] = localConfigPath(filename);
     } catch (err) {
       logger.debug(err.message);
-      fs.accessSync(defaultConfigPath(filename));
-      return defaultConfigPath(filename);
+      try {
+        fs.accessSync(globalConfigPath(filename), fs.constants.R_OK);
+        FOUND_FILES[filename] = globalConfigPath(filename);
+      } catch (err) {
+        logger.debug(err.message);
+        fs.accessSync(defaultConfigPath(filename));
+        FOUND_FILES[filename] = defaultConfigPath(filename);
+      }
     }
+    logger.debug(`Found ${filename} at ${FOUND_FILES[filename]}`);
   }
+  return FOUND_FILES[filename];
+}
+
+export function loadConfigFile(reader, filename) {
+  return reader(findConfigFile(filename));
 }
 
 export function loadStardeckConfig(filename) {
