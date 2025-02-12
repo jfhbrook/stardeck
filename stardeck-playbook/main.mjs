@@ -11,8 +11,8 @@ import {
   INVENTORY_FILE,
   findStardeckConfig,
   loadStardeckConfig,
-  VERBOSITY,
   logger,
+  LOG_LEVELS,
 } from './index.mjs';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS
@@ -26,9 +26,10 @@ OPTIONS:
 function main() {
   const argv = minimist(process.argv.slice(2), {
     boolean: ['help', 'update'],
-    string: ['feature'],
+    string: ['feature', 'log-level'],
     default: {
       help: false,
+      'log-level': 'warn',
       update: true,
     },
     alias: {
@@ -37,7 +38,13 @@ function main() {
     '--': true,
   });
 
-  logger.setLevel('debug');
+  const logLevel = argv['log-level'];
+
+  try {
+    logger.setLevel(argv['log-level']);
+  } catch (exc) {
+    logger.fatal(exc.message);
+  }
 
   let features = argv.feature;
   if (typeof features === 'undefined') {
@@ -57,7 +64,7 @@ function main() {
   logger.warning(
     ansiblePlaybookArgv('main.yml', {
       inventoryFile: INVENTORY_FILE,
-      verbosity: VERBOSITY.INFO,
+      logLevel,
       check: true,
       diff: true,
       askBecomePass: true,

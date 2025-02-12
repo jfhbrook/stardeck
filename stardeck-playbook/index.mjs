@@ -1,8 +1,4 @@
-import {
-  ansiblePlaybookArgv,
-  ansiblePlaybookEnv,
-  VERBOSITY,
-} from './ansible.mjs';
+import { ansiblePlaybookArgv, ansiblePlaybookEnv } from './ansible.mjs';
 import {
   XDG_CONFIG_DIR,
   STARDECK_HOME,
@@ -20,13 +16,12 @@ import {
   findAnsibleConfig,
   INVENTORY_FILE,
 } from './config/index.mjs';
-import { logger, LEVELS } from './logging.mjs';
+import { logger, LOG_LEVELS } from './logging.mjs';
 import { temporaryYamlFileTask } from './tempfile.mjs';
 
 export {
   ansiblePlaybookArgv,
   ansiblePlaybookEnv,
-  VERBOSITY,
   XDG_CONFIG_DIR,
   STARDECK_HOME,
   GLOBAL_CONFIG_DIR,
@@ -43,6 +38,6 @@ export {
   findAnsibleConfig,
   INVENTORY_FILE,
   logger,
-  LEVELS,
+  LOG_LEVELS,
   temporaryYamlFileTask,
 };

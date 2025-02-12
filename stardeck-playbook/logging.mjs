@@ -1,10 +1,12 @@
+import { exit } from 'node:process';
+
 function colorCode(code) {
   return `\u001b[${code}m`;
 }
 
 const RESET = colorCode(0);
 
-export const LEVELS = {
+export const LOG_LEVELS = {
   debug: { severity: 40, verbosity: 3, color: 35 },
   verbose: { tag: 'verb', severity: 30, verbosiry: 2, color: 36 },
   info: { severity: 20, verbosity: 1, color: 32 },
@@ -17,10 +19,10 @@ export const LEVEL_ALIASES = {
 };
 
 const MAX_LEN = Math.max(
-  ...Object.entries(LEVELS).map(([name, lvl]) => (lvl.tag || name).length),
+  ...Object.entries(LOG_LEVELS).map(([name, lvl]) => (lvl.tag || name).length),
 );
 
-for (let [name, lvl] of Object.entries(LEVELS)) {
+for (let [name, lvl] of Object.entries(LOG_LEVELS)) {
   lvl.padding = MAX_LEN - name.length;
 }
 
@@ -29,11 +31,11 @@ let logger = {
   _severity: 10,
 
   log(level, message, ...optionalParams) {
-    if (LEVELS[level].severity <= this._severity) {
-      const tag = LEVELS[level].tag || level;
-      const color = colorCode(LEVELS[level].color);
+    if (LOG_LEVELS[level].severity <= this._severity) {
+      const tag = LOG_LEVELS[level].tag || level;
+      const color = colorCode(LOG_LEVELS[level].color);
       let msg = `${color}${tag}${RESET}`;
-      msg = msg + ':' + ' '.repeat(LEVELS[level].padding);
+      msg = msg + ':' + ' '.repeat(LOG_LEVELS[level].padding);
 
       if (typeof message == 'string') {
         this._log(`${msg} ${message}`, ...optionalParams);
@@ -44,11 +46,22 @@ let logger = {
   },
 
   setLevel(lvl) {
-    this._severity = LEVELS[lvl].severity;
+    if (!LOG_LEVELS[lvl]) {
+      throw new Error(
+        `Unknown logging level ${lvl}. ` +
+          `Valid levels are: ${Object.keys(LOG_LEVELS).join(', ')}`,
+      );
+    }
+    this._severity = LOG_LEVELS[lvl].severity;
   },
+
+  fatal(message, ...optionalParams) {
+    this.error(message, ...optionalParams);
+    exit(1);
+  }
 };
 
-for (let lvl of Object.keys(LEVELS)) {
+for (let lvl of Object.keys(LOG_LEVELS)) {
   logger[lvl] = function (message, ...optionalParams) {
     this.log(lvl, message, ...optionalParams);
   };

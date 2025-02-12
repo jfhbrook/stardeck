@@ -2,6 +2,7 @@ import * as path from 'node:path';
 import { env } from 'node:process';
 
 import { INVENTORY_FILE, PLAYBOOK_DIR } from './config/index.mjs';
+import { LOG_LEVELS } from './logging.mjs';
 
 export const VERBOSITY = {
   DEBUG: 3,
@@ -14,7 +15,7 @@ export const VERBOSITY = {
 export function ansiblePlaybookArgv(
   playbook,
   {
-    verbosity,
+    logLevel,
     check,
     diff,
     askBecomePass,
@@ -27,8 +28,8 @@ export function ansiblePlaybookArgv(
 ) {
   const argv = ['-i', INVENTORY_FILE];
 
-  if (typeof verbosity === 'number') {
-    argv.push('-' + 'v'.repeat(verbosity));
+  if (logLevel) {
+    argv.push('-' + 'v'.repeat(LOG_LEVELS[logLevel].verbosity));
   }
 
   if (check) {
