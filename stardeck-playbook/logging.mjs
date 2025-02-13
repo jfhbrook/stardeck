@@ -58,7 +58,7 @@ let logger = {
   fatal(message, ...optionalParams) {
     this.error(message, ...optionalParams);
     exit(1);
-  }
+  },
 };
 
 for (let lvl of Object.keys(LOG_LEVELS)) {
