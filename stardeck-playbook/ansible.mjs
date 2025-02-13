@@ -1,3 +1,5 @@
+import { spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import { env } from 'node:process';
 
@@ -6,15 +8,11 @@ import {
   PLAYBOOK_DIR,
   STARDECK_HOME,
 } from './config/index.mjs';
-import { LOG_LEVELS } from './logging.mjs';
+import { logger, LOG_LEVELS } from './logging.mjs';
 
-export const VERBOSITY = {
-  DEBUG: 3,
-  VERBOSE: 2,
-  INFO: 1,
-  WARNING: 0,
-  ERROR: 0,
-};
+const require = createRequire(import.meta.url);
+
+const quote = require('shell-quote/quote');
 
 export function ansiblePlaybookArgv(
   playbook,
@@ -33,7 +31,10 @@ export function ansiblePlaybookArgv(
   const argv = ['-i', INVENTORY_FILE];
 
   if (logLevel) {
-    argv.push('-' + 'v'.repeat(LOG_LEVELS[logLevel].verbosity));
+    const verbosity = LOG_LEVELS[logLevel].verbosity;
+    if (verbosity) {
+      argv.push('-' + 'v'.repeat(verbosity));
+    }
   }
 
   if (check) {
@@ -86,8 +87,6 @@ export function ansiblePlaybookEnv({ configFile }) {
     ANSIBLE_CONFIG: configFile,
   };
 
-  Object.assign(envVars, env);
-
   let ansibleHome = `${process.env.HOME}/.ansible`;
   if (env.ANSIBLE_HOME && env.ANSIBLE_HOME.length) {
     ansibleHome = env.ANSIBLE_HOME;
@@ -119,7 +118,17 @@ export function ansiblePlaybookEnv({ configFile }) {
 }
 
 export function runAnsiblePlaybook(playbook, options) {
-  // TODO: child_process it up
-  console.log(ansiblePlaybookArgv(playbook, options));
-  console.log(ansiblePlaybookEnv(options));
+  const command = ansiblePlaybookArgv(playbook, options);
+  const env = { ...process.env, ...ansiblePlaybookEnv(options) };
+
+  logger.debug(`Running ansible-playbook ${quote(command)}...`);
+
+  const { status } = spawnSync('ansible-playbook', command, {
+    env,
+    stdio: 'inherit',
+  });
+
+  if (status) {
+    logger.fatal(`ansible exited with status ${status}`);
+  }
 }
