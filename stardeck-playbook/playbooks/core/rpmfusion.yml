@@ -1,0 +1,18 @@
+- name: RPM Fusion
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Set up RPM Fusion
+      ansible.builtin.dnf:
+        name: 'https://download1.rpmfusion.org/{{item}}/fedora/rpmfusion-{{item}}-release-{{ansible_distribution_major_version}}.noarch.rpm'
+        state: present
+      loop:
+        - free
+        - nonfree
+    - name: Enable fedora-cisco-openh264
+      ansible.builtin.command:
+        argv:
+          - dnf
+          - config-manager
+          - setopt
+          - fedora-cisco-openh264.enabled=1

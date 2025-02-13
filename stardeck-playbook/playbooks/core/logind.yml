@@ -1,0 +1,19 @@
+- name: LoginD
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Write logind.conf
+      become: true
+      ansible.builtin.copy:
+        src: 'logind.conf'
+        dest: '/etc/systemd/logind.conf'
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart logind
+  handlers:
+    - name: Restart logind
+      become: true
+      ansible.builtin.systemd_service:
+        name: systemd-logind
+        state: restarted

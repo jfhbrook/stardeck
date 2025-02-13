@@ -1,0 +1,2 @@
+- name: System Update
+  import_playbook: ./core/system-update.yml

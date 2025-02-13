@@ -1,0 +1,23 @@
+- name: SSH
+  hosts: localhost
+  connection: local
+  vars:
+    shell_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+  tasks:
+    - name: Enable ssh-agent
+      ansible.builtin.systemd_service:
+        name: ssh-agent.service
+        scope: user
+        state: started
+        enabled: true
+      tags:
+        - ssh
+    - name: Write authorized_keys
+      ansible.builtin.copy:
+        src: 'authorized_keys'
+        dest: '{{ ansible_env.HOME }}/.ssh/authorized_keys'
+        owner: '{{ shell_user }}'
+        group: '{{ shell_user }}'
+        mode: '0600'
+      tags:
+        - ssh

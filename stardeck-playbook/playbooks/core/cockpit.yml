@@ -1,0 +1,21 @@
+- name: Cockpit
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - cockpit
+    - name: Enable service
+      become: true
+      ansible.builtin.systemd_service:
+        name: cockpit
+        state: started
+        enabled: true
+    - name: Configure firewall
+      become: true
+      ansible.builtin.shell: >
+        firewall-cmd --add-service=cockpit;
+        firewall-cmd --add-service=cockpit --permanent
