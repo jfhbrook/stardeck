@@ -21,7 +21,13 @@ if [ -n "${DNF_PACKAGES:-}" ]; then
 fi
 
 #
-# Run ansible. This installs the vast majority of things.
+# Run stardeck-playbook.
+#
+
+# (cd ./stardeck-playbook && sudo node main.mjs)
+
+#
+# Run legacy ansible playbooks.
 #
 
 just -f ./playbooks/justfile playbook --ask-become-pass "$@" main.yml
