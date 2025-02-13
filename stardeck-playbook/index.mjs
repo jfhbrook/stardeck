@@ -1,4 +1,8 @@
-import { ansiblePlaybookArgv, ansiblePlaybookEnv } from './ansible.mjs';
+import {
+  ansiblePlaybookArgv,
+  ansiblePlaybookEnv,
+  runAnsiblePlaybook,
+} from './ansible.mjs';
 import {
   XDG_CONFIG_DIR,
   STARDECK_HOME,
@@ -22,6 +26,7 @@ import { temporaryYamlFileTask } from './tempfile.mjs';
 export {
   ansiblePlaybookArgv,
   ansiblePlaybookEnv,
+  runAnsiblePlaybook,
   XDG_CONFIG_DIR,
   STARDECK_HOME,
   GLOBAL_CONFIG_DIR,

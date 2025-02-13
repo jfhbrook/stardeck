@@ -86,6 +86,8 @@ export function ansiblePlaybookEnv({ configFile }) {
     ANSIBLE_CONFIG: configFile,
   };
 
+  Object.assign(envVars, env);
+
   let ansibleHome = `${process.env.HOME}/.ansible`;
   if (env.ANSIBLE_HOME && env.ANSIBLE_HOME.length) {
     ansibleHome = env.ANSIBLE_HOME;
@@ -113,6 +115,11 @@ export function ansiblePlaybookEnv({ configFile }) {
     }
   }
 
-  // Object.assign(envVars, env);
   return envVars;
+}
+
+export function runAnsiblePlaybook(playbook, options) {
+  // TODO: child_process it up
+  console.log(ansiblePlaybookArgv(playbook, options));
+  console.log(ansiblePlaybookEnv(options));
 }

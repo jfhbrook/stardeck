@@ -5,10 +5,9 @@ import process from 'node:process';
 import minimist from 'minimist';
 
 import {
-  ansiblePlaybookArgv,
+  runAnsiblePlaybook,
   ansiblePlaybookEnv,
   findAnsibleConfig,
-  INVENTORY_FILE,
   findStardeckConfig,
   logger,
   LOG_LEVELS,
@@ -85,21 +84,20 @@ function main() {
     ansibleConfigFile = findAnsibleConfig();
   }
 
-  function ansibleArgv(playbook, options) {
-    return ansiblePlaybookArgv(playbook, {
+  function ansible(playbook, options = {}) {
+    runAnsiblePlaybook(playbook, {
       ...options,
       logLevel,
       check,
       diff,
       askBecomePass: false,
       varFiles: [configFile],
+      configFile: ansibleConfigFile,
     });
   }
 
-  const ansibleEnv = ansiblePlaybookEnv({ configFile: ansibleConfigFile });
-  console.log(ansibleEnv);
-  console.log(ansibleArgv('repositories.yml'));
-  console.log(ansibleArgv('update.yml'));
+  ansible('repositories.yml');
+  ansible('update.yml');
 }
 
 main();
