@@ -1,7 +1,11 @@
 import * as path from 'node:path';
 import { env } from 'node:process';
 
-import { INVENTORY_FILE, PLAYBOOK_DIR } from './config/index.mjs';
+import {
+  INVENTORY_FILE,
+  PLAYBOOK_DIR,
+  STARDECK_HOME,
+} from './config/index.mjs';
 import { LOG_LEVELS } from './logging.mjs';
 
 export const VERBOSITY = {
@@ -78,10 +82,37 @@ export function ansiblePlaybookArgv(
 }
 
 export function ansiblePlaybookEnv({ configFile }) {
-  let envVars = {};
-  Object.assign(envVars, {
+  let envVars = {
     ANSIBLE_CONFIG: configFile,
-  });
-  Object.assign(envVars, env);
+  };
+
+  let ansibleHome = `${process.env.HOME}/.ansible`;
+  if (env.ANSIBLE_HOME && env.ANSIBLE_HOME.length) {
+    ansibleHome = env.ANSIBLE_HOME;
+  }
+  envVars.ANSIBLE_HOME = ansibleHome;
+
+  for (let [name, baseDir] of [
+    ['ANSIBLE_ROLES_PATH', 'roles'],
+    ['ANSIBLE_COLLECTIONS_PATH', 'collections'],
+  ]) {
+    envVars[name] = process.env[name] || '';
+    if (!envVars[name].length) {
+      envVars[name] = [
+        `./${baseDir}`,
+        path.join(STARDECK_HOME, baseDir),
+        path.join(ansibleHome, baseDir),
+        path.join('/usr/share/ansible', baseDir),
+      ].join(':');
+    } else if (!envVars[name].includes(dir)) {
+      envVars[name] = [
+        `./${baseDir}`,
+        path.join(STARDECK_HOME, baseDir),
+        envVars[name],
+      ].join(':');
+    }
+  }
+
+  // Object.assign(envVars, env);
   return envVars;
 }

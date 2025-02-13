@@ -20,6 +20,7 @@ OPTIONS:
   -h|--help              Show this help text and exit.
   --ansible-config FILE  The path to an ansible.cfg config file
   --config-file FILE     The path to a stardeck.yml config file
+  --dry-run              Run ansible with --check and --diff
   --feature FEATURE      Target a feature. May be specified more than once.
   --log-level LEVEL      Set the log level. Valid values are: ${Object.keys(LOG_LEVELS).join(', ')}
   --no-update            Do not run software updates.
@@ -33,12 +34,13 @@ ENVIRONMENT:
 function main() {
   // TODO: What env vars does ansible support?
   const argv = minimist(process.argv.slice(2), {
-    boolean: ['help', 'update'],
+    boolean: ['help', 'dry-run', 'update'],
     string: ['ansible-config', 'config-file', 'feature', 'log-level'],
     default: {
       help: false,
       'ansible-config': null,
       'config-file': null,
+      'dry-run': false,
       'log-level': 'warn',
       update: true,
     },
@@ -68,7 +70,10 @@ function main() {
     features = [features];
   }
 
-  let update = argv.update;
+  const check = argv['dry-run'];
+  const diff = check;
+
+  // let update = argv.update;
 
   let configFile = argv['config-file'];
   if (!configFile || !configFile.length) {
@@ -80,15 +85,21 @@ function main() {
     ansibleConfigFile = findAnsibleConfig();
   }
 
-  logger.warning(
-    ansiblePlaybookArgv('main.yml', {
+  function ansibleArgv(playbook, options) {
+    return ansiblePlaybookArgv(playbook, {
+      ...options,
       logLevel,
-      check: true,
-      diff: true,
-      askBecomePass: true,
-      varFiles: [findStardeckConfig()],
-    }),
-  );
+      check,
+      diff,
+      askBecomePass: false,
+      varFiles: [configFile],
+    });
+  }
+
+  const ansibleEnv = ansiblePlaybookEnv({ configFile: ansibleConfigFile });
+  console.log(ansibleEnv);
+  console.log(ansibleArgv('repositories.yml'));
+  console.log(ansibleArgv('update.yml'));
 }
 
 main();
