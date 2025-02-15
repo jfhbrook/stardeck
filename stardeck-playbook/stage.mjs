@@ -40,7 +40,7 @@ export function stages(graph) {
     // If there are any dependencies not in an upstream stage...
     if (!dependencies(node).every((dep) => upstream.has(dep))) {
       // Upstream deps now include the current stage
-      upstream = upstream.intersection(current);
+      upstream = upstream.union(current);
 
       // Set up a new stage
       current = new Set();
