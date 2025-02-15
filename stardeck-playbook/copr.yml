@@ -4,11 +4,11 @@ metadata:
   name: nodejs-stardeck-playbook
 spec:
   auto_rebuild: false
-  projectname: "joshiverse"
-  script-builddeps: "nodejs-npm rpmspectool"
+  projectname: 'joshiverse'
+  script-builddeps: 'nodejs-npm rpmspectool'
   script-chroot: fedora-latest-x86_64
-  script-repos: ""
-  script-resultdir: ""
+  script-repos: ''
+  script-resultdir: ''
   script: |
     #!/usr/bin/env bash
 
