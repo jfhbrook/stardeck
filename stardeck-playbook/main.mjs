@@ -5,6 +5,7 @@ import process from 'node:process';
 import minimist from 'minimist';
 
 import {
+  runAnsiblePlaybook,
   runParallelAnsiblePlaybooks,
   findAnsibleConfig,
   findStardeckConfig,
@@ -30,8 +31,7 @@ ENVIRONMENT:
   STARDECK_CONFIG_HOME   A directory containing stardeck configuration files.
 `;
 
-function main() {
-  // TODO: What env vars does ansible support?
+export async function main() {
   const argv = minimist(process.argv.slice(2), {
     boolean: ['help', 'dry-run', 'update'],
     string: ['ansible-config', 'config-file', 'feature', 'log-level'],
@@ -83,32 +83,26 @@ function main() {
     ansibleConfigFile = findAnsibleConfig();
   }
 
-  async function ansible(stage) {
-    await runParallelAnsiblePlaybooks(stage, {
+  async function ansible(stage, options) {
+    const opts = {
       logLevel,
       check,
       diff,
       varFiles: [configFile],
       configFile: ansibleConfigFile,
-      parallel: false,
-    });
+      serial: true,
+      ...options,
+    };
+    if (typeof stage === 'string') {
+      return runAnsiblePlaybook(stage, opts);
+    }
+    await runParallelAnsiblePlaybooks(stage, opts);
   }
 
-  const core = {
-    repositories: {
-      playbook: 'repositories.yml',
-    },
-  };
+  await ansible('repositories.yml');
 
   if (update) {
-    core.update = {
-      playbook: 'update.yml',
-      dependencies: ['repositories'],
-    };
-  }
-
-  for (let stage of stages(core)) {
-    ansible(stage);
+    await ansible('update.yml');
   }
 }
 

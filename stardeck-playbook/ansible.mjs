@@ -143,10 +143,11 @@ export function runSerialAnsiblePlaybooks(stage, globalOptions) {
 }
 
 export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
-  const parallel =
-    typeof globalOptions.parallel === 'boolean' ? globalOptions.parallel : true;
+  if (stage.length < 2) {
+    return runAnsiblePlaybook(stage[0], { ...stage[1], ...globalOptions });
+  }
 
-  if (!parallel) {
+  if (globalOptions.serial) {
     return runSerialAnsiblePlaybooks(stage, globalOptions);
   }
 
