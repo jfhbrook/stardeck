@@ -24,7 +24,7 @@ fi
 # Run stardeck-playbook.
 #
 
-# (cd ./stardeck-playbook && sudo node main.mjs)
+(cd ./stardeck-playbook && sudo node main.mjs)
 
 #
 # Run legacy ansible playbooks.

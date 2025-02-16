@@ -1,9 +1,9 @@
-- name: RPM Fusion
-  import_playbook: rpmfusion.yml
-- name: Joshiverse COPR
-  import_playbook: joshiverse.yml
-- name: Update
-  import_playbook: update.yml
+# - name: RPM Fusion
+#   import_playbook: rpmfusion.yml
+# - name: Joshiverse COPR
+#   import_playbook: joshiverse.yml
+# - name: Update
+#   import_playbook: update.yml
 - name: SSH
   import_playbook: ssh.yml
 - name: WiFi
