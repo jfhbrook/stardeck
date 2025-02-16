@@ -103,7 +103,7 @@ function main() {
   if (update) {
     core.update = {
       playbook: 'update.yml',
-      dependencies: 'repositories',
+      dependencies: ['repositories'],
     };
   }
 

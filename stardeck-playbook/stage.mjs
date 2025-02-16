@@ -81,5 +81,11 @@ export function topoGraph(graph) {
 }
 
 function dependencies(node) {
-  return node.dependencies || [];
+  const deps = node.dependencies || [];
+
+  if (!Array.isArray(deps)) {
+    throw new Error(`Unexpected value for dependencies: ${node.dependencies}`);
+  }
+
+  return deps;
 }
