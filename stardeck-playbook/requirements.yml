@@ -1,0 +1,8 @@
+collections:
+  - name: ansible.posix
+    version: "1.6.2"
+  - name: vladgh.samba
+roles:
+  - name: jfhbrook.vim
+    src: "https://github.com/jfhbrook/ansible-role-vim"
+    version: main

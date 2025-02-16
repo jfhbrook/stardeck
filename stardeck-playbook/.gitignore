@@ -1,1 +1,3 @@
 node_modules
+collections/ansible_collections
+roles/jfhbrook.vim
