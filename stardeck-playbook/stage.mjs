@@ -4,9 +4,12 @@ const require = createRequire(import.meta.url);
 
 const toposort = require('toposort');
 
-// TODO: Write tests for this
 export function stages(graph) {
   const sorted = toposort(topoGraph(graph));
+
+  if (!sorted.length) {
+    return [];
+  }
 
   const stages = [[]];
 
@@ -14,7 +17,10 @@ export function stages(graph) {
 
   // Fill out the first stage
   while (i < sorted.length && !dependencies(graph[sorted[i]]).length) {
-    stages[0].push(graph[sorted[i]]);
+    const name = sorted[i];
+    const node = graph[name];
+    node.name = name;
+    stages[0].push(node);
     i++;
   }
 
@@ -24,11 +30,16 @@ export function stages(graph) {
   }
 
   // Upstream dependencies
-  let upstream = new Set(stages[0]);
+  let upstream = new Set(stages[0].map((node) => node.name));
   // The currently processing layer of dependencies
   let current = new Set();
   // The current stage
-  let n = 1;
+  let n = 0;
+
+  if (stages[0].length) {
+    stages.push([]);
+    n++;
+  }
 
   while (i < sorted.length) {
     const name = sorted[i];
@@ -42,10 +53,12 @@ export function stages(graph) {
       // Upstream deps now include the current stage
       upstream = upstream.union(current);
 
-      // Set up a new stage
-      current = new Set();
-      stages.push([]);
-      n++;
+      if (current.size) {
+        // Set up a new stage
+        current = new Set();
+        stages.push([]);
+        n++;
+      }
     }
     // Push the node to the current stage
     stages[n].push(node);
@@ -59,9 +72,9 @@ export function stages(graph) {
 
 export function topoGraph(graph) {
   const topo = [];
-  for (let [name, node] in Object.entries(graph)) {
-    for (let dependency of node.dependencies || []) {
-      topo.push([name, dependency]);
+  for (let [name, node] of Object.entries(graph)) {
+    for (let dependency of dependencies(node)) {
+      topo.push([dependency, name]);
     }
   }
   return topo;
