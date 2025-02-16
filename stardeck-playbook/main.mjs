@@ -5,12 +5,12 @@ import process from 'node:process';
 import minimist from 'minimist';
 
 import {
-  runAnsiblePlaybook,
-  ansiblePlaybookEnv,
+  runParallelAnsiblePlaybooks,
   findAnsibleConfig,
   findStardeckConfig,
   logger,
   LOG_LEVELS,
+  stages,
 } from './index.mjs';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS
@@ -71,8 +71,7 @@ function main() {
 
   const check = argv['dry-run'];
   const diff = check;
-
-  // let update = argv.update;
+  const update = argv.update;
 
   let configFile = argv['config-file'];
   if (!configFile || !configFile.length) {
@@ -84,20 +83,33 @@ function main() {
     ansibleConfigFile = findAnsibleConfig();
   }
 
-  function ansible(playbook, options = {}) {
-    runAnsiblePlaybook(playbook, {
-      ...options,
+  async function ansible(stage) {
+    await runParallelAnsiblePlaybooks(stage, {
       logLevel,
       check,
       diff,
-      askBecomePass: false,
       varFiles: [configFile],
       configFile: ansibleConfigFile,
+      parallel: false,
     });
   }
 
-  ansible('repositories.yml');
-  ansible('update.yml');
+  const core = {
+    repositories: {
+      playbook: 'repositories.yml',
+    },
+  };
+
+  if (update) {
+    core.update = {
+      playbook: 'update.yml',
+      dependencies: 'repositories',
+    };
+  }
+
+  for (let stage of stages(core)) {
+    ansible(stage);
+  }
 }
 
 main();

@@ -2,6 +2,8 @@ import {
   ansiblePlaybookArgv,
   ansiblePlaybookEnv,
   runAnsiblePlaybook,
+  runSerialAnsiblePlaybooks,
+  runParallelAnsiblePlaybooks,
 } from './ansible.mjs';
 import {
   XDG_CONFIG_DIR,
@@ -21,12 +23,15 @@ import {
   INVENTORY_FILE,
 } from './config/index.mjs';
 import { logger, LOG_LEVELS } from './logging.mjs';
+import { stages } from './stage.mjs';
 import { temporaryYamlFileTask } from './tempfile.mjs';
 
 export {
   ansiblePlaybookArgv,
   ansiblePlaybookEnv,
   runAnsiblePlaybook,
+  runSerialAnsiblePlaybooks,
+  runParallelAnsiblePlaybooks,
   XDG_CONFIG_DIR,
   STARDECK_HOME,
   GLOBAL_CONFIG_DIR,
@@ -44,5 +49,6 @@ export {
   INVENTORY_FILE,
   logger,
   LOG_LEVELS,
+  stages,
   temporaryYamlFileTask,
 };

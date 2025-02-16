@@ -132,3 +132,23 @@ export function runAnsiblePlaybook(playbook, options) {
     logger.fatal(`ansible exited with status ${status}`);
   }
 }
+
+export function runSerialAnsiblePlaybooks(stage, globalOptions) {
+  for (let { playbook, options } of stage) {
+    runAnsiblePlaybook(playbook, {
+      ...globalOptions,
+      ...options,
+    });
+  }
+}
+
+export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
+  const parallel =
+    typeof globalOptions.parallel === 'boolean' ? globalOptions.parallel : true;
+
+  if (!parallel) {
+    return runSerialAnsiblePlaybooks(stage, globalOptions);
+  }
+
+  throw new Error('not implemented: runParallelAnsiblePlaybooks');
+}
