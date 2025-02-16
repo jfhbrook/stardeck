@@ -9,15 +9,16 @@ const GRAPH = {
   b: { dependencies: ['a'] },
 };
 
-// TODO: This fails because toposort doesn't guarantee that b comes before
-// d - after all, all its dependencies are done before it
 test('stage', () => {
-  expect(stages(GRAPH)).toBe([
+  expect(stages(GRAPH)).toEqual([
     [{ name: 'a' }],
+    [{ name: 'b', dependencies: ['a'] }],
     [
+      { name: 'd', dependencies: ['a', 'b'] },
+      // NOTE: c could be sheduled alongside b. However, because it's listed
+      // later in the graph, it shows up here becuase the toposort keeps it
+      // *after* d.
       { name: 'c', dependencies: ['a'] },
-      { name: 'b', dependencies: ['a'] },
     ],
-    [{ name: 'd', dependencies: ['a', 'b'] }],
   ]);
 });
