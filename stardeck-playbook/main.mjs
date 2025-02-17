@@ -24,6 +24,7 @@ OPTIONS:
   --feature FEATURE      Target a feature. May be specified more than once.
   --log-level LEVEL      Set the log level. Valid values are: ${Object.keys(LOG_LEVELS).join(', ')}
   --no-update            Do not run software updates.
+  --serial               Run playbooks in order
 
 ENVIRONMENT:
   ANSIBLE_CONFIG         A path to an ansible.cfg configuration file.
@@ -33,7 +34,7 @@ ENVIRONMENT:
 
 export async function main() {
   const argv = minimist(process.argv.slice(2), {
-    boolean: ['help', 'dry-run', 'update'],
+    boolean: ['help', 'dry-run', 'serial', 'update'],
     string: ['ansible-config', 'config-file', 'feature', 'log-level'],
     default: {
       help: false,
@@ -41,12 +42,12 @@ export async function main() {
       'config-file': null,
       'dry-run': false,
       'log-level': 'warn',
+      serial: false,
       update: true,
     },
     alias: {
       h: 'help',
     },
-    '--': true,
   });
 
   const logLevel = argv['log-level'];
@@ -72,6 +73,7 @@ export async function main() {
   const check = argv['dry-run'];
   const diff = check;
   const update = argv.update;
+  const serial = argv.serial;
 
   let configFile = argv['config-file'];
   if (!configFile || !configFile.length) {
@@ -91,7 +93,10 @@ export async function main() {
       diff,
       varFiles: [configFile],
       configFile: ansibleConfigFile,
-      serial: true,
+      // TODO: serial execution fails because dnf can't be run in parallel
+      // I would need to move all packages to one or two playbooks that are
+      // run serially
+      serial: false,
       ...options,
     };
     if (typeof stage === 'string') {
@@ -128,4 +133,10 @@ export async function main() {
   ]);
 }
 
-main();
+(async () => {
+  try {
+    await main();
+  } catch (err) {
+    logger.fatal(err);
+  }
+})();

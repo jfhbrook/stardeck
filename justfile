@@ -34,8 +34,18 @@ status:
   git status
   yadm status
 
+# Run playbooks
+playbook:
+  @bash ./scripts/playbook-dependencies.sh
+  @just stardeck-playbook
+  @just legacy-playbook
+
 # Run stardeck-playbook
-playbook *ARGV:
+stardeck-playbook *ARGV:
+  @bash ./scripts/playbook.sh {{ ARGV }}
+
+# Run legacy playbooks
+legacy-playbook ARGV:
   @bash ./scripts/playbook.sh {{ ARGV }}
 
 # Generate an SSH key

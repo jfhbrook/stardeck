@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
-import { env } from 'node:process';
+import { env, exit } from 'node:process';
 
 import {
   INVENTORY_FILE,
@@ -12,6 +12,7 @@ import { logger, LOG_LEVELS } from './logging.mjs';
 
 const require = createRequire(import.meta.url);
 
+const concurrently = require('concurrently');
 const quote = require('shell-quote/quote');
 
 export function ansiblePlaybookArgv(
@@ -158,5 +159,37 @@ export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
     return runSerialAnsiblePlaybooks(stage, globalOptions);
   }
 
-  throw new Error('not implemented: runParallelAnsiblePlaybooks');
+  const tasks = stage.map(({ name, playbook, options }) => {
+    const argv = quote(
+      ansiblePlaybookArgv(playbook, {
+        ...globalOptions,
+        ...options,
+      }),
+    );
+    const env = ansiblePlaybookEnv({ ...globalOptions, ...options });
+    return {
+      name,
+      command: `ansible-playbook ${argv}`,
+      env,
+    };
+  });
+
+  try {
+    await concurrently(tasks).result;
+  } catch (err) {
+    if (!Array.isArray(err)) {
+      throw err;
+    }
+    logger.error('Some playbooks failed to execute:');
+    for (let result of err) {
+      if (result.exitCode) {
+        logger.error({
+          name: result.command.name,
+          command: result.command.command,
+          exitCode: result.exitCode,
+        });
+      }
+    }
+    exit(1);
+  }
 }
