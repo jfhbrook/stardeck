@@ -1,9 +1,10 @@
 #
-# Local developers
+# Users
 #
 
-developers:
+users:
   josh:
+    developer: true
     git_user_name: 'Josh Holbrook'
     git_user_email: 'josh.holbrook@gmail.com'
     yadm_dotfiles_repo: 'git@github.com:jfhbrook/stardeck-dotfiles.git'

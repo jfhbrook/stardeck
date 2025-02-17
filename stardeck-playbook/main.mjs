@@ -99,11 +99,28 @@ export async function main() {
     await runParallelAnsiblePlaybooks(stage, opts);
   }
 
-  await ansible('repositories.yml');
+  //
+  // Set up expected repositories
+  //
+  await ansible('repositories/main.yml');
 
+  //
+  // Run global updates
+  //
   if (update) {
     await ansible('update.yml');
   }
+
+  await ansible([
+    // { name: 'ssh', playbook: 'core/ssh.yml' },
+    { name: 'cockpit', playbook: 'core/cockpit.yml' },
+    { name: 'logind', playbook: 'core/logind.yml' },
+    { name: 'sddm', playbook: 'core/sddm.yml' },
+    { name: 'wifi', playbook: 'core/wifi.yml' },
+    { name: 'yt-dlp', playbook: 'core/yt-dlp.yml' },
+  ]);
+
+  // TODO: vim
 }
 
 main();

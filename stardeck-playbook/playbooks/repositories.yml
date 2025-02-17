@@ -1,4 +1,0 @@
-- name: RPM Fusion
-  import_playbook: ./core/rpmfusion.yml
-- name: Joshiverse COPR
-  import_playbook: ./core/joshiverse-copr.yml

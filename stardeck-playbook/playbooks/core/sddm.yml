@@ -3,7 +3,6 @@
   connection: local
   tasks:
     - name: Write SDDM config
-      become: true
       ansible.builtin.copy:
         src: 'sddm.conf'
         dest: '/etc/sddm.conf.d/stardeck_settings.conf'

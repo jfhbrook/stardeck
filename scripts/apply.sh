@@ -24,6 +24,9 @@ fi
 # Run stardeck-playbook.
 #
 
+STARDECK_CONFIG_HOME="$(pwd)"
+export STARDECK_CONFIG_HOME
+
 (cd ./stardeck-playbook && sudo node main.mjs)
 
 #
