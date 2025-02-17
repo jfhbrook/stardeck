@@ -1,20 +1,4 @@
-# - name: RPM Fusion
-#   import_playbook: rpmfusion.yml
-# - name: Joshiverse COPR
-#   import_playbook: joshiverse.yml
-# - name: Update
-#   import_playbook: update.yml
 - name: SSH
   import_playbook: ssh.yml
-- name: WiFi
-  import_playbook: wifi.yml
-- name: LoginD
-  import_playbook: logind.yml
-- name: SDDM
-  import_playbook: sddm.yml
-- name: Cockpit
-  import_playbook: cockpit.yml
 - name: Vim
   import_playbook: vim.yml
-- name: YT-DLP
-  import_playbook: yt-dlp.yml
