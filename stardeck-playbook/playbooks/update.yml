@@ -1,2 +1,9 @@
 - name: System Update
-  import_playbook: ./core/system-update.yml
+  hosts: all
+  connection: local
+  tasks:
+    - name: Update packages
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+        update_cache: true

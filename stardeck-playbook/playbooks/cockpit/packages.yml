@@ -1,0 +1,9 @@
+- name: Cockpit Packages
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - cockpit

@@ -1,0 +1,6 @@
+- name: Core
+  import_playbook: ./core/packages.yml
+- name: Cockpit
+  import_playbook: ./cockpit/packages.yml
+- name: Vim
+  import_playbook: ./vim/packages.yml

@@ -93,10 +93,7 @@ export async function main() {
       diff,
       varFiles: [configFile],
       configFile: ansibleConfigFile,
-      // TODO: serial execution fails because dnf can't be run in parallel
-      // I would need to move all packages to one or two playbooks that are
-      // run serially
-      serial: false,
+      serial,
       ...options,
     };
     if (typeof stage === 'string') {
@@ -120,15 +117,20 @@ export async function main() {
   }
 
   //
+  // Install global packages
+  //
+
+  await ansible('packages.yml');
+
+  //
   // Core playbooks
   //
   await ansible([
     { name: 'logind', playbook: 'core/logind.yml' },
     { name: 'sddm', playbook: 'core/sddm.yml' },
-    { name: 'wifi', playbook: 'core/wifi.yml' },
-    { name: 'yt-dlp', playbook: 'core/yt-dlp.yml' },
     { name: 'cockpit', playbook: 'cockpit/main.yml' },
     { name: 'ssh', playbook: 'ssh/main.yml' },
+    // NOTE: May use dnf, may not be safe to run in parallel
     { name: 'vim', playbook: 'vim/main.yml' },
   ]);
 }

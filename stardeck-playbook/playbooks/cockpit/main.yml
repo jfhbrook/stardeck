@@ -2,11 +2,6 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        state: present
-        name:
-          - cockpit
     - name: Enable service
       ansible.builtin.systemd_service:
         name: cockpit

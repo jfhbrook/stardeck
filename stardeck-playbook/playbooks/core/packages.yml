@@ -1,4 +1,4 @@
-- name: WiFi
+- name: Core Packages
   hosts: localhost
   connection: local
   tasks:
@@ -7,3 +7,4 @@
         state: present
         name:
           - NetworkManager-tui
+          - yt-dlp

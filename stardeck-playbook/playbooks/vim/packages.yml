@@ -1,4 +1,4 @@
-- name: YT-DLP
+- name: Vim
   hosts: localhost
   connection: local
   tasks:
@@ -6,4 +6,9 @@
       ansible.builtin.dnf:
         state: present
         name:
-          - yt-dlp
+          - fzf
+          - bat
+          - ripgrep
+          - the_silver_searcher
+          - perl
+          - ctags
