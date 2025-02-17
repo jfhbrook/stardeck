@@ -1,4 +1,0 @@
-- name: SSH
-  import_playbook: ssh.yml
-- name: Vim
-  import_playbook: vim.yml

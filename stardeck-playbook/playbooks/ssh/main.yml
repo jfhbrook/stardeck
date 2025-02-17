@@ -1,0 +1,18 @@
+- name: SSH
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Enable ssh-agent
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.systemd_service:
+        name: ssh-agent.service
+        scope: user
+        state: started
+        enabled: true
+      loop: '{{ users | dict2items }}'
+    - name: 'Add authorized keys for user'
+      include_tasks: ./keys.yml
+      loop: '{{ users | dict2items }}'
+      loop_control:
+        loop_var: user

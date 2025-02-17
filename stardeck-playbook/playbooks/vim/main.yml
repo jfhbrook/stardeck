@@ -1,0 +1,43 @@
+- name: Vim
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - fzf
+          - bat
+          - ripgrep
+          - the_silver_searcher
+          - perl
+          - ctags
+    - name: 'Configure Vim for each user'
+      ansible.builtin.include_role:
+        name: jfhbrook.vim
+      vars:
+        shell_user: '{{ item.key }}'
+        vim_owner: '{{ item.key }}'
+        vim_installed_plugins:
+          - name: dracula
+            repo: 'https://github.com/dracula/vim.git'
+            type: start
+          - name: vim-which-key
+            repo: 'https://github.com/liuchengxu/vim-which-key.git'
+            type: start
+          - name: fzf
+            repo: 'https://github.com/junegunn/fzf'
+            type: start
+          - name: fzf.vim
+            repo: 'https://github.com/junegunn/fzf.vim'
+            type: start
+      loop: '{{ users | dict2items }}'
+    - name: 'Write .vimrc for {{ item.key }}'
+      ansible.builtin.copy:
+        src: 'vimrc'
+        dest: '/home/{{ item.key }}/.vimrc'
+        owner: '{{ item.key }}'
+        group: '{{ item.key }}'
+        mode: '0644'
+      loop: '{{ users | dict2items }}'

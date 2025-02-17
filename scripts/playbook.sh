@@ -27,7 +27,7 @@ fi
 STARDECK_CONFIG_HOME="$(pwd)"
 export STARDECK_CONFIG_HOME
 
-(cd ./stardeck-playbook && sudo node main.mjs)
+(cd ./stardeck-playbook && sudo -E node main.mjs)
 
 #
 # Run legacy ansible playbooks.

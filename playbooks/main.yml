@@ -11,10 +11,6 @@
     - development
     - filesharing
     - mopidy
-- name: Core
-  import_playbook: core/main.yml
-  tags:
-    - core
 - name: Audio
   import_playbook: audio/main.yml
   tags:

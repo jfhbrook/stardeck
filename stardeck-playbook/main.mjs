@@ -85,6 +85,7 @@ export async function main() {
 
   async function ansible(stage, options) {
     const opts = {
+      // TODO: Allow setting ansible verbosity separately
       logLevel,
       check,
       diff,
@@ -102,25 +103,29 @@ export async function main() {
   //
   // Set up expected repositories
   //
+
   await ansible('repositories/main.yml');
 
   //
   // Run global updates
   //
+
   if (update) {
     await ansible('update.yml');
   }
 
+  //
+  // Core playbooks
+  //
   await ansible([
-    // { name: 'ssh', playbook: 'core/ssh.yml' },
     { name: 'logind', playbook: 'core/logind.yml' },
     { name: 'sddm', playbook: 'core/sddm.yml' },
     { name: 'wifi', playbook: 'core/wifi.yml' },
     { name: 'yt-dlp', playbook: 'core/yt-dlp.yml' },
     { name: 'cockpit', playbook: 'cockpit/main.yml' },
+    { name: 'ssh', playbook: 'ssh/main.yml' },
+    { name: 'vim', playbook: 'vim/main.yml' },
   ]);
-
-  // TODO: vim
 }
 
 main();

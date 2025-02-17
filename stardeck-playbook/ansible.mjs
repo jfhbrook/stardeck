@@ -143,8 +143,15 @@ export function runSerialAnsiblePlaybooks(stage, globalOptions) {
 }
 
 export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
-  if (stage.length < 2) {
-    return runAnsiblePlaybook(stage[0], { ...stage[1], ...globalOptions });
+  if (!stage.length) {
+    return;
+  }
+
+  if (stage.length == 1) {
+    return runAnsiblePlaybook(stage[0].playbook, {
+      ...globalOptions,
+      ...stage[0].options,
+    });
   }
 
   if (globalOptions.serial) {

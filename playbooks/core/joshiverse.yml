@@ -1,9 +1,0 @@
-- name: Joshiverse
-  hosts: localhost
-  connection: local
-  tasks:
-    - name: Enable Joshiverse COPR
-      become: true
-      community.general.copr:
-        name: jfhbrook/joshiverse
-        state: enabled

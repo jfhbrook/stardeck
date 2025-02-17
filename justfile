@@ -34,9 +34,9 @@ status:
   git status
   yadm status
 
-# Update stardeck
-apply *ARGV:
-  @bash ./scripts/apply.sh {{ ARGV }}
+# Run stardeck-playbook
+playbook *ARGV:
+  @bash ./scripts/playbook.sh {{ ARGV }}
 
 # Generate an SSH key
 ssh-keygen:
