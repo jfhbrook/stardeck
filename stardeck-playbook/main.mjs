@@ -135,6 +135,8 @@ export async function main() {
     { name: 'bluetooth', playbook: 'audio/bluetooth.yml' },
     { name: 'pipewire', playbook: 'audio/pipewire.yml' },
     { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
+    { name: 'plusdeck', playbook: 'plusdeck.yml' },
+    { name: 'dialout', playbook: 'dialout.yml' },
   ]);
 }
 

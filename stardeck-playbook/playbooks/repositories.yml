@@ -1,4 +1,4 @@
 - name: Core
-  import_playbook: ./core/repostories.yml
+  import_playbook: ./core/repositories.yml
 - name: Desktop
   import_playbook: ./desktop/repositories.yml

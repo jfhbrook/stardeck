@@ -8,3 +8,13 @@
   import_playbook: ./audio/packages.yml
 - name: Desktop
   import_playbook: ./desktop/packages.yml
+- name: Other
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - python-crystalfontz
+          - plusdeck

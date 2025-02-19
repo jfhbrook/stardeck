@@ -11,18 +11,6 @@
     - development
     - filesharing
     - mopidy
-- name: Dialout
-  import_playbook: dialout.yml
-  tags:
-    - serial
-- name: Crystalfontz
-  import_playbook: crystalfontz.yml
-  tags:
-    - crystalfontz
-- name: Plusdeck
-  import_playbook: plusdeck.yml
-  tags:
-    - plusdeck
 - name: Development
   import_playbook: development/main.yml
   tags:

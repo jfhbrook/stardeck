@@ -3,8 +3,8 @@
   connection: local
   tasks:
     - name: Add user to dialout group
-      become: true
       ansible.builtin.user:
-        name: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+        name: '{{ item.key }}'
         groups: dialout
         append: yes
+      loop: '{{ users | dict2items }}'
