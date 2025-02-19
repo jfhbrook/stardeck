@@ -8,6 +8,8 @@
   import_playbook: ./audio/packages.yml
 - name: Desktop
   import_playbook: ./desktop/packages.yml
+- name: Mopidy
+  import_playbook: ./mopidy/packages.yml
 - name: Other
   hosts: localhost
   connection: local

@@ -19,7 +19,3 @@
   import_playbook: filesharing.yml
   tags:
     - filesharing
-- name: Mopidy
-  import_playbook: mopidy.yml
-  tags:
-    - mopidy

@@ -1,0 +1,11 @@
+- name: Mopidy Packages
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        state: present
+        name:
+          - mopidy
+          - python-mopidy-iris
+          - python-mopidy-local

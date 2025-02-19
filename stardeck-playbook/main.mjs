@@ -137,6 +137,7 @@ export async function main() {
     { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
     { name: 'plusdeck', playbook: 'plusdeck.yml' },
     { name: 'dialout', playbook: 'dialout.yml' },
+    { name: 'mopidy', playbook: 'mopidy/main.yml' },
   ]);
 }
 

@@ -2,33 +2,25 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Install packages
-      become: true
-      ansible.builtin.dnf:
-        state: present
-        name:
-          - mopidy
-          - python-mopidy-iris
-          - python-mopidy-local
     - name: Enable service
-      become: true
       ansible.builtin.systemd_service:
         name: mopidy
         state: started
         enabled: true
     - name: Configure firewall
-      become: true
-      ansible.builtin.shell: >
-        firewall-cmd --add-port=6680/tcp;
-        firewall-cmd --add-port=6680/tcp --permanent
+      ansible.posix.firewalld:
+        port: 6680/tcp
+        state: enabled
+        permanent: true
+        immediate: true
     - name: Write mopidy.conf
       become: true
       ansible.builtin.copy:
-        src: "mopidy.conf"
-        dest: "/etc/mopidy/mopidy.conf"
+        src: 'mopidy.conf'
+        dest: '/etc/mopidy/mopidy.conf'
         owner: root
         group: root
-        mode: "0644"
+        mode: '0644'
       notify: Restart mopidy
   handlers:
     - name: Restart mopidy
