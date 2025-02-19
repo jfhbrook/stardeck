@@ -6,3 +6,5 @@
   import_playbook: ./vim/packages.yml
 - name: Audio
   import_playbook: ./audio/packages.yml
+- name: Desktop
+  import_playbook: ./desktop/packages.yml

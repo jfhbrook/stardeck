@@ -23,10 +23,6 @@
   import_playbook: plusdeck.yml
   tags:
     - plusdeck
-- name: Desktop
-  import_playbook: desktop/main.yml
-  tags:
-    - desktop
 - name: Development
   import_playbook: development/main.yml
   tags:

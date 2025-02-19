@@ -1,4 +1,4 @@
-- name: RPM Fusion
+- name: Core Repositories
   hosts: localhost
   connection: local
   tasks:
@@ -16,3 +16,7 @@
           - config-manager
           - setopt
           - fedora-cisco-openh264.enabled=1
+    - name: Enable Joshiverse COPR
+      community.general.copr:
+        name: jfhbrook/joshiverse
+        state: enabled

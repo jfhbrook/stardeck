@@ -1,4 +1,0 @@
-- name: 1password
-  import_playbook: 1password.yml
-- name: Kitty
-  import_playbook: kitty.yml

@@ -1,0 +1,16 @@
+- name: Desktop Repositories
+  hosts: all
+  connection: local
+  tasks:
+    - name: Import 1password GPG Key into RPM
+      ansible.builtin.rpm_key:
+        state: present
+        key: 'https://downloads.1password.com/linux/keys/1password.asc'
+    - name: Add 1password Repository
+      ansible.builtin.yum_repository:
+        name: '1password'
+        state: present
+        description: '1Password Stable Channel'
+        file: '1password'
+        baseurl: 'https://downloads.1password.com/linux/rpm/stable/$basearch'
+        gpgcheck: true

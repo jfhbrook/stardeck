@@ -106,7 +106,7 @@ export async function main() {
   // Set up expected repositories
   //
 
-  await ansible('repositories/main.yml');
+  await ansible('repositories.yml');
 
   //
   // Run global updates
