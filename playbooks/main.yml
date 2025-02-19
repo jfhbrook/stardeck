@@ -15,7 +15,3 @@
   import_playbook: development/main.yml
   tags:
     - development
-- name: File Sharing
-  import_playbook: filesharing.yml
-  tags:
-    - filesharing

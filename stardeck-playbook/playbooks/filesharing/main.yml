@@ -1,20 +1,13 @@
 - name: File Sharing
   hosts: all
   connection: local
-  become: true
   tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        name:
-          - samba
-          - kdenetwork-filesharing
-        state: present
-    - name: "Add {{ item.name }} to usershares group"
+    - name: 'Add {{ item.name }} to usershares group'
       ansible.builtin.user:
-        name: "{{ item.name }}"
+        name: '{{ item.name }}'
         groups: usershares
         append: true
-      loop: "{{ samba_users }}"
+      loop: '{{ samba_users }}'
     - name: Configure Samba
       ansible.builtin.include_role:
         name: vladgh.samba.server
@@ -22,6 +15,8 @@
       ansible.builtin.shell: >
         semanage fcontext --add --type "samba_share_t" "{{ samba_shares_root }}(/.*)?"; restorecon -R "{{ samba_shares_root }}"
     - name: Configure firewall
-      ansible.builtin.shell: >
-        firewall-cmd --add-service=samba \
-          && firewall-cmd --add-service=samba --permanent
+      ansible.posix.firewalld:
+        service: samba
+        state: enabled
+        permanent: true
+        immediate: true

@@ -138,6 +138,7 @@ export async function main() {
     { name: 'plusdeck', playbook: 'plusdeck.yml' },
     { name: 'dialout', playbook: 'dialout.yml' },
     { name: 'mopidy', playbook: 'mopidy/main.yml' },
+    { name: 'filesharing', playbook: 'filesharing/main.yml' },
   ]);
 }
 
