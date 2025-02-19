@@ -11,10 +11,6 @@
     - development
     - filesharing
     - mopidy
-- name: Audio
-  import_playbook: audio/main.yml
-  tags:
-    - audio
 - name: Dialout
   import_playbook: dialout.yml
   tags:

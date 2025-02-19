@@ -1,8 +1,0 @@
-- name: Pipewire
-  import_playbook: pipewire.yml
-- name: Pulseaudio
-  import_playbook: pulseaudio.yml
-- name: Bluetooth
-  import_playbook: bluetooth.yml
-- name: FFMpeg
-  import_playbook: ffmpeg.yml

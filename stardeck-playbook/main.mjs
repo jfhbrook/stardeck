@@ -132,6 +132,9 @@ export async function main() {
     { name: 'ssh', playbook: 'ssh/main.yml' },
     // NOTE: May use dnf, may not be safe to run in parallel
     { name: 'vim', playbook: 'vim/main.yml' },
+    { name: 'bluetooth', playbook: 'audio/bluetooth.yml' },
+    { name: 'pipewire', playbook: 'audio/pipewire.yml' },
+    { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
   ]);
 }
 

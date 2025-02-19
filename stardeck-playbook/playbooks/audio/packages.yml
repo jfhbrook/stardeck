@@ -1,20 +1,29 @@
-# See: https://rpmfusion.org/Howto/Multimedia
-- name: FFMpeg
+- name: Audio Packages
   hosts: localhost
   connection: local
   tasks:
+    # See: https://rpmfusion.org/Howto/Multimedia
     - name: Switch to full ffmpeg
-      become: true
       ansible.builtin.shell: >
         if rpm -qa | grep -E '^ffmpeg-free-' > /dev/null; then
           dnf swap ffmpeg-free ffmpeg --allowerasing;
           dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin;
         fi
     - name: Install packages
-      become: true
       ansible.builtin.dnf:
         state: present
         name:
+          # bluetooth
+          - bluez
+          - bluez-tools
+          # ffmpeg
           - intel-media-driver
           - ffmpeg-libs
           - ffmpeg-devel
+          # pipewire
+          - helvum
+          # pulseaudio
+          - pipewire-pulseaudio
+          - pulseaudio-utils
+          - pamix
+          - pamixer

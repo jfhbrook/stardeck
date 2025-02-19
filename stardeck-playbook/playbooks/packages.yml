@@ -4,3 +4,5 @@
   import_playbook: ./cockpit/packages.yml
 - name: Vim
   import_playbook: ./vim/packages.yml
+- name: Audio
+  import_playbook: ./audio/packages.yml

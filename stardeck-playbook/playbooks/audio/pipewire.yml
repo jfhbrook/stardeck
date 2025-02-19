@@ -2,17 +2,10 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Install packages
-      become: true
-      ansible.builtin.dnf:
-        name:
-          - helvum
-        state: present
     - name: Create /etc/pipewire
-      become: true
       ansible.builtin.file:
         path: /etc/pipewire
         state: directory
         owner: root
         group: root
-        mode: "0755"
+        mode: '0755'

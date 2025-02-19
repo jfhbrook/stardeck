@@ -1,4 +1,4 @@
-- name: Vim
+- name: Vim Packages
   hosts: localhost
   connection: local
   tasks:
