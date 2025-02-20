@@ -22,3 +22,6 @@
         name:
           - python-crystalfontz
           - plusdeck
+- name: Development
+  import_playbook: ./development/packages.yml
+  when: development

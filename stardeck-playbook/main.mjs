@@ -120,6 +120,8 @@ export async function main() {
   // Install global packages
   //
 
+  // TODO: This is slow. Can we speed it up by either lifting packages or
+  // using include_tasks instead of include_playbook?
   await ansible('packages.yml');
 
   //
@@ -130,8 +132,6 @@ export async function main() {
     { name: 'sddm', playbook: 'core/sddm.yml' },
     { name: 'cockpit', playbook: 'cockpit/main.yml' },
     { name: 'ssh', playbook: 'ssh/main.yml' },
-    // NOTE: May use dnf, may not be safe to run in parallel
-    { name: 'vim', playbook: 'vim/main.yml' },
     { name: 'bluetooth', playbook: 'audio/bluetooth.yml' },
     { name: 'pipewire', playbook: 'audio/pipewire.yml' },
     { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
@@ -140,6 +140,23 @@ export async function main() {
     { name: 'mopidy', playbook: 'mopidy/main.yml' },
     { name: 'filesharing', playbook: 'filesharing/main.yml' },
   ]);
+
+  // TODO: Uses dnf and is flakey when run in parallel with other tasks.
+  // This is unfortunate, because this one takes a really long time.
+  await ansible('vim/main.yml');
+
+  const devTasks = {
+    git: { name: 'git', playbook: 'development/git.yml' },
+    yadm: {
+      name: 'yadm',
+      playbook: 'development/yadm.yml',
+      dependencies: ['git'],
+    },
+  };
+
+  for (let stage of stages(devTasks)) {
+    await ansible(stage);
+  }
 }
 
 (async () => {

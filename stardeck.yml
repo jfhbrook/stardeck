@@ -1,13 +1,19 @@
 #
+# Top-level vars
+#
+
+development: true
+
+#
 # Users
 #
 
 users:
   josh:
-    developer: true
-    git_user_name: 'Josh Holbrook'
-    git_user_email: 'josh.holbrook@gmail.com'
-    yadm_dotfiles_repo: 'git@github.com:jfhbrook/stardeck-dotfiles.git'
+    git:
+      user_name: 'Josh Holbrook'
+      user_email: 'josh.holbrook@gmail.com'
+    yadm_repo: 'git@github.com:jfhbrook/stardeck-dotfiles.git'
     authorized_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEtJCOCrZb/B6hsdCsKi6SqLPu5EirlXeP2hPqqj3Ml3"
       # TODO: Path is based on cwd

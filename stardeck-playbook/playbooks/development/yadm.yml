@@ -1,0 +1,15 @@
+- name: Configure yadm
+  hosts: all
+  connection: local
+  tasks:
+    - name: Sync dotfiles
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.shell: |
+        if [ -d "{{ item.key }}/.local/share/yadm/repo.git" ]; then
+          yadm clone '{{ item.value.yadm_repo }}';
+        else
+          yadm pull;
+        fi
+      when: development and item.value.yadm_repo
+      loop: '{{ users | dict2items }}'

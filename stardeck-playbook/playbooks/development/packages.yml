@@ -1,0 +1,13 @@
+- name: Development Packages
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          # git + github
+          - git
+          # yadm
+          - yadm
+        state: present

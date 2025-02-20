@@ -5,22 +5,34 @@ const require = createRequire(import.meta.url);
 const toposort = require('toposort');
 
 export function stages(graph) {
-  const sorted = toposort(topoGraph(graph));
+  const [topo, noDeps] = topoGraph(graph);
+  const sorted = toposort(topo);
+
+  const stages = [
+    noDeps.map((name) => {
+      const node = graph[name];
+      node.name = name;
+      return node;
+    }),
+  ];
 
   if (!sorted.length) {
-    return [];
+    if (!noDeps.length) {
+      return [];
+    }
+    return stages;
   }
-
-  const stages = [[]];
 
   let i = 0;
 
   // Fill out the first stage
   while (i < sorted.length && !dependencies(graph[sorted[i]]).length) {
     const name = sorted[i];
-    const node = graph[name];
-    node.name = name;
-    stages[0].push(node);
+    if (!noDeps.includes(name)) {
+      const node = graph[name];
+      node.name = name;
+      stages[0].push(node);
+    }
     i++;
   }
 
@@ -72,12 +84,19 @@ export function stages(graph) {
 
 export function topoGraph(graph) {
   const topo = [];
+  const noDeps = [];
   for (let [name, node] of Object.entries(graph)) {
-    for (let dependency of dependencies(node)) {
+    const deps = dependencies(node);
+    if (!deps.length) {
+      noDeps.push(name);
+      continue;
+    }
+
+    for (let dependency of deps) {
       topo.push([dependency, name]);
     }
   }
-  return topo;
+  return [topo, noDeps];
 }
 
 function dependencies(node) {
