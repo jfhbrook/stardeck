@@ -10,3 +10,12 @@
       - addrepo
       - '--from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo'
     creates: /etc/yum.repos.d/gh-cli.repo
+- name: Set up Hashicorp RPM Repository
+  become: true
+  ansible.builtin.command:
+    argv:
+      - dnf
+      - config-manager
+      - addrepo
+      - '--from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo'
+    creates: /etc/yum.repos.d/hashicorp.repo

@@ -1,22 +1,10 @@
 - name: Neovim
   import_playbook: neovim.yml
-- name: Golang Dev
-  import_playbook: golang-dev.yml
 - name: Node.js Dev
   import_playbook: node-dev.yml
-- name: Python Dev
-  import_playbook: python-dev.yml
 - name: Rust Dev
   import_playbook: rust-dev.yml
-- name: Perl Dev
-  import_playbook: perl-dev.yml
-- name: Stardeck Dev
-  import_playbook: stardeck-dev.yml
 - name: Starship
   import_playbook: starship.yml
-- name: Terraform
-  import_playbook: terraform.yml
-- name: Tools
-  import_playbook: tools.yml
-- name: Watchexec
-  import_playbook: watchexec.yml
+- name: Gomplate
+  import_playbook: gomplate.yml
