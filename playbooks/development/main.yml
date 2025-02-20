@@ -1,5 +1,3 @@
-- name: GitHub CLI
-  import_playbook: github-cli.yml
 - name: Neovim
   import_playbook: neovim.yml
 - name: Golang Dev

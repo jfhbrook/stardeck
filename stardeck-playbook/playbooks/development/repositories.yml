@@ -1,15 +1,12 @@
-- name: GitHub CLI
+- name: Development Repositories
   hosts: all
   connection: local
-  become: true
   tasks:
     - name: Install config-manager
-      become: true
       ansible.builtin.dnf:
         name: dnf5-plugins
         state: present
     - name: Set up GitHub CLI RPM Repository
-      become: true
       ansible.builtin.command:
         argv:
           - dnf
@@ -17,7 +14,3 @@
           - addrepo
           - "--from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo"
         creates: /etc/yum.repos.d/gh-cli.repo
-    - name: Install packages
-      ansible.builtin.dnf:
-        name: gh
-        state: present

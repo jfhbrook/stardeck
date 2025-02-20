@@ -8,6 +8,7 @@
         name:
           # git + github
           - git
+          - gh
           # yadm
           - yadm
         state: present

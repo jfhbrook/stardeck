@@ -2,3 +2,6 @@
   import_playbook: ./core/repositories.yml
 - name: Desktop
   import_playbook: ./desktop/repositories.yml
+- name: Development
+  import_playbook: ./development/repositories.yml
+  when: development
