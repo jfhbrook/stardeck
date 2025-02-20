@@ -147,16 +147,15 @@ export async function main() {
 
   const devTasks = {
     git: { name: 'git', playbook: 'development/git.yml' },
-    yadm: {
-      name: 'yadm',
-      playbook: 'development/yadm.yml',
-      dependencies: ['git'],
-    },
   };
 
   for (let stage of stages(devTasks)) {
     await ansible(stage);
   }
+
+  // TODO: Will prompt for SSH key password due to agent not being activated.
+  // For now, must be run directly.
+  await ansible('development/yadm.yml');
 }
 
 (async () => {

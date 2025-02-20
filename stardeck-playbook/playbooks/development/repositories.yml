@@ -12,5 +12,5 @@
           - dnf
           - config-manager
           - addrepo
-          - "--from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo"
+          - '--from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo'
         creates: /etc/yum.repos.d/gh-cli.repo
