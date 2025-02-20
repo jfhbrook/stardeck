@@ -1,0 +1,15 @@
+- name: Gomplate
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install Gomplate
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.get_url:
+        url: 'https://github.com/hairyhenderson/gomplate/releases/download/v{{ gomplate_version }}/gomplate_linux-amd64'
+        dest: '/home/{{ item.key }}/.local/bin/gomplate'
+        mode: '755'
+      when: development
+      loop: '{{ users | dict2items }}'
+      vars:
+        gomplate_version: '4.3.0'

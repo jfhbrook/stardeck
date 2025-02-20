@@ -1,0 +1,24 @@
+- name: Node.js Development Tools
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: Install Volta
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.shell:
+        cmd: >
+          curl https://get.volta.sh | bash
+        creates: '/home/{{ item.key }}/.volta'
+      when: development
+      loop: '{{ users | dict2items }}'
+    - name: Install Node.js
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.shell: >
+        export VOLTA_HOME="/home/{{ item.key }}/.volta";
+        export PATH="$VOLTA_HOME/bin:$PATH";
+
+        '/home/{{ item.key }}/.volta/bin/volta' install node
+      when: development
+      loop: '{{ users | dict2items }}'

@@ -1,7 +1,0 @@
-- name: Load configuration
-  hosts: all
-  connection: local
-  tasks:
-    - name: Load stardeck.yml
-      ansible.builtin.include_vars:
-        file: ../stardeck.yml

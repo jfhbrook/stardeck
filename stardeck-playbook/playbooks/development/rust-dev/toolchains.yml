@@ -1,0 +1,9 @@
+- name: Update Rust Toolchains
+  become: true
+  become_user: '{{ user.key }}'
+  ansible.builtin.command:
+    argv:
+      - '/home/{{ user.key }}/.cargo/bin/rustup'
+      - update
+      - '{{ item }}'
+  loop: '{{ rust_toolchains }}'

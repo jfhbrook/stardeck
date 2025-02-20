@@ -1,10 +1,13 @@
 - name: Neovim
   hosts: all
   connection: local
-  become: true
   tasks:
     - name: Install plug
+      become: true
+      become_user: '{{ item.key }}'
       ansible.builtin.shell:
         cmd: >
           sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        creates: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+        creates: '/home/{{ item.key }}/.local/share/nvim/site/autoload/plug.vim'
+      when: development
+      loop: '{{ users | dict2items }}'

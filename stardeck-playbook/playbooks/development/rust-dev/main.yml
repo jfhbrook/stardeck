@@ -6,7 +6,10 @@
       ansible.builtin.get_url:
         url: https://sh.rustup.rs
         dest: /tmp/install-rustup.sh
+      when: development
     - name: Install Rustup
+      become: true
+      become_user: '{{ item.key }}'
       ansible.builtin.command:
         argv:
           - sh
@@ -16,17 +19,12 @@
           - --profile
           - default
           - --no-modify-path
-        creates: "{{ ansible_env.HOME }}/.cargo"
+        creates: '/home/{{ item.key }}/.cargo'
+      when: development
+      loop: '{{ users | dict2items }}'
     - name: Update Rust Toolchains
-      ansible.builtin.command:
-        argv:
-          - "{{ ansible_env.HOME }}/.cargo/bin/rustup"
-          - update
-          - "{{ item }}"
-      loop: "{{ rust_toolchains }}"
-    - name: Install packages
-      become: true
-      ansible.builtin.dnf:
-        name:
-          - rust-analyzer
-        state: present
+      include_tasks: ./toolchains.yml
+      when: development
+      loop: '{{ users | dict2items }}'
+      loop_control:
+        loop_var: user

@@ -143,13 +143,13 @@ export async function main() {
   // This is unfortunate, because this one takes a really long time.
   await ansible('vim/main.yml');
 
-  const devTasks = {
-    git: { name: 'git', playbook: 'development/git.yml' },
-  };
-
-  for (let stage of stages(devTasks)) {
-    await ansible(stage);
-  }
+  await ansible([
+    { name: 'git', playbook: 'development/git.yml' },
+    { name: 'gomplate', playbook: 'development/gomplate.yml' },
+    { name: 'neovim', playbook: 'development/neovim.yml' },
+    { name: 'rust', playbook: 'development/rust-dev/main.yml' },
+    { name: 'starship', playbook: 'development/starship.yml' },
+  ]);
 
   // TODO: Will prompt for SSH key password due to agent not being activated.
   // For now, must be run directly.

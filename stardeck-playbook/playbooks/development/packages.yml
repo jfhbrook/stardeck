@@ -13,6 +13,8 @@
       - perl-Carton
       # python dev
       - uv
+      # rust
+      - rust-analyzer
       # terraform
       - terraform
       # general cli tools
