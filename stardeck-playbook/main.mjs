@@ -153,6 +153,7 @@ export async function main() {
 
   // TODO: Will prompt for SSH key password due to agent not being activated.
   // For now, must be run directly.
+  // NOTE: Depends on git
   await ansible('development/yadm.yml');
 }
 

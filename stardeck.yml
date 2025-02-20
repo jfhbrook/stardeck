@@ -23,6 +23,14 @@ users:
       - nightly
 
 #
+# Rust
+#
+
+rust_toolchains:
+  - stable
+  - nightly
+
+#
 # File sharing
 #
 samba_guest_account: false
@@ -41,16 +49,3 @@ samba_shares:
     write_list: josh,+usershares
     guest_ok: true
     read_only: false
-
-#
-# Legacy settings
-#
-
-git_user_name: "Josh Holbrook"
-git_user_email: "josh.holbrook@gmail.com"
-yadm_dotfiles_repo: "git@github.com:jfhbrook/stardeck-dotfiles.git"
-rust_toolchains:
-  - stable
-  - nightly
-
-watchexec_version: "2.2.1"

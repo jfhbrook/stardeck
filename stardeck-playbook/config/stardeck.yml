@@ -2,15 +2,7 @@
 # Users
 #
 
-users:
-  josh:
-    developer: true
-    git_user_name: 'Josh Holbrook'
-    git_user_email: 'josh.holbrook@gmail.com'
-    yadm_dotfiles_repo: 'git@github.com:jfhbrook/stardeck-dotfiles.git'
-    rust_toolchains:
-      - stable
-      - nightly
+users: []
 
 #
 # File sharing
@@ -20,15 +12,5 @@ samba_guest_account: false
 sambda_mdns_name: 'stardeck.local'
 samba_netbios_name: 'stardeck'
 samba_shares_root: '/srv/shares'
-samba_users:
-  - name: josh
-    password: popcorn
-samba_shares:
-  - name: Music
-    comment: 'Music and jams!'
-    public: true
-    browserable: true
-    group: usershares
-    write_list: josh,+usershares
-    guest_ok: true
-    read_only: false
+samba_users: []
+samba_shares: []

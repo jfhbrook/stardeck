@@ -38,14 +38,9 @@ status:
 playbook:
   @bash ./scripts/playbook-dependencies.sh
   @just stardeck-playbook
-  @just legacy-playbook
 
 # Run stardeck-playbook
 stardeck-playbook *ARGV:
-  @bash ./scripts/playbook.sh {{ ARGV }}
-
-# Run legacy playbooks
-legacy-playbook ARGV:
   @bash ./scripts/playbook.sh {{ ARGV }}
 
 # Generate an SSH key
