@@ -1,27 +1,27 @@
-- name: Core
-  import_playbook: ./core/packages.yml
-- name: Cockpit
-  import_playbook: ./cockpit/packages.yml
-- name: Vim
-  import_playbook: ./vim/packages.yml
-- name: Audio
-  import_playbook: ./audio/packages.yml
-- name: Desktop
-  import_playbook: ./desktop/packages.yml
-- name: Mopidy
-  import_playbook: ./mopidy/packages.yml
-- name: File Sharing
-  import_playbook: ./filesharing/packages.yml
-- name: Other
+- name: Packages
   hosts: localhost
   connection: local
   tasks:
-    - name: Install packages
+    - name: Core
+      include_tasks: ./core/packages.yml
+    - name: Cockpit
+      include_tasks: ./cockpit/packages.yml
+    - name: Vim
+      include_tasks: ./vim/packages.yml
+    - name: Audio
+      include_tasks: ./audio/packages.yml
+    - name: Desktop
+      include_tasks: ./desktop/packages.yml
+    - name: Mopidy
+      include_tasks: ./mopidy/packages.yml
+    - name: File Sharing
+      include_tasks: ./filesharing/packages.yml
+    - name: Install other packages
       ansible.builtin.dnf:
         state: present
         name:
           - python-crystalfontz
           - plusdeck
-- name: Development
-  import_playbook: ./development/packages.yml
-  when: development
+    - name: Development
+      include_tasks: ./development/packages.yml
+      when: development

@@ -1,10 +1,6 @@
-- name: File Sharing Packages
-  hosts: all
-  connection: local
-  tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        name:
-          - samba
-          - kdenetwork-filesharing
-        state: present
+- name: Install File Sharing Packages
+  ansible.builtin.dnf:
+    name:
+      - samba
+      - kdenetwork-filesharing
+    state: present

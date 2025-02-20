@@ -1,10 +1,6 @@
-- name: Core Packages
-  hosts: localhost
-  connection: local
-  tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        state: present
-        name:
-          - NetworkManager-tui
-          - yt-dlp
+- name: Install packages
+  ansible.builtin.dnf:
+    state: present
+    name:
+      - NetworkManager-tui
+      - yt-dlp

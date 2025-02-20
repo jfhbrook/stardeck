@@ -1,14 +1,10 @@
-- name: Vim Packages
-  hosts: localhost
-  connection: local
-  tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        state: present
-        name:
-          - fzf
-          - bat
-          - ripgrep
-          - the_silver_searcher
-          - perl
-          - ctags
+- name: Install Vim Packages
+  ansible.builtin.dnf:
+    state: present
+    name:
+      - fzf
+      - bat
+      - ripgrep
+      - the_silver_searcher
+      - perl
+      - ctags

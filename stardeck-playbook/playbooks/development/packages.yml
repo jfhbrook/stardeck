@@ -1,14 +1,9 @@
-- name: Development Packages
-  hosts: all
-  connection: local
-  become: true
-  tasks:
-    - name: Install packages
-      ansible.builtin.dnf:
-        name:
-          # git + github
-          - git
-          - gh
-          # yadm
-          - yadm
-        state: present
+- name: Install Development Packages
+  ansible.builtin.dnf:
+    name:
+      # git + github
+      - git
+      - gh
+      # yadm
+      - yadm
+    state: present

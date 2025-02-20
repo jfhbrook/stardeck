@@ -1,7 +1,11 @@
-- name: Core
-  import_playbook: ./core/repositories.yml
-- name: Desktop
-  import_playbook: ./desktop/repositories.yml
-- name: Development
-  import_playbook: ./development/repositories.yml
-  when: development
+- name: Repositories
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Core
+      import_tasks: ./core/repositories.yml
+    - name: Desktop
+      import_tasks: ./desktop/repositories.yml
+    - name: Development
+      import_tasks: ./development/repositories.yml
+      when: development

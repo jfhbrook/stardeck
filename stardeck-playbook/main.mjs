@@ -120,8 +120,6 @@ export async function main() {
   // Install global packages
   //
 
-  // TODO: This is slow. Can we speed it up by either lifting packages or
-  // using include_tasks instead of include_playbook?
   await ansible('packages.yml');
 
   //
