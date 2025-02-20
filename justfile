@@ -15,11 +15,11 @@ setup:
 # Lint everything
 lint:
   shellcheck scripts/*.sh
+  cd ./stardeck-playbook && npm run lint
 
 # Format everything
 format:
-  terraform fmt -recursive
-  yamlfmt *.yml
+  cd ./stardeck-playbook && npm run format
 
 # Link tool
 link:
@@ -38,6 +38,13 @@ status:
 playbook:
   @bash ./scripts/playbook-dependencies.sh
   @just stardeck-playbook
+
+# Run updates
+update:
+  @just playbook
+  bash ./scripts/sync-yadm.sh
+  git status
+  yadm status
 
 # Run stardeck-playbook
 stardeck-playbook *ARGV:

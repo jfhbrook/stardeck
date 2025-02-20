@@ -151,10 +151,13 @@ export async function main() {
     { name: 'starship', playbook: 'development/starship.yml' },
   ]);
 
-  // TODO: Will prompt for SSH key password due to agent not being activated.
-  // For now, must be run directly.
+  // TODO: Yadm will attempt to use the user's SSH agent, which makes running
+  // this REALLY awkward. For now, assume the user will run their own dotfiles
+  // updates. Still, this is stubbed, in case I do want to automate it later.
+  //
   // NOTE: Depends on git
-  await ansible('development/yadm.yml');
+
+  // await ansible('development/yadm.yml');
 }
 
 (async () => {

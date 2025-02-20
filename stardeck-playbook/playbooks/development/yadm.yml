@@ -6,7 +6,7 @@
       become: true
       become_user: '{{ item.key }}'
       ansible.builtin.shell: |
-        if [ -d "{{ item.key }}/.local/share/yadm/repo.git" ]; then
+        if [ ! -d "{{ item.key }}/.local/share/yadm/repo.git" ]; then
           yadm clone '{{ item.value.yadm_repo }}';
         else
           yadm pull;
