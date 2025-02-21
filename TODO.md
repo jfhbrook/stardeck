@@ -9,9 +9,7 @@ I have like 80gb of MP3s now, but the tagging and naming is a mess. I've started
 
 ## PlusDeck Driver
 
-A basic dbus service exists! Just have to button it up.
-
-- [ ] Develop a dbus service
+A basic dbus service exists! Just a long tail of small improvements.
 
 ## CrystalFontz Driver
 
@@ -22,17 +20,7 @@ The driver is mostly complete, but...
 
 ### stardeck-playbook
 
-A Python CLI that wraps `ansible`.
-
-- [ ] Use a list of users in `stardeck.yml`, not `ansible_user`
-  - `developer` flag? or separate out `development` playbooks?
-  - See: <https://serverfault.com/questions/662443/running-ansible-task-as-a-specific-user>
-- [ ] Logic like `plusdeck`/`crystalfontz` for loading config file, globally at `/etc/stardeck.yml`. Use `configurence`?
-- [ ] Avoid `--ask-become-pass` by allowing to run as sudo?
-
-I should also be able to leverage dnf/rpm to install dependencies, rather than using the playbooks per se.
-
-I'd like to leverage tagging to separate "config" tasks and actual install/update commands. I can expose "config" tasks through the dbus service as a "reload" capability, and call the "update" tasks directly through the CLI.
+This is done. It's in node.
 
 ## stardeckd/stardeckctl
 
