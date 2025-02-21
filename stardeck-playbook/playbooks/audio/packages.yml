@@ -18,6 +18,8 @@
       - ffmpeg-devel
       # pipewire
       - helvum
+      # project M
+      - projectm-pulseaudio
       # pulseaudio
       - pipewire-pulseaudio
       - pulseaudio-utils
