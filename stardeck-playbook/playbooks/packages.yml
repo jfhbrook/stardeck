@@ -20,6 +20,7 @@
       ansible.builtin.dnf:
         state: present
         name:
+          - kdotool
           - python-crystalfontz
           - plusdeck
     - name: Development
