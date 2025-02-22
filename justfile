@@ -20,6 +20,7 @@ lint:
 # Format everything
 format:
   cd ./stardeck-playbook && npm run format
+  perltidy -b -bext='/' scripts/*.pl
 
 # Link tool
 link:
@@ -55,8 +56,8 @@ ssh-keygen:
   if [ ! -f ~/.ssh/id_ed25519 ]; then ssh-keygen -t ed25519 -C '{{ email }}'; fi
 
 # Control loopback
-loopback CMD:
-  @bash ./scripts/loopback.sh '{{ CMD }}'
+loopback ACTION:
+  @perl ./scripts/loopback.pl '{{ ACTION }}'
 
 # Change samba password
 smbpasswd USER:
