@@ -44,8 +44,7 @@ playbook:
 update:
   @just playbook
   bash ./scripts/sync-yadm.sh
-  git status
-  yadm status
+  @just status
 
 # Run stardeck-playbook
 stardeck-playbook *ARGV:
