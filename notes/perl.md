@@ -10,3 +10,4 @@ Thinking about writing `stardeckd` in perl, for the lulz. Link dump:
   * [prove](https://perldoc.perl.org/prove)
   * [TAP::Harness](https://metacpan.org/pod/TAP::Harness)
   * [Test::Spec](https://metacpan.org/pod/Test::Spec) if I'm into that
+* New module: <https://perldoc.perl.org/perlnewmod>
