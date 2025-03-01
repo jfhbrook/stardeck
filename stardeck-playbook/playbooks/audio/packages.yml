@@ -19,7 +19,7 @@
       # pipewire
       - helvum
       # project M
-      - projectm-pulseaudio
+      - projectM-pulseaudio
       # pulseaudio
       - pipewire-pulseaudio
       - pulseaudio-utils
