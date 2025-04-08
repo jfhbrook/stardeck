@@ -12,3 +12,8 @@
         groups: plusdeck
         append: yes
       loop: '{{ users | dict2items }}'
+    - name: Enable service
+      ansible.builtin.systemd_service:
+        name: plusdeck
+        state: started
+        enabled: true

@@ -12,3 +12,8 @@
         groups: crystalfontz
         append: yes
       loop: '{{ users | dict2items }}'
+    - name: Enable service
+      ansible.builtin.systemd_service:
+        name: crystalfontz
+        state: started
+        enabled: true
