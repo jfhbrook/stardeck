@@ -134,6 +134,7 @@ export async function main() {
     { name: 'pipewire', playbook: 'audio/pipewire.yml' },
     { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
     { name: 'plusdeck', playbook: 'plusdeck.yml' },
+    { name: 'crystalfontz', playbook: 'crystalfontz.yml' },
     { name: 'dialout', playbook: 'dialout.yml' },
     { name: 'mopidy', playbook: 'mopidy/main.yml' },
     { name: 'filesharing', playbook: 'filesharing/main.yml' },

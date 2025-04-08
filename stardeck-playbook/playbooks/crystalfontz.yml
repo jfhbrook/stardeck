@@ -1,0 +1,14 @@
+- name: Crystalfontz
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create crystalfontz group
+      ansible.builtin.group:
+        name: crystalfontz
+        state: present
+    - name: Add user to crystalfontz group
+      ansible.builtin.user:
+        name: '{{ item.key }}'
+        groups: crystalfontz
+        append: yes
+      loop: '{{ users | dict2items }}'

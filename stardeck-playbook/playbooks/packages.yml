@@ -21,7 +21,7 @@
         state: present
         name:
           - kdotool
-          - python-crystalfontz
+          - crystalfontz
           - plusdeck
     - name: Development
       include_tasks: ./development/packages.yml
