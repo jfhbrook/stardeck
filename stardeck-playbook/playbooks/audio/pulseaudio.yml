@@ -18,9 +18,3 @@
         owner: root
         group: root
         mode: '0644'
-      notify: Restart pipewire-pulse
-  handlers:
-    - name: Restart pipewire-pulse
-      ansible.builtin.systemd_service:
-        name: pipewire-pulse
-        state: restarted

@@ -16,13 +16,12 @@
       include_tasks: ./mopidy/packages.yml
     - name: File Sharing
       include_tasks: ./filesharing/packages.yml
-    - name: Install other packages
-      ansible.builtin.dnf:
-        state: present
-        name:
-          - kdotool
-          - crystalfontz
-          - plusdeck
+    - name: Plusdeck
+      include_tasks: ./plusdeck/packages.yml
+    - name: Crystalfontz
+      include_tasks: ./crystalfontz/packages.yml
+    - name: Stardeck
+      include_tasks: ./stardeck/packages.yml
     - name: Development
       include_tasks: ./development/packages.yml
       when: development
