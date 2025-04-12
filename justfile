@@ -58,6 +58,14 @@ ssh-keygen:
 loopback ACTION:
   @perl ./scripts/loopback.pl '{{ ACTION }}'
 
+# Reset LCD brightness and contrast, and clear screen
+lcd-reset:
+  @bash ./scripts/lcd-reset.sh
+
+# Display the LCD splash screen
+lcd-splash: lcd-reset
+  @bash ./scripts/lcd-splash.sh
+
 # Change samba password
 smbpasswd USER:
   sudo smbpasswd -U '{{ USER }}'
