@@ -15,32 +15,48 @@ ACTIONS:
   disable  Disable loopback
 
 OPTIONS:
-  --latency MSEC  Latency, in milliseconds
+  --latency MSEC   Loopback latency, in milliseconds
+  --source SOURCE  The loopback source ID
+  --volume VOLuME  The volume of the loopback source, in percent
 ';
 
 my $help    = '';
 my $latency = 1;
+my $source  = 'alsa_input.pci-0000_00_1f.3.analog-stereo';
+my $volume  = 10;
 
 GetOptions(
     "help"      => \$help,
     "latency=i" => \$latency,
+    "source=s"  => \$source,
+    "volume=i"  => \$volume,
 ) or die $HELP;
 
-my $cmd;
+my $load_cmd;
+my $volume_cmd = "";
 
 if ($#ARGV) {
     die 'Must specify action.';
 }
 elsif ( $ARGV[0] eq 'enable' ) {
-    $cmd = "pactl load-module module-loopback --latency_msec=$latency";
+    $load_cmd = "pactl load-module module-loopback --latency_msec=$latency";
+    $volume_cmd =
+"pactl set-source-volume alsa_input.pci-0000_00_1f.3.analog-stereo $volume%";
 }
 elsif ( $ARGV[0] eq 'disable' ) {
-    $cmd = 'pactl unload-module module-loopback';
+    $load_cmd = 'pactl unload-module module-loopback';
 }
 else {
     die "Unknown action $ARGV[0]";
 }
 
-my $status = system($cmd);
+my $status = system($load_cmd);
 
-exit $status;
+if ($status) {
+    exit $status;
+}
+
+if ($volume_cmd) {
+    $status = system($volume_cmd);
+    exit $status;
+}
