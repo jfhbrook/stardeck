@@ -66,6 +66,10 @@ lcd-reset:
 lcd-splash: lcd-reset
   @bash ./scripts/lcd-splash.sh
 
+# Stream notifications as newline separated JSON
+notifications:
+  @bash ./scripts/notifications.sh
+
 # Change samba password
 smbpasswd USER:
   sudo smbpasswd -U '{{ USER }}'
