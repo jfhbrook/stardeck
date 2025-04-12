@@ -6,8 +6,8 @@ use warnings;
 package main;
 
 my sub active_window_name {
-  my $active_window = `kdotool getactivewindow`;
-  `kdotool getwindowname $active_window`;
+    my $active_window = `kdotool getactivewindow`;
+    `kdotool getwindowname $active_window`;
 }
 
 my $name = &active_window_name;
