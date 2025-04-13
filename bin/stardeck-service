@@ -7,20 +7,21 @@ package main;
 
 use Data::Dumper;
 use JSON 'decode_json';
+use threads;
 use Time::HiRes 'usleep';
 
-my $plusdeck_bin                = 'plusdeck';
-my $crystalfontz_bin            = 'crystalfontz';
+my $plusdeck_bin     = 'plusdeck';
+my $crystalfontz_bin = 'crystalfontz';
+
 # In seconds
 my $active_window_poll_interval = 1.0;
 
-# active window state
 my sub active_window_name {
     my $active_window = `kdotool getactivewindow`;
     `kdotool getwindowname $active_window`;
 }
 
-my sub poll_active_window_name {
+my sub poll_active_window {
     my $current = '';
 
     while (1) {
@@ -32,7 +33,7 @@ my sub poll_active_window_name {
             );
 
             # TODO: Send event
-            print Dumper($event);
+            print Dumper( \%event );
         }
         $current = $next;
         usleep( $active_window_poll_interval * 10e6 );
@@ -52,12 +53,12 @@ my sub subscribe_plusdeck {
         );
 
         # TODO: send event to queue
-        print Dumper($event);
+        print Dumper( \%event );
     }
 }
 
 my sub listen_crystalfontz {
-    open( my $fh, "-|", "${stardeck_bin} --output json listen" )
+    open( my $fh, "-|", "${crystalfontz_bin} --output json listen" )
       or die "Can not listen to crystalfontz reports: $!";
 
     foreach (<$fh>) {
@@ -77,24 +78,26 @@ my sub parse_actions {
         my $identifier = shift;
         my $localized  = shift;
         my @pair       = ( $identifier, $localized );
-        push( @actions, $pair );
+        push( @actions, \@pair );
     }
     @actions;
 }
 
 my sub monitor_notifications {
-    my @monitor_command = (
-        'busctl monitor ',
-        '--user',
+    my @command = (
+        'busctl', 'monitor', '--user',
         '--destination=org.freedesktop.Notifications',
-        "--match=\"member=\'notify\'\"",
-        '--json=short'
+        "--match=member=\\'Notify\\'", '--json=short'
     );
+    my $command = join( ' ', @command );
 
-    open( my $fh, "-|", join( ' ', @monitor_command ) )
+    open( my $fh, "-|", $command )
       or die "Can not monitor notifications: $!";
 
-    foreach (<$fn>) {
+    # TODO: This doesn't receive any events. The command is well-formed, but
+    # it completely blocks until the command exits. I think this is an issue
+    # for all of these.
+    foreach (<$fh>) {
 
         # {
         #   "type":"method_call",
@@ -144,7 +147,7 @@ my sub monitor_notifications {
         my $hints          = $data->[6];
         my $expire_timeout = $data->[7];
 
-        my %events = (
+        my %event = (
             type           => 'Notification',
             app_name       => $app_name,
             replaces_id    => $replaces_id,
@@ -157,9 +160,21 @@ my sub monitor_notifications {
         );
 
         # TODO: send event to queue
-        print Dumper($event);
+        print Dumper( \%event );
     }
 }
+
+&monitor_notifications();
+
+# my $poll         = threads->create( \&poll_active_window );
+# my $subscription = threads->create( \&subscribe_plusdeck );
+# my $listener     = threads->create( \&listen_crystalfontz );
+# my $monitor      = threads->create( \&monitor_notifications );
+
+# $poll->join();
+# $subscription->join();
+# $listener->join();
+# $monitor->join();
 
 # TODO: command runner thread
 # - crystalfontz commands
