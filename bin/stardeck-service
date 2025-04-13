@@ -1,0 +1,171 @@
+#!/usr/bin/env perl
+
+use v5.40;
+use warnings;
+
+package main;
+
+use Data::Dumper;
+use JSON 'decode_json';
+
+my $plusdeck_bin                = 'plusdeck';
+my $crystalfontz_bin            = 'crystalfontz';
+my $active_window_poll_interval = 1;
+
+# active window state
+my sub active_window_name {
+    my $active_window = `kdotool getactivewindow`;
+    `kdotool getwindowname $active_window`;
+}
+
+my sub poll_active_window_name {
+    my $current = '';
+
+    while (1) {
+        my $next = &active_window_name;
+        if ( $next ne $current ) {
+            my %event = (
+                type => 'ActiveWindow',
+                name => "${next}"
+            );
+
+            # TODO: Send event
+            print Dumper($event);
+        }
+        $current = $next;
+        sleep $active_window_poll_interval;
+    }
+}
+
+my sub subscribe_plusdeck {
+    open( my $fh, "-|", "${plusdeck_bin} --output text subscribe" )
+      or die "Can not subscribe to plusdeck events: $!";
+
+    foreach (<$fh>) {
+        chomp;
+
+        my %event = (
+            type  => "PlusdeckState",
+            state => $_
+        );
+
+        # TODO: send event to queue
+        print Dumper($event);
+    }
+}
+
+my sub listen_crystalfontz {
+    open( my $fh, "-|", "${stardeck_bin} --output json listen" )
+      or die "Can not listen to crystalfontz reports: $!";
+
+    foreach (<$fh>) {
+        chomp;
+
+        # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
+        my $event = decode_json $_;
+
+        # TODO: Send event to queue
+        print Dumper($event);
+    }
+}
+
+my sub parse_actions {
+    my @actions = ();
+    while (@_) {
+        my $identifier = shift;
+        my $localized  = shift;
+        my @pair       = ( $identifier, $localized );
+        push( @actions, $pair );
+    }
+    @actions;
+}
+
+my sub monitor_notifications {
+    my @monitor_command = (
+        'busctl monitor ',
+        '--user',
+        '--destination=org.freedesktop.Notifications',
+        "--match=\"member=\'notify\'\"",
+        '--json=short'
+    );
+
+    open( my $fh, "-|", join( ' ', @monitor_command ) )
+      or die "Can not monitor notifications: $!";
+
+    foreach (<$fn>) {
+
+        # {
+        #   "type":"method_call",
+        #   "endian":"l",
+        #   "flags":0,
+        #   "version":1,
+        #   "cookie":9,
+        #   "timestamp-realtime":1744565025716135,
+        #   "sender":":1.135",
+        #   "destination":":1.45",
+        #   "path":"/org/freedesktop/Notifications",
+        #   "interface":"org.freedesktop.Notifications",
+        #   "member":"Notify",
+        #   "payload":{
+        #     "type":"susssasa{sv}i",
+        #     "data":[
+        #       "notify-send",
+        #       0,
+        #       "",
+        #       "Party time!",
+        #       "It is time to party hard",
+        #       ["dance", "Dance party!"],
+        #       {
+        #         "urgency":{
+        #           "type":"y",
+        #           "data":1
+        #         },
+        #         "sender-pid":{
+        #           "type":"x"
+        #           "data":129140
+        #         }
+        #       },
+        #       -1
+        #     ]
+        #   }
+        # }
+        my $method_call = decode_json $_;
+        my $payload     = $method_call->{'payload'};
+        my $data        = $payload->{'data'};
+
+        my $app_name       = $data->[0];
+        my $replaces_id    = $data->[1];
+        my $app_icon       = $data->[2];
+        my $summary        = $data->[3];
+        my $body           = $data->[4];
+        my $actions        = $data->[5];
+        my $hints          = $data->[6];
+        my $expire_timeout = $data->[7];
+
+        my %events = (
+            type           => 'Notification',
+            app_name       => $app_name,
+            replaces_id    => $replaces_id,
+            app_icon       => $app_icon,
+            summary        => $summary,
+            body           => $body,
+            actions        => $actions,
+            hints          => $hints,
+            expire_timeout => $expire_timeout
+        );
+
+        # TODO: send event to queue
+        print Dumper($event);
+    }
+}
+
+# TODO: command runner thread
+# - crystalfontz commands
+# - crystalfontz responses
+# - plusdeck commands
+# - loopback enable/disable
+
+# TODO: events -> command runner thread
+# - Write plusdeck state to crystalfontz
+# - Enable/disable loopback on plusdeck play-like events
+# - Write active window to crystalfontz
