@@ -6,6 +6,7 @@ use warnings;
 package main;
 
 use Data::Dumper;
+use IPC::Open2 'open2';
 use JSON 'decode_json';
 use threads;
 use Time::HiRes 'usleep';
@@ -87,17 +88,12 @@ my sub monitor_notifications {
     my @command = (
         'busctl', 'monitor', '--user',
         '--destination=org.freedesktop.Notifications',
-        "--match=member=\\'Notify\\'", '--json=short'
+        "--match=member='Notify'", '--json=short'
     );
-    my $command = join( ' ', @command );
 
-    open( my $fh, "-|", $command )
-      or die "Can not monitor notifications: $!";
+    my $pid = open2( my $out, my $in, @command );
 
-    # TODO: This doesn't receive any events. The command is well-formed, but
-    # it completely blocks until the command exits. I think this is an issue
-    # for all of these.
-    foreach (<$fh>) {
+    while (<$out>) {
 
         # {
         #   "type":"method_call",
@@ -162,6 +158,8 @@ my sub monitor_notifications {
         # TODO: send event to queue
         print Dumper( \%event );
     }
+
+    waitpid( $pid, 0 );
 }
 
 &monitor_notifications();
