@@ -7,10 +7,12 @@ package main;
 
 use Data::Dumper;
 use JSON 'decode_json';
+use Time::HiRes 'usleep';
 
 my $plusdeck_bin                = 'plusdeck';
 my $crystalfontz_bin            = 'crystalfontz';
-my $active_window_poll_interval = 1;
+# In seconds
+my $active_window_poll_interval = 1.0;
 
 # active window state
 my sub active_window_name {
@@ -33,7 +35,7 @@ my sub poll_active_window_name {
             print Dumper($event);
         }
         $current = $next;
-        sleep $active_window_poll_interval;
+        usleep( $active_window_poll_interval * 10e6 );
     }
 }
 
