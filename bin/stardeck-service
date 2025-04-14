@@ -11,11 +11,14 @@ use JSON 'decode_json';
 use threads;
 use Time::HiRes 'usleep';
 
-my $plusdeck_bin     = 'plusdeck';
-my $crystalfontz_bin = 'crystalfontz';
+my $python_bin                  = 'python3';
+my $active_window_poll_interval = 0.2;         # in seconds
 
-# In seconds
-my $active_window_poll_interval = 1.0;
+# TODO: Load stardeck.yml
+
+# TODO: Shared running flag, stop sub
+# TODO: shared PIDs, process kill/wait subs
+# TODO: sigint/sigterm handler
 
 my sub active_window_name {
     my $active_window = `kdotool getactivewindow`;
@@ -26,6 +29,8 @@ my sub poll_active_window {
     my $current = '';
 
     while (1) {
+
+        # TODO: eval + error handling
         my $next = &active_window_name;
         if ( $next ne $current ) {
             my %event = (
@@ -39,13 +44,31 @@ my sub poll_active_window {
         $current = $next;
         usleep( $active_window_poll_interval * 10e6 );
     }
+
+    # TODO: exit event
 }
 
-my sub subscribe_plusdeck {
-    open( my $fh, "-|", "${plusdeck_bin} --output text subscribe" )
-      or die "Can not subscribe to plusdeck events: $!";
+# TODO: Capture sigint/sigterm and explicitly kill the pid. Hint:
+#
+# - https://www.perl.com/article/37/2013/8/18/Catch-and-Handle-Signals-in-Perl/
+# - https://perldoc.perl.org/functions/kill
+#
+# Threads don't get individual signal handlers, that's process wide. I'll
+# probably need to refactor this to send the pids to the main thread, and
+# kill those in the signal handler.
 
-    foreach (<$fh>) {
+my sub subscribe_plusdeck {
+    my @command = (
+        $python_bin, '-u', '-m', 'plusdeck.dbus.client', '--output', 'text',
+        'subscribe'
+    );
+
+    my $pid = open2( my $out, my $in, @command );
+
+    # TODO: emit PID
+    # TODO: respect running flag
+    # TODO: eval + error handling
+    while (<$out>) {
         chomp;
 
         my %event = (
@@ -56,14 +79,25 @@ my sub subscribe_plusdeck {
         # TODO: send event to queue
         print Dumper( \%event );
     }
+
+    # TODO: exit event
+    # TODO: Move to external sub
+    waitpid( $pid, 0 );
+    $? == 0 or die("plusdeck subscribe exited with status $?");
 }
 
 my sub listen_crystalfontz {
-    open( my $fh, "-|", "${crystalfontz_bin} --output json listen" )
-      or die "Can not listen to crystalfontz reports: $!";
+    my @command = (
+        $python_bin, '-u', '-m', 'crystalfontz.dbus.client', '--output',
+        'json',      'listen'
+    );
 
-    foreach (<$fh>) {
-        chomp;
+    my $pid = open2( my $out, my $in, @command );
+
+    # TODO: emit PID
+    # TODO: respect running flag
+    # TODO: eval + error handling
+    while (<$out>) {
 
         # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
         my $event = decode_json $_;
@@ -71,6 +105,11 @@ my sub listen_crystalfontz {
         # TODO: Send event to queue
         print Dumper($event);
     }
+
+    # TODO: exit event
+    # TODO: Move to external sub
+    waitpid( $pid, 0 );
+    $? == 0 or die("crystalfontz listen exited with status $?");
 }
 
 my sub parse_actions {
@@ -93,6 +132,9 @@ my sub monitor_notifications {
 
     my $pid = open2( my $out, my $in, @command );
 
+    # TODO: emit PID
+    # TODO: respect running flag
+    # TODO: eval + error handling
     while (<$out>) {
 
         # {
@@ -159,28 +201,18 @@ my sub monitor_notifications {
         print Dumper( \%event );
     }
 
+    # TODO: exit event
+    # TODO: Move to external sub
     waitpid( $pid, 0 );
+    $? == 0 or die("busctl exited with status $?");
 }
 
-&monitor_notifications();
+my $poll         = threads->create( \&poll_active_window );
+my $subscription = threads->create( \&subscribe_plusdeck );
+my $listener     = threads->create( \&listen_crystalfontz );
+my $monitor      = threads->create( \&monitor_notifications );
 
-# my $poll         = threads->create( \&poll_active_window );
-# my $subscription = threads->create( \&subscribe_plusdeck );
-# my $listener     = threads->create( \&listen_crystalfontz );
-# my $monitor      = threads->create( \&monitor_notifications );
-
-# $poll->join();
-# $subscription->join();
-# $listener->join();
-# $monitor->join();
-
-# TODO: command runner thread
-# - crystalfontz commands
-# - crystalfontz responses
-# - plusdeck commands
-# - loopback enable/disable
-
-# TODO: events -> command runner thread
-# - Write plusdeck state to crystalfontz
-# - Enable/disable loopback on plusdeck play-like events
-# - Write active window to crystalfontz
+$poll->join();
+$subscription->join();
+$listener->join();
+$monitor->join();
