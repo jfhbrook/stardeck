@@ -17,8 +17,15 @@ my $active_window_poll_interval = 0.2;         # in seconds
 # TODO: Load stardeck.yml
 
 # TODO: Shared running flag, stop sub
-# TODO: shared PIDs, process kill/wait subs
-# TODO: sigint/sigterm handler
+
+# TODO: Capture sigint/sigterm and explicitly kill the pid. Hint:
+#
+# - https://www.perl.com/article/37/2013/8/18/Catch-and-Handle-Signals-in-Perl/
+# - https://perldoc.perl.org/functions/kill
+#
+# Threads don't get individual signal handlers, that's process wide. I'll
+# probably need to refactor this to send the pids to the main thread, and
+# kill those in the signal handler.
 
 my sub active_window_name {
     my $active_window = `kdotool getactivewindow`;
@@ -48,15 +55,8 @@ my sub poll_active_window {
     # TODO: exit event
 }
 
-# TODO: Capture sigint/sigterm and explicitly kill the pid. Hint:
-#
-# - https://www.perl.com/article/37/2013/8/18/Catch-and-Handle-Signals-in-Perl/
-# - https://perldoc.perl.org/functions/kill
-#
-# Threads don't get individual signal handlers, that's process wide. I'll
-# probably need to refactor this to send the pids to the main thread, and
-# kill those in the signal handler.
-
+# TODO: These have a lot of copypasta. I should be able to create a subroutine
+# that takes an array of arguments and a reference to a callback
 my sub subscribe_plusdeck {
     my @command = (
         $python_bin, '-u', '-m', 'plusdeck.dbus.client', '--output', 'text',
