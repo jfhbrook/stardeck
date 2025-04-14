@@ -1,22 +1,30 @@
 #!/usr/bin/env perl
 
 use v5.40;
+use threads;
+use threads::shared;
 use warnings;
-
-package main;
 
 use Data::Dumper;
 use IPC::Open2 'open2';
 use JSON 'decode_json';
-use threads;
+use Thread::Queue;
 use Time::HiRes 'usleep';
+
+package main;
 
 my $python_bin                  = 'python3';
 my $active_window_poll_interval = 0.2;         # in seconds
 
 # TODO: Load stardeck.yml
 
-# TODO: Shared running flag, stop sub
+my $running : shared = 1;
+
+sub stop_workers {
+    $running = 0;
+}
+
+my @pids;
 
 # TODO: Capture sigint/sigterm and explicitly kill the pid. Hint:
 #
@@ -27,92 +35,100 @@ my $active_window_poll_interval = 0.2;         # in seconds
 # probably need to refactor this to send the pids to the main thread, and
 # kill those in the signal handler.
 
-my sub active_window_name {
-    my $active_window = `kdotool getactivewindow`;
-    `kdotool getwindowname $active_window`;
-}
+# waitpid( $pid, 0 );
+# $? == 0 or die("plusdeck subscribe exited with status $?");
 
-my sub poll_active_window {
+my $main_commands = Thread::Queue->new();
+
+my sub active_window_worker {
     my $current = '';
 
-    while (1) {
-
-        # TODO: eval + error handling
-        my $next = &active_window_name;
+    while ($running) {
+        my $window = `kdotool getactivewindow`;
+        my $next   = `kdotool getwindowname $window`;
         if ( $next ne $current ) {
             my %event = (
                 type => 'ActiveWindow',
                 name => "${next}"
             );
 
-            # TODO: Send event
-            print Dumper( \%event );
+            $main_commands->enqueue( \%event );
         }
         $current = $next;
-        usleep( $active_window_poll_interval * 10e6 );
-    }
 
-    # TODO: exit event
+        if ($running) {
+            usleep( $active_window_poll_interval * 10e6 );
+        }
+    }
 }
 
-# TODO: These have a lot of copypasta. I should be able to create a subroutine
-# that takes an array of arguments and a reference to a callback
-my sub subscribe_plusdeck {
+my sub listen {
+    my $name    = shift;
+    my $command = shift;
+    my $map_sub = shift;
+
+    my $pid = open2( my $out, my $in, @$command );
+
+    my %pid_event = (
+        type        => 'StartProcess',
+        thread_name => $name,
+        pid         => $pid
+    );
+
+    $main_commands->enqueue( \%pid_event );
+
+    while ($running) {
+        my $line = <$out>;
+        chomp $line;
+
+        my $event;
+
+        # TODO: Better error handling?
+        eval { $event = $map_sub->($line); };
+
+        if ($event) {
+            $main_commands->enqueue($event);
+        }
+    }
+
+    my %exit_event = (
+        type        => 'ThreadExit',
+        thread_name => $name
+    );
+
+    $main_commands->enqueue( \%exit_event );
+}
+
+my sub plusdeck_state_worker {
     my @command = (
         $python_bin, '-u', '-m', 'plusdeck.dbus.client', '--output', 'text',
         'subscribe'
     );
 
-    my $pid = open2( my $out, my $in, @command );
-
-    # TODO: emit PID
-    # TODO: respect running flag
-    # TODO: eval + error handling
-    while (<$out>) {
-        chomp;
-
-        my %event = (
-            type  => "PlusdeckState",
-            state => $_
-        );
-
-        # TODO: send event to queue
-        print Dumper( \%event );
-    }
-
-    # TODO: exit event
-    # TODO: Move to external sub
-    waitpid( $pid, 0 );
-    $? == 0 or die("plusdeck subscribe exited with status $?");
+    &listen(
+        'plusdeck_state',
+        \@command,
+        sub {
+            my %event = (
+                type  => "PlusdeckState",
+                state => $_
+            );
+            \%event;
+        }
+    );
 }
 
-my sub listen_crystalfontz {
+my sub crystalfontz_reports_worker {
     my @command = (
         $python_bin, '-u', '-m', 'crystalfontz.dbus.client', '--output',
         'json',      'listen'
     );
 
-    my $pid = open2( my $out, my $in, @command );
-
-    # TODO: emit PID
-    # TODO: respect running flag
-    # TODO: eval + error handling
-    while (<$out>) {
-
-        # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
-        my $event = decode_json $_;
-
-        # TODO: Send event to queue
-        print Dumper($event);
-    }
-
-    # TODO: exit event
-    # TODO: Move to external sub
-    waitpid( $pid, 0 );
-    $? == 0 or die("crystalfontz listen exited with status $?");
+    # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
+    &listen( 'crystalfontz_reports', \@command, sub { decode_json $_; } );
 }
 
-my sub parse_actions {
+my sub map_notification_actions {
     my @actions = ();
     while (@_) {
         my $identifier = shift;
@@ -120,99 +136,103 @@ my sub parse_actions {
         my @pair       = ( $identifier, $localized );
         push( @actions, \@pair );
     }
-    @actions;
+    \@actions;
 }
 
-my sub monitor_notifications {
+my sub map_notifications {
+
+    # {
+    #   "type":"method_call",
+    #   "endian":"l",
+    #   "flags":0,
+    #   "version":1,
+    #   "cookie":9,
+    #   "timestamp-realtime":1744565025716135,
+    #   "sender":":1.135",
+    #   "destination":":1.45",
+    #   "path":"/org/freedesktop/Notifications",
+    #   "interface":"org.freedesktop.Notifications",
+    #   "member":"Notify",
+    #   "payload":{
+    #     "type":"susssasa{sv}i",
+    #     "data":[
+    #       "notify-send",
+    #       0,
+    #       "",
+    #       "Party time!",
+    #       "It is time to party hard",
+    #       ["dance", "Dance party!"],
+    #       {
+    #         "urgency":{
+    #           "type":"y",
+    #           "data":1
+    #         },
+    #         "sender-pid":{
+    #           "type":"x"
+    #           "data":129140
+    #         }
+    #       },
+    #       -1
+    #     ]
+    #   }
+    # }
+    my $method_call = decode_json $_;
+    my $payload     = $method_call->{'payload'};
+    my $data        = $payload->{'data'};
+
+    my $app_name       = $data->[0];
+    my $replaces_id    = $data->[1];
+    my $app_icon       = $data->[2];
+    my $summary        = $data->[3];
+    my $body           = $data->[4];
+    my $actions        = &map_notification_actions( $data->[5] );
+    my $hints          = $data->[6];
+    my $expire_timeout = $data->[7];
+
+    # TODO: Add timestamp
+    my %event = (
+        type           => 'Notification',
+        app_name       => $app_name,
+        replaces_id    => $replaces_id,
+        app_icon       => $app_icon,
+        summary        => $summary,
+        body           => $body,
+        actions        => $actions,
+        hints          => $hints,
+        expire_timeout => $expire_timeout
+    );
+
+    \%event;
+}
+
+my sub notifications_worker {
     my @command = (
         'busctl', 'monitor', '--user',
         '--destination=org.freedesktop.Notifications',
         "--match=member='Notify'", '--json=short'
     );
 
-    my $pid = open2( my $out, my $in, @command );
-
-    # TODO: emit PID
-    # TODO: respect running flag
-    # TODO: eval + error handling
-    while (<$out>) {
-
-        # {
-        #   "type":"method_call",
-        #   "endian":"l",
-        #   "flags":0,
-        #   "version":1,
-        #   "cookie":9,
-        #   "timestamp-realtime":1744565025716135,
-        #   "sender":":1.135",
-        #   "destination":":1.45",
-        #   "path":"/org/freedesktop/Notifications",
-        #   "interface":"org.freedesktop.Notifications",
-        #   "member":"Notify",
-        #   "payload":{
-        #     "type":"susssasa{sv}i",
-        #     "data":[
-        #       "notify-send",
-        #       0,
-        #       "",
-        #       "Party time!",
-        #       "It is time to party hard",
-        #       ["dance", "Dance party!"],
-        #       {
-        #         "urgency":{
-        #           "type":"y",
-        #           "data":1
-        #         },
-        #         "sender-pid":{
-        #           "type":"x"
-        #           "data":129140
-        #         }
-        #       },
-        #       -1
-        #     ]
-        #   }
-        # }
-        my $method_call = decode_json $_;
-        my $payload     = $method_call->{'payload'};
-        my $data        = $payload->{'data'};
-
-        my $app_name       = $data->[0];
-        my $replaces_id    = $data->[1];
-        my $app_icon       = $data->[2];
-        my $summary        = $data->[3];
-        my $body           = $data->[4];
-        my $actions        = $data->[5];
-        my $hints          = $data->[6];
-        my $expire_timeout = $data->[7];
-
-        my %event = (
-            type           => 'Notification',
-            app_name       => $app_name,
-            replaces_id    => $replaces_id,
-            app_icon       => $app_icon,
-            summary        => $summary,
-            body           => $body,
-            actions        => $actions,
-            hints          => $hints,
-            expire_timeout => $expire_timeout
-        );
-
-        # TODO: send event to queue
-        print Dumper( \%event );
-    }
-
-    # TODO: exit event
-    # TODO: Move to external sub
-    waitpid( $pid, 0 );
-    $? == 0 or die("busctl exited with status $?");
+    &listen( 'notifications', \@command, \&map_notifications );
 }
 
-my $poll         = threads->create( \&poll_active_window );
-my $subscription = threads->create( \&subscribe_plusdeck );
-my $listener     = threads->create( \&listen_crystalfontz );
-my $monitor      = threads->create( \&monitor_notifications );
+my $active_window_thread  = threads->create( \&active_window_worker );
+my $plusdeck_state_thread = threads->create( \&plusdeck_state_worker );
+my $crystalfontz_reports_thread =
+  threads->create( \&crystalfontz_reports_worker );
+my $notifications_thread = threads->create( \&notifications_worker );
 
-$poll->join();
-$subscription->join();
-$listener->join();
-$monitor->join();
+while ( my $event = $main_commands->dequeue() ) {
+
+    # TODO: Handle StartProcess event
+    # TODO: Handle ThreadExit event
+    # TODO: Handle ActiveWindow event
+    # TODO: Handle PlusdeckState event
+    # TODO: Handle KeyActivityReport event
+    # TODO: Handle Notification event
+    print Dumper($event);
+}
+
+$active_window_thread->join();
+$plusdeck_state_thread->join();
+$crystalfontz_reports_thread->join();
+$notifications_thread->join();
