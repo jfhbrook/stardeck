@@ -32,6 +32,7 @@ my sub signal_all {
     foreach ( my $pid = values %pids ) {
         eval { kill $signal, $pid; };
     }
+    return;
 }
 
 my $main_commands = Thread::Queue->new();
@@ -56,18 +57,20 @@ my sub active_window_worker {
             usleep( $active_window_poll_interval * 10e6 );
         }
     }
+
+    return;
 }
 
-my sub listen {
-    my $name    = shift;
-    my $command = shift;
-    my $map_sub = shift;
+my sub listen_process {
+    my $process_name = shift;
+    my $command      = shift;
+    my $map_sub      = shift;
 
     my $pid = open2( my $out, my $in, @$command );
 
     my %pid_event = (
         type => 'StartProcess',
-        name => $name,
+        name => $process_name,
         pid  => $pid
     );
 
@@ -87,17 +90,19 @@ my sub listen {
         }
     }
 
-    waitpid( $pid, 0 );
+    if ( waitpid( $pid, 0 ) > 0 ) {
+        my $code = $?;
 
-    my $code = $?;
+        my %exit_event = (
+            type => 'ExitProcess',
+            name => $process_name,
+            code => $code
+        );
 
-    my %exit_event = (
-        type => 'ExitProcess',
-        name => $name,
-        code => $code
-    );
+        $main_commands->enqueue( \%exit_event );
+    }
 
-    $main_commands->enqueue( \%exit_event );
+    return;
 }
 
 my sub plusdeck_state_worker {
@@ -106,7 +111,7 @@ my sub plusdeck_state_worker {
         'subscribe'
     );
 
-    &listen(
+    &listen_process(
         'plusdeck_state',
         \@command,
         sub {
@@ -117,6 +122,8 @@ my sub plusdeck_state_worker {
             \%event;
         }
     );
+
+    return;
 }
 
 my sub crystalfontz_reports_worker {
@@ -126,7 +133,10 @@ my sub crystalfontz_reports_worker {
     );
 
     # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
-    &listen( 'crystalfontz_reports', \@command, sub { decode_json $_; } );
+    &listen_process( 'crystalfontz_reports', \@command,
+        sub { decode_json $_; } );
+
+    return;
 }
 
 my sub map_notification_actions {
@@ -137,7 +147,7 @@ my sub map_notification_actions {
         my @pair       = ( $identifier, $localized );
         push( @actions, \@pair );
     }
-    \@actions;
+    return \@actions;
 }
 
 my sub map_notifications {
@@ -203,7 +213,7 @@ my sub map_notifications {
         expire_timeout => $expire_timeout
     );
 
-    \%event;
+    return \%event;
 }
 
 my sub notifications_worker {
@@ -213,7 +223,9 @@ my sub notifications_worker {
         "--match=member='Notify'", '--json=short'
     );
 
-    &listen( 'notifications', \@command, \&map_notifications );
+    &listen_process( 'notifications', \@command, \&map_notifications );
+
+    return;
 }
 
 my sub command_worker {
@@ -259,6 +271,8 @@ my sub command_worker {
 
     say "Unreachable.";
     &hard_exit(1);
+
+    return;
 }
 
 my $active_window_thread  = threads->create( \&active_window_worker );
@@ -272,6 +286,8 @@ my sub wait_all {
     $plusdeck_state_thread->join();
     $crystalfontz_reports_thread->join();
     $notifications_thread->join();
+
+    return;
 }
 
 my sub graceful_exit {
@@ -316,10 +332,10 @@ my sub hard_exit {
 }
 
 # On SIGINT, graceful exit 0
-$SIG{INT} = \&graceful_exit;
+local $SIG{INT} = \&graceful_exit;
 
 # On SIGTERM, hard exit 0
-$SIG{TERM} = \&hard_exit;
+local $SIG{TERM} = \&hard_exit;
 
 # Giddyup
 &command_worker();
