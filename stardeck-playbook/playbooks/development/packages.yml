@@ -11,6 +11,7 @@
       # perl dev
       - perl
       - perl-Carton
+      - perl-Perl-Critic
       # python dev
       - uv
       # rust

@@ -14,6 +14,7 @@ setup:
 
 # Lint everything
 lint:
+  perlcritic --stern ./bin/stardeck-service
   shellcheck scripts/*.sh
   cd ./stardeck-playbook && npm run lint
 
