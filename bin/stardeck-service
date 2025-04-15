@@ -216,77 +216,6 @@ my sub notifications_worker {
     &listen( 'notifications', \@command, \&map_notifications );
 }
 
-my $active_window_thread  = threads->create( \&active_window_worker );
-my $plusdeck_state_thread = threads->create( \&plusdeck_state_worker );
-my $crystalfontz_reports_thread =
-  threads->create( \&crystalfontz_reports_worker );
-my $notifications_thread = threads->create( \&notifications_worker );
-
-my sub stop_workers {
-    $running = 0;
-    $main_commands->end();
-}
-
-my sub wait_workers {
-    $active_window_thread->join();
-    $plusdeck_state_thread->join();
-    $crystalfontz_reports_thread->join();
-    $notifications_thread->join();
-}
-
-my sub hard_cleanup {
-    signal_all 'KILL';
-}
-
-my sub graceful_cleanup {
-
-    # Send a friendly SIGTERM
-    signal_all 'TERM';
-
-    # Wait for processes to exit
-    for ( my $i = 0 ; $i < $graceful_exit_times ; $i++ ) {
-        if ( waitpid( -1, WNOHANG ) > 0 ) {
-            usleep( $graceful_exit_poll_interval * 10e6 );
-        }
-        else {
-            return;
-        }
-    }
-
-    # Now things are getting serious!
-    &impatient_cleanup();
-}
-
-my sub graceful_exit {
-    my $code = shift;
-    $code = $code or 0;
-
-    &stop_workers();
-    &graceful_cleanup();
-    &wait_workers();
-
-    exit $code;
-}
-
-my sub hard_exit {
-    my $code = 1;
-    if (@_) {
-        $code = shift;
-    }
-
-    # Don't bother cleaning up the threads, just send a KILL to the child
-    # process and call it a day
-    &hard_cleanup();
-
-    exit $code;
-}
-
-# On SIGINT, graceful exit 0
-$SIG{INT} = \&graceful_exit;
-
-# On SIGTERM, hard exit 0
-$SIG{TERM} = \&hard_exit;
-
 my sub command_worker {
     while ( my $event = $main_commands->dequeue() ) {
         my $type = $event->{'type'};
@@ -332,3 +261,65 @@ my sub command_worker {
     &hard_exit(1);
 }
 
+my $active_window_thread  = threads->create( \&active_window_worker );
+my $plusdeck_state_thread = threads->create( \&plusdeck_state_worker );
+my $crystalfontz_reports_thread =
+  threads->create( \&crystalfontz_reports_worker );
+my $notifications_thread = threads->create( \&notifications_worker );
+
+my sub wait_all {
+    $active_window_thread->join();
+    $plusdeck_state_thread->join();
+    $crystalfontz_reports_thread->join();
+    $notifications_thread->join();
+}
+
+my sub graceful_exit {
+    my $code = shift;
+    $code = $code or 0;
+
+    $running = 0;
+    $main_commands->end();
+
+    # Send a friendly SIGTERM
+    signal_all 'TERM';
+
+    # Wait for processes to exit
+    for ( my $i = 0 ; $i < $graceful_exit_times ; $i++ ) {
+        if ( waitpid( -1, WNOHANG ) > 0 ) {
+            usleep( $graceful_exit_poll_interval * 10e6 );
+        }
+        else {
+            return;
+        }
+    }
+
+    # Now things are getting serious!
+    signal_all 'KILL';
+
+    &wait_all();
+
+    exit $code;
+}
+
+my sub hard_exit {
+    my $code = 1;
+    if (@_) {
+        $code = shift;
+    }
+
+    # Don't bother cleaning up the threads, just send a KILL to the child
+    # process and call it a day
+    signal_all 'KILL';
+
+    exit $code;
+}
+
+# On SIGINT, graceful exit 0
+$SIG{INT} = \&graceful_exit;
+
+# On SIGTERM, hard exit 0
+$SIG{TERM} = \&hard_exit;
+
+# Giddyup
+&command_worker();
