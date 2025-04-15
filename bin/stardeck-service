@@ -15,28 +15,24 @@ package main;
 
 my $python_bin                  = 'python3';
 my $active_window_poll_interval = 0.2;         # in seconds
+my $graceful_exit_timeout       = 10;          # in seconds
+my $graceful_exit_poll_interval = 0.1;         # in seconds
+
+my $graceful_exit_times =
+  $graceful_exit_timeout * ( 1 / $graceful_exit_poll_interval );
 
 # TODO: Load stardeck.yml
 
 my $running : shared = 1;
 
-sub stop_workers {
-    $running = 0;
+my %pids;
+
+my sub signal_all {
+    my $signal = shift;
+    foreach ( my $pid = values %pids ) {
+        eval { kill $signal, $pid; };
+    }
 }
-
-my @pids;
-
-# TODO: Capture sigint/sigterm and explicitly kill the pid. Hint:
-#
-# - https://www.perl.com/article/37/2013/8/18/Catch-and-Handle-Signals-in-Perl/
-# - https://perldoc.perl.org/functions/kill
-#
-# Threads don't get individual signal handlers, that's process wide. I'll
-# probably need to refactor this to send the pids to the main thread, and
-# kill those in the signal handler.
-
-# waitpid( $pid, 0 );
-# $? == 0 or die("plusdeck subscribe exited with status $?");
 
 my $main_commands = Thread::Queue->new();
 
@@ -70,9 +66,9 @@ my sub listen {
     my $pid = open2( my $out, my $in, @$command );
 
     my %pid_event = (
-        type        => 'StartProcess',
-        thread_name => $name,
-        pid         => $pid
+        type => 'StartProcess',
+        name => $name,
+        pid  => $pid
     );
 
     $main_commands->enqueue( \%pid_event );
@@ -91,9 +87,14 @@ my sub listen {
         }
     }
 
+    waitpid( $pid, 0 );
+
+    my $code = $?;
+
     my %exit_event = (
-        type        => 'ThreadExit',
-        thread_name => $name
+        type => 'ExitProcess',
+        name => $name,
+        code => $code
     );
 
     $main_commands->enqueue( \%exit_event );
@@ -221,18 +222,113 @@ my $crystalfontz_reports_thread =
   threads->create( \&crystalfontz_reports_worker );
 my $notifications_thread = threads->create( \&notifications_worker );
 
-while ( my $event = $main_commands->dequeue() ) {
-
-    # TODO: Handle StartProcess event
-    # TODO: Handle ThreadExit event
-    # TODO: Handle ActiveWindow event
-    # TODO: Handle PlusdeckState event
-    # TODO: Handle KeyActivityReport event
-    # TODO: Handle Notification event
-    print Dumper($event);
+my sub stop_workers {
+    $running = 0;
+    $main_commands->end();
 }
 
-$active_window_thread->join();
-$plusdeck_state_thread->join();
-$crystalfontz_reports_thread->join();
-$notifications_thread->join();
+my sub wait_workers {
+    $active_window_thread->join();
+    $plusdeck_state_thread->join();
+    $crystalfontz_reports_thread->join();
+    $notifications_thread->join();
+}
+
+my sub hard_cleanup {
+    signal_all 'KILL';
+}
+
+my sub graceful_cleanup {
+
+    # Send a friendly SIGTERM
+    signal_all 'TERM';
+
+    # Wait for processes to exit
+    for ( my $i = 0 ; $i < $graceful_exit_times ; $i++ ) {
+        if ( waitpid( -1, WNOHANG ) > 0 ) {
+            usleep( $graceful_exit_poll_interval * 10e6 );
+        }
+        else {
+            return;
+        }
+    }
+
+    # Now things are getting serious!
+    &impatient_cleanup();
+}
+
+my sub graceful_exit {
+    my $code = shift;
+    $code = $code or 0;
+
+    &stop_workers();
+    &graceful_cleanup();
+    &wait_workers();
+
+    exit $code;
+}
+
+my sub hard_exit {
+    my $code = 1;
+    if (@_) {
+        $code = shift;
+    }
+
+    # Don't bother cleaning up the threads, just send a KILL to the child
+    # process and call it a day
+    &hard_cleanup();
+
+    exit $code;
+}
+
+# On SIGINT, graceful exit 0
+$SIG{INT} = \&graceful_exit;
+
+# On SIGTERM, hard exit 0
+$SIG{TERM} = \&hard_exit;
+
+my sub command_worker {
+    while ( my $event = $main_commands->dequeue() ) {
+        my $type = $event->{'type'};
+
+        if ( $type eq 'StartProcess' ) {
+            my $name = $event->{'name'};
+            my $pid  = $event->{'pid'};
+
+            $pids{$name} = $pid;
+        }
+        elsif ( $type eq 'ExitProcess' ) {
+
+            # Clean up the PID
+            my $name = $event->{'name'};
+            delete $pids{$name};
+
+            # A process exiting is unexpected, so we need to error out. Still,
+            # we can killl the other processes gracefully.
+            &graceful_exit(1);
+
+        }
+        elsif ( $type eq 'ActiveWindow' ) {
+            print Dumper($event);
+        }
+        elsif ( $type eq 'PlusdeckState' ) {
+            print Dumper($event);
+        }
+        elsif ( $type eq 'KeyActivityReport' ) {
+            print Dumper($event);
+        }
+        elsif ( $type eq 'TemperatureReport' ) {
+            print Dumper($event);
+        }
+        elsif ( $type eq 'Notification' ) {
+            print Dumper($event);
+        }
+        else {
+            print Dumper($event);
+        }
+    }
+
+    say "Unreachable.";
+    &hard_exit(1);
+}
+
