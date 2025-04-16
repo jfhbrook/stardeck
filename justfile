@@ -14,7 +14,7 @@ setup:
 
 # Lint everything
 lint:
-  perlcritic --harsh ./bin/stardeck-service
+  perlcritic --harsh ./bin/stardeck-service  # TODO: Pass --cruel
   shellcheck scripts/*.sh
   cd ./stardeck-playbook && npm run lint
 

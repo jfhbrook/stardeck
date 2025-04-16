@@ -41,6 +41,8 @@ my sub active_window_worker {
     my $current = '';
 
     while ($running) {
+
+        # TODO: Use open3 and log errors
         my $window = `kdotool getactivewindow`;
         my $next   = `kdotool getwindowname $window`;
         if ( $next ne $current ) {
@@ -66,6 +68,7 @@ my sub listen_process {
     my $command      = shift;
     my $map_sub      = shift;
 
+    # TODO: Use open3 and log errors
     my $pid = open2( my $out, my $in, @$command );
 
     my %pid_event = (
@@ -237,6 +240,7 @@ my %commands = (
         $pids{$name} = $pid;
     },
     ExitProcess => sub {
+
         # Clean up the PID
         my $name = $_->{'name'};
         delete $pids{$name};
@@ -308,6 +312,7 @@ my sub graceful_exit {
     signal_all 'TERM';
 
     # Wait for processes to exit
+    # TODO: Can I use alarm() here instead?
     for ( my $i = 0 ; $i < $graceful_exit_times ; $i++ ) {
         if ( waitpid( -1, WNOHANG ) > 0 ) {
             usleep( $graceful_exit_poll_interval * 10e6 );
