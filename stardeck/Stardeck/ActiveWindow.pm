@@ -59,6 +59,10 @@ my class ActiveWindowWorker {
         $window   = '';
     }
 
+    method stop {
+        $self->running = 0;
+    }
+
     method poll {
         my $next = get_window_name();
         my %event;
@@ -77,6 +81,7 @@ my class ActiveWindowWorker {
     method run {
         while ( $self->running ) {
             my $event = $self->poll();
+
             if ($event) {
                 $self->events->enqueue($event);
             }
