@@ -7,5 +7,3 @@ lint:
 # Format everything
 format:
   perltidy -b -bext='/' ./Stardeck/*.pm ./bin/*
-
-
