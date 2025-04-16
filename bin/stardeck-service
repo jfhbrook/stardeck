@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use v5.40;
+use 5.040;
 use threads;
 use threads::shared;
 use warnings;
@@ -30,7 +30,7 @@ my %pids;
 my sub signal_all {
     my $signal = shift;
     foreach ( my $pid = values %pids ) {
-        eval { kill $signal, $pid; };
+        kill $signal, $pid;
     }
     return;
 }
@@ -80,13 +80,14 @@ my sub listen_process {
         my $line = <$out>;
         chomp $line;
 
-        my $event;
-
-        # TODO: Better error handling?
-        eval { $event = $map_sub->($line); };
+        my $event = eval { $map_sub->($line); };
 
         if ($event) {
             $main_commands->enqueue($event);
+        }
+        else {
+            # TODO: Log
+            say $line;
         }
     }
 
@@ -228,41 +229,47 @@ my sub notifications_worker {
     return;
 }
 
+my %commands = (
+    StartProcess => sub {
+        my $name = $_->{'name'};
+        my $pid  = $_->{'pid'};
+
+        $pids{$name} = $pid;
+    },
+    ExitProcess => sub {
+        # Clean up the PID
+        my $name = $_->{'name'};
+        delete $pids{$name};
+
+        # A process exiting is unexpected, so we need to error out. Still,
+        # we can killl the other processes gracefully.
+        &graceful_exit(1);
+
+    },
+    ActiveWindow => sub {
+        print Dumper($_);
+    },
+    PlusdeckState => sub {
+        print Dumper($_);
+    },
+    KeyActivityReport => sub {
+        print Dumper($_);
+    },
+    TemperatureReport => sub {
+        print Dumper($_);
+    },
+    Notification => sub {
+        print Dumper($_);
+    }
+);
+
 my sub command_worker {
     while ( my $event = $main_commands->dequeue() ) {
-        my $type = $event->{'type'};
+        my $type    = $event->{'type'};
+        my $handler = $commands{$type};
 
-        if ( $type eq 'StartProcess' ) {
-            my $name = $event->{'name'};
-            my $pid  = $event->{'pid'};
-
-            $pids{$name} = $pid;
-        }
-        elsif ( $type eq 'ExitProcess' ) {
-
-            # Clean up the PID
-            my $name = $event->{'name'};
-            delete $pids{$name};
-
-            # A process exiting is unexpected, so we need to error out. Still,
-            # we can killl the other processes gracefully.
-            &graceful_exit(1);
-
-        }
-        elsif ( $type eq 'ActiveWindow' ) {
-            print Dumper($event);
-        }
-        elsif ( $type eq 'PlusdeckState' ) {
-            print Dumper($event);
-        }
-        elsif ( $type eq 'KeyActivityReport' ) {
-            print Dumper($event);
-        }
-        elsif ( $type eq 'TemperatureReport' ) {
-            print Dumper($event);
-        }
-        elsif ( $type eq 'Notification' ) {
-            print Dumper($event);
+        if ($handler) {
+            $handler->($event);
         }
         else {
             print Dumper($event);
