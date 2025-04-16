@@ -11,7 +11,6 @@ import {
   findStardeckConfig,
   logger,
   LOG_LEVELS,
-  stages,
 } from './index.mjs';
 
 const HELP = `USAGE: stardeck-playbook OPTIONS

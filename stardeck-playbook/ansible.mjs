@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
@@ -106,7 +107,7 @@ export function ansiblePlaybookEnv({ configFile }) {
         path.join(ansibleHome, baseDir),
         path.join('/usr/share/ansible', baseDir),
       ].join(':');
-    } else if (!envVars[name].includes(dir)) {
+    } else if (!envVars[name].includes(baseDir)) {
       envVars[name] = [
         `./${baseDir}`,
         path.join(STARDECK_HOME, baseDir),
