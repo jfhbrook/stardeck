@@ -47,7 +47,7 @@ my sub get_window_name {
     return $name;
 }
 
-my class ActiveWindowWorker {
+my class Stardeck::ActiveWindowEmitter {
     field $running;
     field $interval;
     field $window;
