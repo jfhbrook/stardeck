@@ -13,6 +13,7 @@ use Time::HiRes 'usleep';
 
 package main;
 
+# TODO: Use https://perldoc.perl.org/constant
 my $python_bin                  = 'python3';
 my $active_window_poll_interval = 0.2;         # in seconds
 my $graceful_exit_timeout       = 10;          # in seconds
