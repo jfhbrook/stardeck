@@ -21,7 +21,7 @@ lint:
 # Format everything
 format:
   cd ./stardeck-playbook && npm run format
-  perltidy -b -bext='/' scripts/*.pl bin/stardeck-service
+  perltidy -b -bext='/' stardeck/Stardeck/*.pm stardeck/bin/*
 
 # Link tool
 link:
