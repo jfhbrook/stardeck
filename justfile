@@ -14,14 +14,14 @@ setup:
 
 # Lint everything
 lint:
-  perlcritic --harsh ./bin/stardeck-service  # TODO: Pass --cruel
-  shellcheck scripts/*.sh
+  just -f ./stardeck/justfile lint
   cd ./stardeck-playbook && npm run lint
+  shellcheck scripts/*.sh
 
 # Format everything
 format:
+  just -f ./stardeck/justfile format
   cd ./stardeck-playbook && npm run format
-  perltidy -b -bext='/' stardeck/Stardeck/*.pm stardeck/bin/*
 
 # Link tool
 link:
