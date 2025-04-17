@@ -7,3 +7,7 @@ lint:
 # Format everything
 format:
   perltidy -b -bext='/' ./Stardeck/lib/*.pm ./bin/*
+
+# Run tests
+test:
+  cd Stardeck && perl Makefile.PL && make test

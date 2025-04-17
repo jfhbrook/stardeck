@@ -5,11 +5,13 @@ use threads;
 use threads::shared;
 use warnings;
 
-use Croak 'croak';
+use Carp 'croak';
 use IPC::Run 'run';
-use Storable 'clone';
+use Storable 'dclone';
 use String::ShellQuote 'shell_quote';
 use Time::HiRes 'usleep';
+
+use constant WINDOW_POLL_INTERVAL => 200 * 10e3;
 
 =head1 NAME
 
@@ -34,7 +36,7 @@ A module for interacting with the Stardeck 1A Media Appliance.
 =cut
 
 sub kdotool {
-    my @command = @{ clone( \@_ ) };
+    my @command = @{ dclone( \@_ ) };
     unshift( @command, 'kdotool' );
 
     my $quoted = shell_quote @command;
@@ -83,6 +85,7 @@ sub window_worker {
     my $command_queue = shift;
     my $event_queue   = shift;
 
+    my $current = '';
     my $running = is_running($command_queue);
 
     while ($running) {
@@ -94,14 +97,14 @@ sub window_worker {
                 name => "${next}"
             );
 
-            $event_queoe->enqueue( \%event );
+            $event_queue->enqueue( \%event );
         }
         $current = $next;
 
         $running = is_running($command_queue);
 
         if ($running) {
-            usleep( $active_window_poll_interval * 10e6 );
+            usleep(WINDOW_POLL_INTERVAL);
         }
 
         $running = is_running($command_queue);
