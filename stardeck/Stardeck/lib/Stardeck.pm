@@ -1,8 +1,13 @@
 package Stardeck;
 
-use 5.006;
-use strict;
+use 5.040;
+use threads;
+use threads::shared;
 use warnings;
+
+use IPC::Run 'run';
+use String::ShellQuote 'shell_quote';
+use Time::HiRes 'usleep';
 
 =head1 NAME
 
@@ -35,18 +40,84 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 SUBROUTINES/METHODS
 
-=head2 function1
+=head2 kdotool
 
 =cut
 
-sub function1 {
+sub kdotool {
+    unshift(@_, 'kdotool');
+
+    my $quoted = shell_quote @_;
+
+    run( \@_, my $in, my $out, my $err )
+      or die "$quoted: $?";
+
+    my $res = <$out>;
+
+    chomp $res;
+
+    foreach (<$err>) {
+        print $_;
+    }
+
+    return $res;
 }
 
-=head2 function2
+=head2 get_window
 
 =cut
 
-sub function2 {
+sub get_window {
+    return kdotool('getactivewindow');
+}
+
+=head2 get_window_name
+
+=cut
+
+sub get_window_name {
+    my $window = get_window();
+    return kdotool('getwindowname', $window);
+}
+
+=head2 window_worker
+
+=cut
+
+my sub is_running {
+    my $command = $_->dequeue_nb();
+    return $command->{'type'} eq 'Stop';
+}
+
+sub window_worker {
+    my $command_queue = shift;
+    my $event_queue = shift;
+
+    my $running = is_running($command_queue);
+
+    while ($running) {
+        my $next = get_window_name();
+
+        if ( $next ne $current ) {
+            my %event = (
+                type => 'ActiveWindow',
+                name => "${next}"
+            );
+
+            $event_queoe->enqueue( \%event );
+        }
+        $current = $next;
+
+        $running = is_running($command_queue);
+
+        if ($running) {
+            usleep( $active_window_poll_interval * 10e6 );
+        }
+
+        $running = is_running($command_queue);
+    }
+
+    return;
 }
 
 =head1 AUTHOR
