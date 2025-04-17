@@ -13,7 +13,7 @@ use Time::HiRes 'usleep';
 
 =head1 NAME
 
-Stardeck - The great new Stardeck!
+Stardeck - Interface with the Stardeck 1A Media Appliance
 
 =head1 VERSION
 
@@ -25,19 +25,7 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Stardeck;
-
-    my $foo = Stardeck->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+A module for interacting with the Stardeck 1A Media Appliance.
 
 =head1 SUBROUTINES/METHODS
 
