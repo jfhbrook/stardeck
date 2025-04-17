@@ -6,3 +6,4 @@
       - perl-IPC-Run
       - perl-JSON
       - perl-Module-Starter
+      - perl-String-ShellQuote
