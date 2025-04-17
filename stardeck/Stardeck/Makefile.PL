@@ -9,7 +9,7 @@ my %WriteMakefileArgs = (
     VERSION_FROM     => 'lib/Stardeck.pm',
     ABSTRACT_FROM    => 'lib/Stardeck.pm',
     LICENSE          => 'artistic_2',
-    MIN_PERL_VERSION => '5.006',
+    MIN_PERL_VERSION => '5.038',
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },

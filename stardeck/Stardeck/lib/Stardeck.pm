@@ -1,6 +1,6 @@
 package Stardeck;
 
-use 5.040;
+use 5.038;
 use threads;
 use threads::shared;
 use warnings;
