@@ -58,8 +58,8 @@ sub kdotool {
 
     chomp $res;
 
-    foreach (<$err>) {
-        print $_;
+    while ( my $line = <$err> ) {
+        print $line;
     }
 
     return $res;
