@@ -6,6 +6,7 @@ use threads::shared;
 use warnings;
 
 use IPC::Run 'run';
+use Storable 'clone';
 use String::ShellQuote 'shell_quote';
 use Time::HiRes 'usleep';
 
@@ -20,7 +21,6 @@ Version 0.01
 =cut
 
 our $VERSION = '0.01';
-
 
 =head1 SYNOPSIS
 
@@ -45,11 +45,12 @@ if you don't export anything, such as for a purely object-oriented module.
 =cut
 
 sub kdotool {
-    unshift(@_, 'kdotool');
+    my @command = @{ clone( \@_ ) };
+    unshift( @command, 'kdotool' );
 
-    my $quoted = shell_quote @_;
+    my $quoted = shell_quote @command;
 
-    run( \@_, my $in, my $out, my $err )
+    run( \@command, my $in, my $out, my $err )
       or die "$quoted: $?";
 
     my $res = <$out>;
@@ -77,7 +78,7 @@ sub get_window {
 
 sub get_window_name {
     my $window = get_window();
-    return kdotool('getwindowname', $window);
+    return kdotool( 'getwindowname', $window );
 }
 
 =head2 window_worker
@@ -91,7 +92,7 @@ my sub is_running {
 
 sub window_worker {
     my $command_queue = shift;
-    my $event_queue = shift;
+    my $event_queue   = shift;
 
     my $running = is_running($command_queue);
 
@@ -173,4 +174,4 @@ This is free software, licensed under:
 
 =cut
 
-1; # End of Stardeck
+1;    # End of Stardeck
