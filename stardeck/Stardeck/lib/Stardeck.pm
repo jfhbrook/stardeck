@@ -5,6 +5,7 @@ use threads;
 use threads::shared;
 use warnings;
 
+use Croak 'croak';
 use IPC::Run 'run';
 use Storable 'clone';
 use String::ShellQuote 'shell_quote';
@@ -51,7 +52,7 @@ sub kdotool {
     my $quoted = shell_quote @command;
 
     run( \@command, my $in, my $out, my $err )
-      or die "$quoted: $?";
+      or croak "$quoted: $?";
 
     my $res = <$out>;
 
