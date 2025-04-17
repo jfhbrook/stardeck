@@ -5,3 +5,4 @@
       - kdotool
       - perl-IPC-Run
       - perl-JSON
+      - perl-Module-Starter
