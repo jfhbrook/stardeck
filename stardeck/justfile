@@ -2,8 +2,8 @@ set dotenv-load := true
 
 # Lint everything
 lint:
-  perlcritic --harsh ./Stardeck/*.pm ./bin/*  # TODO: Pass --cruel
+  perlcritic --harsh ./Stardeck/lib/*.pm ./bin/*  # TODO: Pass --cruel
 
 # Format everything
 format:
-  perltidy -b -bext='/' ./Stardeck/*.pm ./bin/*
+  perltidy -b -bext='/' ./Stardeck/lib/*.pm ./bin/*
