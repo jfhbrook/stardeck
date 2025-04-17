@@ -3,4 +3,5 @@
     state: present
     name:
       - kdotool
+      - perl-IPC-Run
       - perl-JSON
