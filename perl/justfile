@@ -7,13 +7,13 @@ new *args:
   carton run dzil new {{ args }}
 
 # Format everything
-format: setup
+format:
   carton run ./scripts/format.sh
 
 # Lint everything
-lint: setup
+lint:
   carton run ./scripts/lint.sh
 
 # Run tests
-test: setup
+test:
   carton run ./scripts/test.sh
