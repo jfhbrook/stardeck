@@ -10,4 +10,4 @@ lint:
 
 # Run tests
 test:
-  cd Stardeck && perl Makefile.PL && make test
+  carton run ./scripts/test.sh

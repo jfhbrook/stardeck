@@ -1,5 +1,7 @@
 package Stardeck::Window;
 
+# ABSTRACT: Poll the active window with kdotool
+
 use 5.038;
 use threads;
 use threads::shared;
