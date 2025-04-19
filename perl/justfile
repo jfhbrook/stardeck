@@ -1,12 +1,12 @@
 set dotenv-load := true
 
-# Lint everything
-lint:
-  carton run perlcritic --harsh ./Stardeck/lib/*.pm ./bin/*  # TODO: Pass --cruel
-
 # Format everything
 format:
-  carton run perltidy -b -bext='/' ./cpanfile ./Stardeck/lib/*.pm ./bin/*
+  carton run ./scripts/format.sh
+
+# Lint everything
+lint:
+  carton run ./scripts/lint.sh
 
 # Run tests
 test:
