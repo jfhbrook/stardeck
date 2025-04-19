@@ -8,6 +8,6 @@ find . \
      -o -name '*.t' \
      -o -name 'cpanfile' \
   \) \
-  ! -path './local/*' \
+  ! -path '*/local/*' \
   ! -path '*/.build/*' \
   -print0 | xargs -0 perltidy -b -bext='/'

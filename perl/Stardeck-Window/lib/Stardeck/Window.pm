@@ -17,7 +17,7 @@ Readonly::Scalar my $WINDOW_POLL_INTERVAL => 200 * 10e3;
 our $VERSION = '0.01';
 
 sub kdotool {
-    return run_command('kdotool', @_ );
+    return run_command( 'kdotool', @_ );
 }
 
 sub get_window {
