@@ -15,6 +15,8 @@ use Time::HiRes 'usleep';
 
 use constant WINDOW_POLL_INTERVAL => 200 * 10e3;
 
+our $VERSION = '0.01';
+
 sub kdotool {
     my @command = @{ dclone( \@_ ) };
     unshift( @command, 'kdotool' );
