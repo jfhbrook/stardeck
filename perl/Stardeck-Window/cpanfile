@@ -1,0 +1,1 @@
+requires 'Dist::Zilla',        '>= 6.032, < 7.0';

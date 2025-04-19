@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-if [ ! -d local ]; then
-  carton install
-fi
+carton install
 
-# find . -name 'dist.ini' \
-#   ! -path './local/*' \
-#   ! -path '*/.build/*' \
-#   -execdir pwd \;
+find . -name 'dist.ini' \
+  ! -path './local/*' \
+  ! -path '*/.build/*' \
+  -execdir bash ./scripts/setup.sh \;

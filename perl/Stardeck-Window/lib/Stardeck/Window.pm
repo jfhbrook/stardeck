@@ -7,35 +7,17 @@ use threads;
 use threads::shared;
 use warnings;
 
-use Carp 'croak';
-use IPC::Run 'run';
 use Readonly;
-use Storable 'dclone';
-use String::ShellQuote 'shell_quote';
 use Time::HiRes 'usleep';
+
+use Stardeck::Process 'run_command';
 
 Readonly::Scalar my $WINDOW_POLL_INTERVAL => 200 * 10e3;
 
 our $VERSION = '0.01';
 
 sub kdotool {
-    my @command = @{ dclone( \@_ ) };
-    unshift( @command, 'kdotool' );
-
-    my $quoted = shell_quote @command;
-
-    run( \@command, my $in, my $out, my $err )
-      or croak "$quoted: $?";
-
-    my $res = <$out>;
-
-    chomp $res;
-
-    while ( my $line = <$err> ) {
-        print $line;
-    }
-
-    return $res;
+    return run_command('kdotool', @_ );
 }
 
 sub get_window {
