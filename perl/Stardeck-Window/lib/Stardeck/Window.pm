@@ -9,11 +9,12 @@ use warnings;
 
 use Carp 'croak';
 use IPC::Run 'run';
+use Readonly;
 use Storable 'dclone';
 use String::ShellQuote 'shell_quote';
 use Time::HiRes 'usleep';
 
-use constant WINDOW_POLL_INTERVAL => 200 * 10e3;
+Readonly::Scalar my $WINDOW_POLL_INTERVAL => 200 * 10e3;
 
 our $VERSION = '0.01';
 
@@ -74,7 +75,7 @@ sub window_worker {
         $running = is_running($command_queue);
 
         if ($running) {
-            usleep(WINDOW_POLL_INTERVAL);
+            usleep($WINDOW_POLL_INTERVAL);
         }
 
         $running = is_running($command_queue);
