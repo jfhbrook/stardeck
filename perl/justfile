@@ -3,6 +3,9 @@ set dotenv-load := true
 setup:
   ./scripts/setup.sh
 
+new *args:
+  carton run dzil new {{ args }}
+
 # Format everything
 format: setup
   carton run ./scripts/format.sh
