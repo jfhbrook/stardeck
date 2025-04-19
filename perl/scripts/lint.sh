@@ -8,7 +8,7 @@ find . \
   \( -name '*.pl' \
      -o -name '*.pm' \
   \) \
-  ! -path './local/*' \
+  ! -path '*/local/*' \
   ! -path '*/.build/*' \
   -print0 | xargs -0 perlcritic --harsh
 

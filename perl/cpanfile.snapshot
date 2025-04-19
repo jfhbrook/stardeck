@@ -2253,18 +2253,18 @@ DISTRIBUTIONS
       perl 5.012
       strict 0
       warnings 0
-  MooseX-Types-0.50
-    pathname: E/ET/ETHER/MooseX-Types-0.50.tar.gz
+  MooseX-Types-0.51
+    pathname: E/ET/ETHER/MooseX-Types-0.51.tar.gz
     provides:
-      MooseX::Types 0.50
-      MooseX::Types::Base 0.50
-      MooseX::Types::CheckedUtilExports 0.50
-      MooseX::Types::Combine 0.50
-      MooseX::Types::Moose 0.50
-      MooseX::Types::TypeDecorator 0.50
-      MooseX::Types::UndefinedType 0.50
-      MooseX::Types::Util 0.50
-      MooseX::Types::Wrapper 0.50
+      MooseX::Types 0.51
+      MooseX::Types::Base 0.51
+      MooseX::Types::CheckedUtilExports 0.51
+      MooseX::Types::Combine 0.51
+      MooseX::Types::Moose 0.51
+      MooseX::Types::TypeDecorator 0.51
+      MooseX::Types::UndefinedType 0.51
+      MooseX::Types::Util 0.51
+      MooseX::Types::Wrapper 0.51
     requirements:
       Carp 0
       Carp::Clan 6.00
@@ -2279,10 +2279,11 @@ DISTRIBUTIONS
       Sub::Exporter 0
       Sub::Exporter::ForMethods 0.100052
       Sub::Install 0
-      Sub::Name 0
+      Sub::Util 0
       base 0
       namespace::autoclean 0.16
       overload 0
+      parent 0
       perl 5.008
       strict 0
       warnings 0
@@ -3353,17 +3354,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.78
       Scalar::Util 0
       perl 5.008000
-      strict 0
-      warnings 0
-  Sub-Name-0.28
-    pathname: E/ET/ETHER/Sub-Name-0.28.tar.gz
-    provides:
-      Sub::Name 0.28
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      XSLoader 0
-      perl 5.006
       strict 0
       warnings 0
   Sub-Quote-2.006008
