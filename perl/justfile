@@ -1,13 +1,16 @@
 set dotenv-load := true
 
+setup:
+  ./scripts/setup.sh
+
 # Format everything
-format:
+format: setup
   carton run ./scripts/format.sh
 
 # Lint everything
-lint:
+lint: setup
   carton run ./scripts/lint.sh
 
 # Run tests
-test:
+test: setup
   carton run ./scripts/test.sh
