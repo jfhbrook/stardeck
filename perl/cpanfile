@@ -3,3 +3,4 @@ requires 'JSON', '4.10';
 requires 'IPC::Run', '20231003.0';
 requires 'String::ShellQuote', '1.04';
 requires 'Perl::Tidy', '20250311';
+requires 'Dist::Zilla', '6.032';
