@@ -1,6 +1,6 @@
-requires 'Perl::Critic', '1.156';
-requires 'JSON', '4.10';
-requires 'IPC::Run', '20231003.0';
-requires 'String::ShellQuote', '1.04';
-requires 'Perl::Tidy', '20250311';
-requires 'Dist::Zilla', '6.032';
+requires 'Dist::Zilla',        '>= 6.032, < 7.0';
+requires 'IPC::Run',           '20231003.0';
+requires 'JSON',               '>= 4.10, < 5.0';
+requires 'Perl::Critic',       '>= 1.156, < 2.0';
+requires 'Perl::Tidy',         '20250311';
+requires 'String::ShellQuote', '>= 1.04, < 2.0';

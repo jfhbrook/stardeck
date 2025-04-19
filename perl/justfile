@@ -6,7 +6,7 @@ lint:
 
 # Format everything
 format:
-  carton run perltidy -b -bext='/' ./Stardeck/lib/*.pm ./bin/*
+  carton run perltidy -b -bext='/' ./cpanfile ./Stardeck/lib/*.pm ./bin/*
 
 # Run tests
 test:
