@@ -761,6 +761,16 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Devel-Symdump-2.18
+    pathname: A/AN/ANDK/Devel-Symdump-2.18.tar.gz
+    provides:
+      Devel::Symdump 2.18
+      Devel::Symdump::Export undef
+    requirements:
+      Compress::Zlib 0
+      ExtUtils::MakeMaker 0
+      Test::More 0
+      perl 5.004
   Dist-CheckConflicts-0.11
     pathname: D/DO/DOY/Dist-CheckConflicts-0.11.tar.gz
     provides:
@@ -3020,6 +3030,20 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
+  Pod-Coverage-0.23
+    pathname: R/RC/RCLAMP/Pod-Coverage-0.23.tar.gz
+    provides:
+      Pod::Coverage 0.23
+      Pod::Coverage::CountParents undef
+      Pod::Coverage::ExportOnly undef
+      Pod::Coverage::Extractor 0.23
+      Pod::Coverage::Overloader undef
+    requirements:
+      Devel::Symdump 2.01
+      ExtUtils::MakeMaker 0
+      Pod::Find 0.21
+      Pod::Parser 1.13
+      Test::More 0
   Pod-Parser-1.67
     pathname: M/MA/MAREKR/Pod-Parser-1.67.tar.gz
     provides:
@@ -3402,6 +3426,22 @@ DISTRIBUTIONS
       Term::ReadKey 2.38
     requirements:
       ExtUtils::MakeMaker 6.58
+  Test-CheckManifest-1.43
+    pathname: R/RE/RENEEB/Test-CheckManifest-1.43.tar.gz
+    provides:
+      Test::CheckManifest 1.43
+    requirements:
+      Carp 0
+      Cwd 3.75
+      Data::Dumper 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Find 0
+      File::Spec 0
+      Scalar::Util 0
+      Test::Builder 0
+      Test::More 0
+      perl 5.008
   Test-Deep-1.205
     pathname: R/RJ/RJBS/Test-Deep-1.205.tar.gz
     provides:
@@ -3473,6 +3513,28 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.78
       Test::Builder 0
       Try::Tiny 0.07
+      strict 0
+      warnings 0
+  Test-Pod-1.52
+    pathname: E/ET/ETHER/Test-Pod-1.52.tar.gz
+    provides:
+      Test::Pod 1.52
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Find 0
+      Pod::Simple 3.05
+      Test::Builder::Tester 1.02
+      Test::More 0.62
+      perl 5.008
+  Test-Pod-Coverage-1.10
+    pathname: N/NE/NEILB/Test-Pod-Coverage-1.10.tar.gz
+    provides:
+      Test::Pod::Coverage 1.10
+    requirements:
+      ExtUtils::MakeMaker 0
+      Pod::Coverage 0
+      Test::Builder 0
+      perl 5.006
       strict 0
       warnings 0
   Text-Glob-0.11
