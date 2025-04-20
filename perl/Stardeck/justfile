@@ -6,16 +6,20 @@ setup:
   carton install
 
 new *args:
-  carton run dzil new {{ args }}
+  just dzil new {{ args }}
 
 # Format everything
 format:
-  carton run ./scripts/format.sh
+  carton exec ./scripts/format.sh
 
 # Lint everything
 lint:
-  carton run ./scripts/lint.sh
+  carton exec ./scripts/lint.sh
 
 # Run tests
 test:
-  carton run dzil test
+  just dzil test
+
+# Run dzil
+dzil *args:
+  carton exec -- dzil {{ args }}
