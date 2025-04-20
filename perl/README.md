@@ -9,3 +9,5 @@ Pardon our dust!
 - [ ] Write/test everything else lol
 - [ ] Install `perlbrew`
 - [ ] Can `dzil` replace `carton`?
+- [ ] Get `--release` tests passing
+  - Mostly documentation coverage
