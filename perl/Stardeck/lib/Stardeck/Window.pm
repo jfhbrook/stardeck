@@ -7,14 +7,14 @@ use threads;
 use threads::shared;
 use warnings;
 
+our $VERSION = '0.01';
+
 use Readonly;
 use Time::HiRes 'usleep';
 
 use Stardeck::Process 'run_command';
 
 Readonly::Scalar my $WINDOW_POLL_INTERVAL => 200 * 10e3;
-
-our $VERSION = '0.01';
 
 sub kdotool {
     return run_command( 'kdotool', @_ );

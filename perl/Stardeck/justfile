@@ -1,7 +1,9 @@
 set dotenv-load := true
 
+default: format test lint
+
 setup:
-  ./scripts/setup.sh
+  carton install
 
 new *args:
   carton run dzil new {{ args }}
@@ -16,4 +18,4 @@ lint:
 
 # Run tests
 test:
-  carton run ./scripts/test.sh
+  carton run dzil test
