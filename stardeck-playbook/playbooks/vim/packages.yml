@@ -2,9 +2,10 @@
   ansible.builtin.dnf:
     state: present
     name:
-      - fzf
       - bat
+      - ctags
+      - fzf
+      - perl
       - ripgrep
       - the_silver_searcher
-      - perl
-      - ctags
+      - vim

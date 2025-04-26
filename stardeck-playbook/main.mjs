@@ -125,6 +125,7 @@ export async function main() {
   // Core playbooks
   //
   await ansible([
+    { name: 'vim', playbook: 'vim/main.yml' },
     { name: 'logind', playbook: 'core/logind.yml' },
     { name: 'sddm', playbook: 'core/sddm.yml' },
     { name: 'cockpit', playbook: 'cockpit/main.yml' },
@@ -138,10 +139,6 @@ export async function main() {
     { name: 'mopidy', playbook: 'mopidy/main.yml' },
     { name: 'filesharing', playbook: 'filesharing/main.yml' },
   ]);
-
-  // TODO: Uses dnf and is flakey when run in parallel with other tasks.
-  // This is unfortunate, because this one takes a really long time.
-  await ansible('vim/main.yml');
 
   await ansible([
     { name: 'git', playbook: 'development/git.yml' },

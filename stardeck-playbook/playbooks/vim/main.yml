@@ -8,8 +8,7 @@
       vars:
         shell_user: '{{ item.key }}'
         vim_owner: '{{ item.key }}'
-        vim_installed_packages: []
-        vim_removed_packages: []
+        vim_manage_packages: false
         vim_installed_plugins:
           - name: dracula
             repo: 'https://github.com/dracula/vim.git'
