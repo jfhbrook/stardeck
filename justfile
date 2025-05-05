@@ -27,10 +27,6 @@ format:
 link:
   ./scripts/link-justfile.sh ./justfile stardeck
 
-# Log into stardeck
-login:
-  ssh '{{ destination }}'
-
 # Get the status of the repo and of yadm
 status:
   git status
