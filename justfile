@@ -39,7 +39,7 @@ playbook:
 
 # Run stardeck-playbook
 stardeck-playbook *ARGV:
-  @bash ./scripts/playbook.sh {{ ARGV }}
+  cd ./stardeck-playbook && sudo -E node main.mjs {{ ARGV }}
 
 # Generate an SSH key
 ssh-keygen:

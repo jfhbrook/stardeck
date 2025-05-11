@@ -86,7 +86,7 @@ export function findConfigFile(filename) {
         }
       }
     }
-    logger.debug(`Found ${filename} at ${FOUND_FILES[filename]}`);
+    logger.info(`Found ${filename} at ${FOUND_FILES[filename]}`);
   }
   return FOUND_FILES[filename];
 }
