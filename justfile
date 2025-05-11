@@ -14,7 +14,7 @@ setup:
 
 # Lint everything
 lint:
-  just -f ./stardeck/justfile lint
+  just -f ./perl/Stardeck/justfile lint
   cd ./stardeck-playbook && npm run lint
   shellcheck scripts/*.sh
 
@@ -32,10 +32,12 @@ status:
   git status
   yadm status
 
-# Run playbooks
-playbook:
+# Run updates
+update:
   @bash ./scripts/playbook-dependencies.sh
   @just stardeck-playbook
+
+playbook: update
 
 # Run stardeck-playbook
 stardeck-playbook *ARGV:

@@ -35,13 +35,19 @@
       - the_silver_searcher
       - tmux
       - yq
-      # watchexec
-      - 'https://github.com/watchexec/watchexec/releases/download/v{{ watchexec_version }}/watchexec-{{ watchexec_version }}-x86_64-unknown-linux-musl.rpm'
       # yadm
       - yadm
       # other
       - python3-ansible-lint
       - shellcheck
     state: present
+- name: Install Watchexec
+  # TODO: Using the dnf module here yields an error...
+  ansible.builtin.command:
+    argv:
+      - dnf
+      - install
+      - '-y'
+      - 'https://github.com/watchexec/watchexec/releases/download/v{{ watchexec_version }}/watchexec-{{ watchexec_version }}-x86_64-unknown-linux-musl.rpm'
   vars:
-    watchexec_version: '2.2.1'
+    watchexec_version: '2.3.0'
