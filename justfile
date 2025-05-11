@@ -37,12 +37,6 @@ playbook:
   @bash ./scripts/playbook-dependencies.sh
   @just stardeck-playbook
 
-# Run updates
-update:
-  @just playbook
-  bash ./scripts/sync-yadm.sh
-  @just status
-
 # Run stardeck-playbook
 stardeck-playbook *ARGV:
   @bash ./scripts/playbook.sh {{ ARGV }}
