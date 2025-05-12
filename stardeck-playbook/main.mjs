@@ -98,7 +98,7 @@ export async function main() {
       extraVars: {
         stardeck_config_home: stardeckConfigHome,
         ansible_config_home: ansibleConfigHome,
-        ...(options.extraVars || {}),
+        ...(options?.extraVars || {}),
       },
       configFile: ansibleConfigFile,
       serial,
