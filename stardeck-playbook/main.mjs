@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import path from 'node:path';
 import process from 'node:process';
 
 import minimist from 'minimist';
@@ -84,6 +85,9 @@ export async function main() {
     ansibleConfigFile = findAnsibleConfig();
   }
 
+  const stardeckConfigHome = path.dirname(configFile);
+  const ansibleConfigHome = path.dirname(ansibleConfigFile);
+
   async function ansible(stage, options) {
     const opts = {
       // TODO: Allow setting ansible verbosity separately
@@ -91,6 +95,11 @@ export async function main() {
       check,
       diff,
       varFiles: [configFile],
+      extraVars: {
+        stardeck_config_home: stardeckConfigHome,
+        ansible_config_home: ansibleConfigHome,
+        ...(options.extraVars || {}),
+      },
       configFile: ansibleConfigFile,
       serial,
       ...options,
