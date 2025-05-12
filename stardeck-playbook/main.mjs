@@ -144,6 +144,7 @@ export async function main() {
     { name: 'git', playbook: 'development/git.yml' },
     { name: 'gomplate', playbook: 'development/gomplate.yml' },
     { name: 'neovim', playbook: 'development/neovim.yml' },
+    { name: 'node', playbook: 'development/node-dev.yml' },
     { name: 'rust', playbook: 'development/rust-dev/main.yml' },
     { name: 'starship', playbook: 'development/starship.yml' },
   ]);

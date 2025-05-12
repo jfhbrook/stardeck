@@ -15,9 +15,9 @@
     - name: Install Node.js
       become: true
       become_user: '{{ item.key }}'
-      ansible.builtin.shell: >
-        export VOLTA_HOME="/home/{{ item.key }}/.volta";
-        export PATH="$VOLTA_HOME/bin:$PATH";
+      ansible.builtin.shell: |
+        export VOLTA_HOME="/home/{{ item.key }}/.volta"
+        export PATH="$VOLTA_HOME/bin:$PATH"
 
         '/home/{{ item.key }}/.volta/bin/volta' install node
       when: development
