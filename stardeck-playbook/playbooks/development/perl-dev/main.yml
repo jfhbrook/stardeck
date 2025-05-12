@@ -1,0 +1,13 @@
+- name: Perl Development Tools
+  hosts: all
+  connection: local
+  become: true
+  tasks:
+    - name: 'Set up perlbrew'
+      include_tasks: ./perlbrew.yml
+      loop: '{{ users | dict2items }}'
+      when: development
+      loop_control:
+        loop_var: user
+  vars:
+    perlbrew_perl_version: '5.40.2'

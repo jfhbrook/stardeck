@@ -145,6 +145,7 @@ export async function main() {
     { name: 'gomplate', playbook: 'development/gomplate.yml' },
     { name: 'neovim', playbook: 'development/neovim.yml' },
     { name: 'node', playbook: 'development/node-dev.yml' },
+    { name: 'perl', playbook: 'development/perl-dev/main.yml' },
     { name: 'rust', playbook: 'development/rust-dev/main.yml' },
     { name: 'starship', playbook: 'development/starship.yml' },
   ]);
@@ -164,4 +165,6 @@ export async function main() {
   } catch (err) {
     logger.fatal(err);
   }
+
+  logger.info('ok');
 })();

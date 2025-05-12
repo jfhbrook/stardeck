@@ -10,7 +10,9 @@
       - neovim
       # perl dev
       - perl
+      - perlbrew
       - perl-Carton
+      - perl-Dist-Zilla
       - perl-Perl-Critic
       # python dev
       - uv

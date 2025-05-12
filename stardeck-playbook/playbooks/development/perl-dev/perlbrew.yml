@@ -1,0 +1,42 @@
+- name: Init perlbrew
+  become_user: '{{ user.key }}'
+  ansible.builtin.command:
+    argv:
+      - perlbrew
+      - init
+    creates: '/home/{{ user.key }}/perl5/perlbrew/etc/bashrc'
+- name: Check if perl {{ perlbrew_perl_version }} is installed
+  become_user: '{{ user.key }}'
+  ansible.builtin.shell:
+    cmd: |
+      source ~/perl5/perlbrew/etc/bashrc
+
+      if [[ "$(perlbrew list)" == *perl-{{ perlbrew_perl_version }}* ]]; then
+        echo 1
+      fi
+  register: perlbrew_perl_version_check
+
+- name: 'Install perl {{ perlbrew_perl_version }}'
+  become_user: '{{ user.key }}'
+  ansible.builtin.shell:
+    cmd: |
+      source ~/perl5/perlbrew/etc/bashrc
+
+      perlbrew install perl-{{ perlbrew_perl_version }} -f -j 4 --thread --multi --switch
+  when: perlbrew_perl_version_check.stdout == ''
+- name: Install cpanm
+  become_user: '{{ user.key }}'
+  ansible.builtin.shell:
+    cmd: |
+      source ~/perl5/perlbrew/etc/bashrc
+
+      perlbrew install-cpm
+    creates: '/home/{{ user.key }}/perl5/perlbrew/bin/cpanm'
+- name: 'Install {{ item.package }}'
+  become_user: '{{ user.key }}'
+  ansible.builtin.shell:
+    cmd: |
+      source ~/perl5/perlbrew/etc/bashrc
+
+      cpanm {{ item.package }} {{ '--force' if item.force == 'true' else '' }}
+  loop: []
