@@ -10,6 +10,8 @@
       - neovim
       # perl dev
       - perl
+      - perl-App-cpanminus
+      - perl-App-cpm
       - perlbrew
       - perl-Carton
       - perl-Dist-Zilla
