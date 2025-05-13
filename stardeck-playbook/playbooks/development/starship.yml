@@ -1,16 +1,27 @@
 - name: Starship
   hosts: all
   connection: local
-  become: true
   tasks:
+    - name: Check if Starship is installed
+      ansible.builtin.stat:
+        path: /usr/local/bin/starship
+      register: starship_bin
     - name: Download install script
       ansible.builtin.get_url:
         url: https://starship.rs/install.sh
         dest: /tmp/install-starship.sh
+      when: not starship_bin.stat.executable
     - name: Install Starship
+      become: true
       ansible.builtin.command:
         argv:
           - sh
           - /tmp/install-starship.sh
           - --yes
         creates: /usr/local/bin/starship
+      when: not starship_bin.stat.executable
+    - name: Remove install script
+      ansible.builtin.file:
+        path: /tmp/install-starship.sh
+        state: absent
+      when: not starship_bin.stat.executable

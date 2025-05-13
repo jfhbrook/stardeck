@@ -7,3 +7,5 @@
       - update
       - '{{ item }}'
   loop: '{{ rust_toolchains }}'
+  register: rustup_update
+  changed_when: '"unchanged" not in rustup_update.stdout'
