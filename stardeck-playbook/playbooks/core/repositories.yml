@@ -9,6 +9,8 @@
   loop:
     - free
     - nonfree
+  register: rpmfusion_install
+  changed_when: '"Nothing to do." not in rpmfusion_install.stdout'
 - name: Enable fedora-cisco-openh264
   ansible.builtin.command:
     argv:
