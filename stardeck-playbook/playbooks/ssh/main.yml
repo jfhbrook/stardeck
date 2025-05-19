@@ -16,3 +16,13 @@
       loop: '{{ users | dict2items }}'
       loop_control:
         loop_var: user
+    - name: Add SSH agent to ~/.bashrc
+      ansible.builtin.blockinfile:
+        path: '/home/{{ item.key }}/.bashrc'
+        marker: '# {mark} SSH agent'
+        marker_begin: Begin
+        marker_end: End
+        prepend_newline: true
+        append_newline: true
+        block: 'eval "$(ssh-agent -s)" > /dev/null'
+      loop: '{{ users | dict2items }}'

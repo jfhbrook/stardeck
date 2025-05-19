@@ -22,6 +22,17 @@
         creates: '/home/{{ item.key }}/.cargo'
       when: development
       loop: '{{ users | dict2items }}'
+    - name: Add Cargo to ~/.bashrc
+      ansible.builtin.blockinfile:
+        path: '/home/{{ item.key }}/.bashrc'
+        marker: '# {mark} Cargo'
+        marker_begin: Begin
+        marker_end: End
+        prepend_newline: true
+        append_newline: true
+        block: '. "$HOME/.cargo/env"'
+      when: development
+      loop: '{{ users | dict2items }}'
     - name: Update Rust Toolchains
       include_tasks: ./toolchains.yml
       when: development
