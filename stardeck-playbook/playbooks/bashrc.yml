@@ -1,0 +1,12 @@
+- name: ~/.bashrc
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: 'Set ~/.bashrc for user'
+      ansible.builtin.template:
+        src: 'bashrc.j2'
+        dest: '/home/{{ item.key }}/.bashrc'
+        owner: '{{ item.key }}'
+        group: '{{ item.key }}'
+        mode: '0644'
+      loop: '{{ users | dict2items }}'

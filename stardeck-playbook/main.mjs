@@ -159,13 +159,13 @@ export async function main() {
     { name: 'starship', playbook: 'development/starship.yml' },
   ]);
 
-  // TODO: Yadm will attempt to use the user's SSH agent, which makes running
-  // this REALLY awkward. For now, assume the user will run their own dotfiles
-  // updates. Still, this is stubbed, in case I do want to automate it later.
   //
-  // NOTE: Depends on git
+  // Set up bashrc
+  //
 
-  // await ansible('development/yadm.yml');
+  if (update) {
+    await ansible('bashrc.yml');
+  }
 }
 
 (async () => {
