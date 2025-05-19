@@ -25,14 +25,3 @@
         path: /tmp/install-starship.sh
         state: absent
       when: not starship_bin.stat.executable
-    - name: Add Starship to ~/.bashrc
-      ansible.builtin.blockinfile:
-        path: '/home/{{ item.key }}/.bashrc'
-        marker: '# {mark} Starship'
-        marker_begin: Begin
-        marker_end: End
-        prepend_newline: true
-        append_newline: true
-        block: 'eval "$(starship init bash)"'
-      when: development
-      loop: '{{ users | dict2items }}'
