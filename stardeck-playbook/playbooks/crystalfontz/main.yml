@@ -1,6 +1,8 @@
 - name: Crystalfontz
   hosts: localhost
   connection: local
+  tags:
+    - crystalfontz
   tasks:
     - name: Create crystalfontz group
       ansible.builtin.group:

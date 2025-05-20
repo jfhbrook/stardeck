@@ -65,12 +65,12 @@ export function ansiblePlaybookArgv(
     );
   }
 
-  if (tags) {
+  if (tags && tags.length) {
     argv.push('--tags');
     argv.push(tags.join(','));
   }
 
-  if (skipTags) {
+  if (skipTags && skipTags.length) {
     argv.push('--skip-tags');
     argv.push(skipTags.join(','));
   }

@@ -4,3 +4,5 @@
       - samba
       - kdenetwork-filesharing
     state: present
+  tags:
+    - filesharing

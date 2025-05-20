@@ -1,6 +1,8 @@
 - name: Vim
   hosts: localhost
   connection: local
+  tags:
+    - vim
   tasks:
     - name: 'Configure Vim for each user'
       ansible.builtin.include_role:

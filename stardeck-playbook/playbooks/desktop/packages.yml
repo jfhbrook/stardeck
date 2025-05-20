@@ -7,3 +7,5 @@
       # kitty
       - kitty
     state: present
+  tags:
+    - desktop

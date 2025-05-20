@@ -1,6 +1,8 @@
 - name: Plusdeck
   hosts: localhost
   connection: local
+  tags:
+    - plusdeck
   tasks:
     - name: Create plusdeck group
       ansible.builtin.group:

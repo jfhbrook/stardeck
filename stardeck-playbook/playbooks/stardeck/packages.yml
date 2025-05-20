@@ -7,3 +7,5 @@
       - perl-JSON
       - perl-Module-Starter
       - perl-String-ShellQuote
+  tags:
+    - stardeck

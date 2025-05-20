@@ -2,6 +2,8 @@
   ansible.builtin.rpm_key:
     state: present
     key: 'https://downloads.1password.com/linux/keys/1password.asc'
+  tags:
+    - desktop
 - name: Add 1password Repository
   ansible.builtin.yum_repository:
     name: '1password'
@@ -10,3 +12,5 @@
     file: '1password'
     baseurl: 'https://downloads.1password.com/linux/rpm/stable/$basearch'
     gpgcheck: true
+  tags:
+    - desktop

@@ -1,4 +1,6 @@
 - name: Set up RPM Fusion
+  tags:
+    - core
   # TODO: Using the dnf module here yields an error...
   ansible.builtin.command:
     argv:
@@ -12,6 +14,8 @@
   register: rpmfusion_install
   changed_when: '"Nothing to do." not in rpmfusion_install.stdout'
 - name: Enable fedora-cisco-openh264
+  tags:
+    - core
   ansible.builtin.command:
     argv:
       - dnf
@@ -19,6 +23,8 @@
       - setopt
       - fedora-cisco-openh264.enabled=1
 - name: Enable Joshiverse COPR
+  tags:
+    - core
   community.general.copr:
     name: jfhbrook/joshiverse
     state: enabled

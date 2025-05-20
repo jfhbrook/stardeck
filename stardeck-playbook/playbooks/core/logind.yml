@@ -1,6 +1,8 @@
 - name: LoginD
   hosts: localhost
   connection: local
+  tags:
+    - core
   tasks:
     - name: Write logind.conf
       ansible.builtin.copy:

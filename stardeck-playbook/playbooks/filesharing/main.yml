@@ -1,6 +1,8 @@
 - name: File Sharing
   hosts: all
   connection: local
+  tags:
+    - filesharing
   tasks:
     - name: 'Add {{ item.name }} to usershares group'
       ansible.builtin.user:

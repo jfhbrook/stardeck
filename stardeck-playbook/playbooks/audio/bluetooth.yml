@@ -1,6 +1,8 @@
 - name: Bluetooth
   hosts: localhost
   connection: local
+  tags:
+    - audio
   tasks:
     - name: Write source.conf
       ansible.builtin.copy:

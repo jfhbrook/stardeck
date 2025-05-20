@@ -1,6 +1,8 @@
 - name: PulseAudio
   hosts: localhost
   connection: local
+  tags:
+    - audio
   tasks:
     - name: Enable pipewire-pulse service
       become: true

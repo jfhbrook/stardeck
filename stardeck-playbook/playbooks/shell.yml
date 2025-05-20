@@ -1,6 +1,8 @@
 - name: Shell Hooks
   hosts: localhost
   connection: local
+  tags:
+    - shell
   tasks:
     - name: SSH
       include_tasks: ./ssh/shell.yml

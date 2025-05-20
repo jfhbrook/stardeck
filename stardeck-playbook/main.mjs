@@ -30,6 +30,21 @@ ENVIRONMENT:
   ANSIBLE_CONFIG         A path to an ansible.cfg configuration file.
   STARDECK_CONFIG_FILE   A path to a stardeck.yml configuration file.
   STARDECK_CONFIG_HOME   A directory containing stardeck configuration files.
+
+FEATURES:
+  core
+  audio
+  cockpit
+  crystalfontz
+  desktop
+  dialout
+  filesharing
+  mopidy
+  plusdeck
+  ssh
+  stardeck
+  vim
+  shell
 `;
 
 export async function main() {
@@ -70,6 +85,8 @@ export async function main() {
     features = [features];
   }
 
+  const tags = features.length ? features.concat('update') : [];
+
   const check = argv['dry-run'];
   const diff = check;
   const update = argv.update;
@@ -102,6 +119,7 @@ export async function main() {
       },
       configFile: ansibleConfigFile,
       serial,
+      tags,
       ...options,
     };
     if (typeof stage === 'string') {

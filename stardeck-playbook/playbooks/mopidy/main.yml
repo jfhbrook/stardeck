@@ -1,6 +1,8 @@
 - name: Mopidy
   hosts: localhost
   connection: local
+  tags:
+    - mopidy
   tasks:
     - name: Enable service
       ansible.builtin.systemd_service:

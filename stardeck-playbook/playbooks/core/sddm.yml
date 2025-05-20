@@ -1,6 +1,8 @@
 - name: SDDM
   hosts: localhost
   connection: local
+  tags:
+    - core
   tasks:
     - name: Write SDDM config
       ansible.builtin.copy:

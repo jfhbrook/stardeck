@@ -1,6 +1,8 @@
 - name: System Update
   hosts: all
   connection: local
+  tags:
+    - update
   tasks:
     - name: Update packages
       ansible.builtin.dnf:

@@ -1,6 +1,8 @@
 - name: SSH
   hosts: localhost
   connection: local
+  tags:
+    - ssh
   tasks:
     - name: Enable ssh-agent
       become: true

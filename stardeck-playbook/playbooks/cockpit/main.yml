@@ -1,6 +1,8 @@
 - name: Cockpit
   hosts: localhost
   connection: local
+  tags:
+    - cockpit
   tasks:
     - name: Enable service
       ansible.builtin.systemd_service:

@@ -1,6 +1,8 @@
 - name: Dialout
   hosts: localhost
   connection: local
+  tags:
+    - dialout
   tasks:
     - name: Add user to dialout group
       ansible.builtin.user:

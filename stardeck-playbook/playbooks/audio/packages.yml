@@ -6,6 +6,8 @@
     fi
   register: ffmpeg_enabled_check
   changed_when: false
+  tags:
+    - audio
 - name: Switch DNF to Full FFMpeg
   ansible.builtin.shell: |
     dnf swap ffmpeg-free ffmpeg --allowerasing

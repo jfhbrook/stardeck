@@ -1,6 +1,8 @@
 - name: Pipewire
   hosts: localhost
   connection: local
+  tags:
+    - audio
   tasks:
     - name: Create /etc/pipewire
       ansible.builtin.file:

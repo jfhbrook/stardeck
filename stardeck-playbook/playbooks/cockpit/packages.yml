@@ -3,3 +3,5 @@
     state: present
     name:
       - cockpit
+  tags:
+    - cockpit

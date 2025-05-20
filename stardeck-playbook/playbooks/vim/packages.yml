@@ -9,3 +9,5 @@
       - ripgrep
       - the_silver_searcher
       - vim
+  tags:
+    - vim
