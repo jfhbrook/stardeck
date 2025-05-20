@@ -17,5 +17,6 @@ if ! which just > /dev/null; then
 fi
 
 if [ -n "${DNF_PACKAGES:-}" ]; then
+  set -x
   sudo dnf install -y "${DNF_PACKAGES[@]}"
 fi

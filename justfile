@@ -35,12 +35,10 @@ status:
 # Run updates
 update:
   @bash ./scripts/playbook-dependencies.sh
-  @just stardeck-playbook
-
-playbook: update
+  @just playbook
 
 # Run stardeck-playbook
-stardeck-playbook *ARGV:
+playbook *ARGV:
   cd ./stardeck-playbook && sudo -E node main.mjs {{ ARGV }}
 
 # Generate an SSH key
