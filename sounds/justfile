@@ -1,0 +1,42 @@
+download-win3x-sounds:
+  mkdir -p win3x
+  curl -L https://winsounds.com/downloads/Windows3x.zip -o win3x/Windows3x.zip
+  cd win3x && unzip Windows3x.zip
+  rm -f win3x/Windows3x.zip
+
+download-winxp-sounds:
+  mkdir -p sounds/winxp
+  curl -L 'https://archive.org/compress/windowsxpstartup_201910/formats=VBR%20MP3&file=/windowsxpstartup_201910.zip' -o sounds/winxp/windowsxp.zip
+  cd sounds/winxp && unzip windowsxp.zip
+  rm -f sounds/winxp/windowsxp.zip
+
+download-bt-sounds:
+  mkdir -p bt
+  curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-is-ready-to-pair.mp3 -o bt/the-bluetooth-device-is-ready-to-pair.mp3
+  curl -L https://www.myinstants.com/media/sounds/the-bluetooth-device-its-connected-succesfull.mp3 -o bt/the-bluetooth-device-its-connected-succesfull.mp3
+
+download-floppy-sounds:
+  mkdir -p floppy
+  yt-dlp --extract-audio https://www.youtube.com/watch?v=o_quPha61D0 --audio-format wav --output floppy/full.wav
+  @just cut-floppy-sounds
+
+cut-floppy-sounds:
+  ffmpeg -y -ss 23 -t 7 -i floppy/full.wav floppy/start.mp3
+
+download-videlectrix-sounds:
+  mkdir -p videlectrix
+  yt-dlp --extract-audio https://www.youtube.com/watch?v=xBmxHT2SUXg --audio-format wav --output videlectrix/full.wav
+  @just cut-videlectrix-sounds
+
+cut-videlectrix-sounds:
+  ffmpeg -y -ss 3 -t '5.5' -i videlectrix/full.wav videlectrix/start.mp3
+
+download-sounds:
+  @just download-win3x-sounds
+  @just download-winxps-ounds
+  @just download-bt-sounds
+  @just download-floppy-sounds
+  @just download-videlectrix-sounds
+
+play FILE:
+  ffplay '{{FILE}}' -nodisp -autoexit
