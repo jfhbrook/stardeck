@@ -5,17 +5,6 @@
       - perlbrew
       - init
     creates: '/home/{{ user.key }}/perl5/perlbrew/etc/bashrc'
-- name: Add perlbrew to ~/.bashrc
-  ansible.builtin.blockinfile:
-    path: '/home/{{ item.key }}/.bashrc'
-    marker: '# {mark} perlbrew'
-    marker_begin: Begin
-    marker_end: End
-    prepend_newline: true
-    append_newline: true
-    block: 'source ~/perl5/perlbrew/etc/bashrc'
-  when: development
-  loop: '{{ users | dict2items }}'
 - name: Check if perl {{ perlbrew_perl_version }} is installed
   become_user: '{{ user.key }}'
   ansible.builtin.shell:

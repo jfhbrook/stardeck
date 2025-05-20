@@ -153,19 +153,17 @@ export async function main() {
     { name: 'git', playbook: 'development/git.yml' },
     { name: 'gomplate', playbook: 'development/gomplate.yml' },
     { name: 'neovim', playbook: 'development/neovim.yml' },
-    { name: 'node', playbook: 'development/node-dev.yml' },
+    { name: 'node', playbook: 'development/node-dev/main.yml' },
     { name: 'perl', playbook: 'development/perl-dev/main.yml' },
     { name: 'rust', playbook: 'development/rust-dev/main.yml' },
-    { name: 'starship', playbook: 'development/starship.yml' },
+    { name: 'starship', playbook: 'development/starship/main.yml' },
   ]);
 
-  // TODO: Yadm will attempt to use the user's SSH agent, which makes running
-  // this REALLY awkward. For now, assume the user will run their own dotfiles
-  // updates. Still, this is stubbed, in case I do want to automate it later.
   //
-  // NOTE: Depends on git
+  // ~/.bashrc
+  //
 
-  // await ansible('development/yadm.yml');
+  await ansible('shell.yml');
 }
 
 (async () => {

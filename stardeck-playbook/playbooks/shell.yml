@@ -1,0 +1,19 @@
+- name: Shell Hooks
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: SSH
+      include_tasks: ./ssh/shell.yml
+      loop: '{{ users | dict2items }}'
+    - name: Starship
+      include_tasks: ./development/starship/shell.yml
+      loop: '{{ users | dict2items }}'
+    - name: Rust
+      include_tasks: ./development/rust-dev/shell.yml
+      loop: '{{ users | dict2items }}'
+    - name: Node.js
+      include_tasks: ./development/node-dev/shell.yml
+      loop: '{{ users | dict2items }}'
+    - name: Perl
+      include_tasks: ./development/perl-dev/shell.yml
+      loop: '{{ users | dict2items }}'

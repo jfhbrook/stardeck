@@ -1,0 +1,10 @@
+- name: Add perlbrew to ~/.bashrc
+  ansible.builtin.blockinfile:
+    path: '/home/{{ item.key }}/.bashrc'
+    marker: '# {mark} perlbrew'
+    marker_begin: Begin
+    marker_end: End
+    prepend_newline: true
+    append_newline: true
+    block: 'source ~/perl5/perlbrew/etc/bashrc'
+  when: development

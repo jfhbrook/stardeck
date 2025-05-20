@@ -1,0 +1,12 @@
+- name: Add Volta to ~/.bashrc
+  ansible.builtin.blockinfile:
+    path: '/home/{{ item.key }}/.bashrc'
+    marker: '# {mark} Volta'
+    marker_begin: Begin
+    marker_end: End
+    prepend_newline: true
+    append_newline: true
+    block: |
+      export VOLTA_HOME="$HOME/.volta"
+      export PATH="$VOLTA_HOME/bin:$PATH"
+  when: development
