@@ -43,6 +43,7 @@ FEATURES:
   plusdeck
   ssh
   stardeck
+  starship
   vim
   shell
 `;
@@ -167,6 +168,7 @@ export async function main() {
     { name: 'bluetooth', playbook: 'audio/bluetooth.yml', feature: 'audio' },
     { name: 'pipewire', playbook: 'audio/pipewire.yml', feature: 'audio' },
     { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml', feature: 'audio' },
+    { name: 'starship', playbook: 'starship/main.yml', feature: 'starship' },
     { name: 'plusdeck', playbook: 'plusdeck/main.yml', feature: 'plusdeck' },
     {
       name: 'crystalfontz',
@@ -190,7 +192,6 @@ export async function main() {
       { name: 'node', playbook: 'development/node-dev/main.yml' },
       { name: 'perl', playbook: 'development/perl-dev/main.yml' },
       { name: 'rust', playbook: 'development/rust-dev/main.yml' },
-      { name: 'starship', playbook: 'development/starship/main.yml' },
     ]);
   }
 

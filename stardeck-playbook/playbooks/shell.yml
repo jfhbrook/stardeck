@@ -8,7 +8,7 @@
       include_tasks: ./ssh/shell.yml
       loop: '{{ users | dict2items }}'
     - name: Starship
-      include_tasks: ./development/starship/shell.yml
+      include_tasks: ./starship/shell.yml
       loop: '{{ users | dict2items }}'
     - name: Rust
       include_tasks: ./development/rust-dev/shell.yml

@@ -1,6 +1,8 @@
 - name: Starship
   hosts: all
   connection: local
+  tags:
+    - starship
   tasks:
     - name: Check if Starship is installed
       ansible.builtin.stat:
