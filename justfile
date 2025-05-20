@@ -6,12 +6,6 @@ destination := 'josh@stardeck.local'
 default:
   @just --list
 
-# Set up the environment
-setup:
-  @just -f ./playbooks/justfile install --force
-  if [ ! -f ~/.ssh/id_ed25519 ]; then just ssh-keygen && gh auth login; fi
-  # just download-sounds
-
 # Lint everything
 lint:
   just -f ./perl/Stardeck/justfile lint
@@ -27,11 +21,6 @@ format:
 link:
   ./scripts/link-justfile.sh ./justfile stardeck
 
-# Get the status of the repo and of yadm
-status:
-  git status
-  yadm status
-
 # Run updates
 update:
   @bash ./scripts/playbook-dependencies.sh
@@ -40,10 +29,6 @@ update:
 # Run stardeck-playbook
 playbook *ARGV:
   cd ./stardeck-playbook && sudo -E node main.mjs {{ ARGV }}
-
-# Generate an SSH key
-ssh-keygen:
-  if [ ! -f ~/.ssh/id_ed25519 ]; then ssh-keygen -t ed25519 -C '{{ email }}'; fi
 
 # Control loopback
 loopback ACTION:
@@ -60,10 +45,6 @@ lcd-splash: lcd-reset
 # Stream notifications as newline separated JSON
 notifications:
   @bash ./scripts/notifications.sh
-
-# Change samba password
-smbpasswd USER:
-  sudo smbpasswd -U '{{ USER }}'
 
 # Logs for a service
 logs SERVICE:
