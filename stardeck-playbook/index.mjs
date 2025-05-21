@@ -1,9 +1,10 @@
 import {
   ansiblePlaybookArgv,
-  ansiblePlaybookEnv,
+  ansibleEnv,
   runAnsiblePlaybook,
   runSerialAnsiblePlaybooks,
   runParallelAnsiblePlaybooks,
+  runAnsibleGalaxyInstall,
 } from './ansible.mjs';
 import {
   XDG_CONFIG_DIR,
@@ -28,10 +29,11 @@ import { temporaryYamlFileTask } from './tempfile.mjs';
 
 export {
   ansiblePlaybookArgv,
-  ansiblePlaybookEnv,
+  ansibleEnv,
   runAnsiblePlaybook,
   runSerialAnsiblePlaybooks,
   runParallelAnsiblePlaybooks,
+  runAnsibleGalaxyInstall,
   XDG_CONFIG_DIR,
   STARDECK_HOME,
   GLOBAL_CONFIG_DIR,

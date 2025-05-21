@@ -84,7 +84,7 @@ export function ansiblePlaybookArgv(
   return argv;
 }
 
-export function ansiblePlaybookEnv({ configFile }) {
+export function ansibleEnv({ configFile }) {
   let envVars = {
     ANSIBLE_CONFIG: configFile,
   };
@@ -121,7 +121,7 @@ export function ansiblePlaybookEnv({ configFile }) {
 
 export function runAnsiblePlaybook(playbook, options) {
   const command = ansiblePlaybookArgv(playbook, options);
-  const env = { ...process.env, ...ansiblePlaybookEnv(options) };
+  const env = { ...process.env, ...ansibleEnv(options) };
 
   logger.debug(`Running ansible-playbook ${quote(command)}...`);
 
@@ -167,7 +167,7 @@ export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
         ...options,
       }),
     );
-    const env = ansiblePlaybookEnv({ ...globalOptions, ...options });
+    const env = ansibleEnv({ ...globalOptions, ...options });
     return {
       name,
       command: `ansible-playbook ${argv}`,
@@ -192,5 +192,22 @@ export async function runParallelAnsiblePlaybooks(stage, globalOptions) {
       }
     }
     exit(1);
+  }
+}
+
+export function runAnsibleGalaxyInstall(requirementsFile, options) {
+  const command = ['install', '-r', requirementsFile].concat(
+    options.ansibleArgv || [],
+  );
+
+  const env = { ...process.env, ...ansibleEnv(options) };
+
+  const { status } = spawnSync('ansible-galaxy', command, {
+    env,
+    stdio: 'inherit',
+  });
+
+  if (status) {
+    process.exit(status);
   }
 }
