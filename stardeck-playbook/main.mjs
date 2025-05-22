@@ -33,20 +33,22 @@ ENVIRONMENT:
   STARDECK_CONFIG_HOME   A directory containing stardeck configuration files.
 
 FEATURES:
-  core
-  audio
-  cockpit
-  crystalfontz
-  desktop
-  dialout
-  filesharing
-  mopidy
-  plusdeck
-  ssh
-  stardeck
-  starship
-  vim
-  shell
+  core          Core repositories and packages.
+  audio         Pipewire, Pulseaudio and Bluetooth audio.
+  cockpit       Cockpit web admin interface.
+  crystalfontz  Crystalfontz LCD display.
+  desktop       Desktop tools.
+  dialout       The dialout group, which controls access to serial ports.
+  filesharing   Configure Samba filesharing.
+  login         Configure login and power settings.
+  media         Basic media tools.
+  mopidy        Mopidy media player.
+  plusdeck      Plus Deck 2C PC Cassette Deck.
+  ssh           SSH agent and user keys.
+  stardeck      Stardeck software.
+  starship      Starship shell prompt.
+  vim           Vim text editor.
+  shell         Hooks for the user shell.
 `;
 
 export async function main() {
