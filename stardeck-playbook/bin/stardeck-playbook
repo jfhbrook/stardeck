@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Use npx to run stardeck-playbook. This allows for running the latest
+# version of the playbooks, even if the rest of the system is out of date.
+
+VERSION=latest
+ARGV=()
+
+while [[ $# -gt 0 ]]; do
+  case "${1}" in
+    --use-version)
+      PACKAGE_VERSION="${2}"
+      shift
+      shift
+      ;;
+    *)
+      STARDECK_PLAYBOOK_ARGV+=("${1}")
+      shift
+      ;;
+  esac
+done
+
+exec npm exec --yes -- "@jfhbrook/stardeck-playbook@${VERSION}" "${ARGV[@]}"

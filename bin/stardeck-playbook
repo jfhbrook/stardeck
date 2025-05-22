@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-exec npm exec --yes -- '@jfhbrook/stardeck-playbook@latest' "$@"

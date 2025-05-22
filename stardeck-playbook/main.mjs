@@ -18,13 +18,14 @@ const HELP = `USAGE: stardeck-playbook OPTIONS
 
 OPTIONS:
   -h|--help              Show this help text and exit.
-  --ansible-config FILE  The path to an ansible.cfg config file
-  --config-file FILE     The path to a stardeck.yml config file
-  --dry-run              Run ansible with --check and --diff
+  --ansible-config FILE  The path to an ansible.cfg config file.
+  --config-file FILE     The path to a stardeck.yml config file.
+  --dry-run              Run ansible with --check and --diff.
   --feature FEATURE      Target a feature. May be specified more than once.
   --log-level LEVEL      Set the log level. Valid values are: ${Object.keys(LOG_LEVELS).join(', ')}
   --no-update            Do not run software updates.
-  --serial               Run playbooks in order
+  --serial               Run playbooks in order.
+  --use-version          Specify the version of stardeck-playbook to run.
 
 ENVIRONMENT:
   ANSIBLE_CONFIG         A path to an ansible.cfg configuration file.
