@@ -4,6 +4,10 @@
 
 users: []
 
+autologin:
+  enabled: false
+  # user: josh
+
 #
 # File sharing
 #
