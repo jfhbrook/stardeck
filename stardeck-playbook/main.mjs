@@ -162,8 +162,7 @@ export async function main() {
   //
   await ansible([
     { name: 'vim', playbook: 'vim/main.yml', feature: 'vim' },
-    { name: 'logind', playbook: 'core/logind.yml', feature: 'core' },
-    { name: 'sddm', playbook: 'core/sddm.yml', feature: 'core' },
+    { name: 'login', playbook: 'login.yml', feature: 'login' },
     { name: 'cockpit', playbook: 'cockpit/main.yml', feature: 'cockpit' },
     { name: 'ssh', playbook: 'ssh/main.yml', feature: 'ssh' },
     { name: 'bluetooth', playbook: 'audio/bluetooth.yml', feature: 'audio' },

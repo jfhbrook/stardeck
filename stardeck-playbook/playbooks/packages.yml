@@ -2,14 +2,16 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Core
-      include_tasks: ./core/packages.yml
+    - name: Network
+      include_tasks: ./network/packages.yml
     - name: Cockpit
       include_tasks: ./cockpit/packages.yml
     - name: Vim
       include_tasks: ./vim/packages.yml
     - name: Audio
       include_tasks: ./audio/packages.yml
+    - name: Media
+      include_tasks: ./media/packages.yml
     - name: Desktop
       include_tasks: ./desktop/packages.yml
     - name: Mopidy

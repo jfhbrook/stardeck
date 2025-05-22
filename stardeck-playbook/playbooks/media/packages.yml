@@ -1,8 +1,7 @@
 - name: Install packages
   tags:
-    - core
+    - media
   ansible.builtin.dnf:
     state: present
     name:
-      - NetworkManager-tui
       - yt-dlp

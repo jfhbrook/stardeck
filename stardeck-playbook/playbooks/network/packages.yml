@@ -1,0 +1,7 @@
+- name: Install packages
+  tags:
+    - core
+  ansible.builtin.dnf:
+    state: present
+    name:
+      - NetworkManager-tui
