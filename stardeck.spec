@@ -1,7 +1,7 @@
 Name: stardeck
 Version: 1.0.0
 Release: 1
-License: Apache-2.0
+License: MPL-2.0
 Summary: Meta-package for Stardeck 1A Media Appliance
 
 URL: https://github.com/jfhbrook/stardeck

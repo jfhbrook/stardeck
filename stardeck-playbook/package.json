@@ -20,7 +20,7 @@
     "stardeck"
   ],
   "author": "Josh Holbrook",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "dependencies": {
     "concurrently": "^9.1.2",
     "minimist": "^1.2.8",
