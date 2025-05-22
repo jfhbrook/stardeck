@@ -1,28 +1,60 @@
 # stardeck-playbook
 
-This component runs ansible playbooks. It will be written in perl.
+This tool runs Ansible playbooks to support the StarDeck 1A Media Appliance.
 
-## TODOs
+## Requirements
 
-- Set up a perl environment, locally and on the stardeck
-  - [carton](https://metacpan.org/pod/Carton)
-- Parse CLI options/flags
-  - [Getopt::Long](https://perldoc.perl.org/Getopt::Long)
-    - Stdlib, a little like argparse
-  - [Getopt::Long::Descriptive](https://metacpan.org/pod/Getopt::Long::Descriptive)
-    - Flavored like `Getopt::Long`, but with extra niceties. Maybe a good middle ground.
-  - [App::Cmd](https://metacpan.org/pod/App::Cmd)
-    - A little magical, but not in an offensive way. Looks fun?
-  - [MooseX::App](https://metacpan.org/pod/MooseX::App)
-    - [MooseX appears to be "CLOS but for Perl", yikes](https://www.perl.org/about/whitepapers/perl-object-oriented.html)
-- Create/modify default/example yaml configs
-- Load yaml config
-- How to handle become pass?
-  - Can I just run the playbooks as sudo?
-  - Expect? <https://metacpan.org/release/RGIERSIG/Expect-1.15/view/Expect.pod>
-  - Can developer run stardeck-playbook in an unprivileged mode? Just for their own environment?
-- How to run commands in parallel with perl?
-  - <https://stackoverflow.com/questions/54389215/run-multiple-jobs-within-perl-script-at-the-same-time>
-- Init/generate default yaml config
-  - Nice prompts?
-  - Maybe not a feature for `stardeck-playbook`, per se? Better for `stardeckctl` or `stardeck-config`?
+These playbooks are intended to be run on a PC running Fedora Linux, with a Plus Deck 2C PC Cassette Deck and a Crystalfontz CF533 LCD display. In other words, if you don't have my specific device, you will probably have a bad time.
+
+## Usage
+
+This tool is intended to be run with `npm exec` and `sudo`:
+
+```sh
+sudo npm exec --yes @jfhbrook/stardeck-playbook@latest
+```
+
+The tool supports a number of command line options:
+
+```
+USAGE: stardeck-playbook OPTIONS
+
+OPTIONS:
+  -h|--help              Show this help text and exit.
+  --ansible-config FILE  The path to an ansible.cfg config file.
+  --config-file FILE     The path to a stardeck.yml config file.
+  --dry-run              Run ansible with --check and --diff.
+  --feature FEATURE      Target a feature. May be specified more than once.
+  --log-level LEVEL      Set the log level. Valid values are: debug, verbose, info, warn, error
+  --no-update            Do not run software updates.
+  --serial               Run playbooks in order.
+  --use-version          Specify the version of stardeck-playbook to run.
+
+ENVIRONMENT:
+  ANSIBLE_CONFIG         A path to an ansible.cfg configuration file.
+  STARDECK_CONFIG_FILE   A path to a stardeck.yml configuration file.
+  STARDECK_CONFIG_HOME   A directory containing stardeck configuration files.
+
+FEATURES:
+  core          Core repositories and packages.
+  audio         Pipewire, Pulseaudio and Bluetooth audio.
+  cockpit       Cockpit web admin interface.
+  crystalfontz  Crystalfontz LCD display.
+  desktop       Desktop tools.
+  dialout       The dialout group, which controls access to serial ports.
+  filesharing   Configure Samba filesharing.
+  login         Configure login and power settings.
+  media         Basic media tools.
+  mopidy        Mopidy media player.
+  plusdeck      Plus Deck 2C PC Cassette Deck.
+  ssh           SSH agent and user keys.
+  stardeck      Stardeck software.
+  starship      Starship shell prompt.
+  vim           Vim text editor.
+  shell         Hooks for the user shell.
+```
+
+## License
+
+This software is licensed under the Mozilla Public License, Version 2.0.
+

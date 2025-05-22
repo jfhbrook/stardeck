@@ -1,6 +1,6 @@
 {
   "name": "@jfhbrook/stardeck-playbook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ansible playbook runner for Stardeck",
   "type": "module",
   "main": "index.mjs",
