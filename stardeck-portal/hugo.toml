@@ -1,0 +1,5 @@
+baseURL = 'https://stardeck.local/'
+languageCode = 'en-us'
+title = 'Stardeck 1A Media Appliance'
+theme = 'PaperMod'
+enableEmoji = true

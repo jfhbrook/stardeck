@@ -1,0 +1,8 @@
+update:
+  git submodule update --remote --merge
+
+new *argv:
+  hugo new content {{ argv }}
+
+serve:
+  hugo serve --buildDrafts
