@@ -18,9 +18,6 @@
       include_tasks: ./mopidy/packages.yml
     - name: Network
       include_tasks: ./network/packages.yml
-    - name: NGINX
-      ansible.builtin.include_role:
-        name: nginxinc.nginx
     - name: Plusdeck
       include_tasks: ./plusdeck/packages.yml
     - name: Stardeck
@@ -30,3 +27,12 @@
     - name: Development
       include_tasks: ./development/packages.yml
       when: development
+- name: Packages - NGINX
+  hosts: localhost
+  connection: local
+  tags:
+    - web
+  tasks:
+    - name: NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx

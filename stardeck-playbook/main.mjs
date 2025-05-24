@@ -45,10 +45,11 @@ FEATURES:
   mopidy        Mopidy media player.
   plusdeck      Plus Deck 2C PC Cassette Deck.
   ssh           SSH agent and user keys.
+  shell         Hooks for the user shell.
   stardeck      Stardeck software.
   starship      Starship shell prompt.
   vim           Vim text editor.
-  shell         Hooks for the user shell.
+  web           NGINX web server.
 `;
 
 export async function main() {
