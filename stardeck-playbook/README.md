@@ -57,4 +57,3 @@ FEATURES:
 ## License
 
 This software is licensed under the Mozilla Public License, Version 2.0.
-

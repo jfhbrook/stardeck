@@ -2,28 +2,31 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Network
-      include_tasks: ./network/packages.yml
-    - name: Cockpit
-      include_tasks: ./cockpit/packages.yml
-    - name: Vim
-      include_tasks: ./vim/packages.yml
     - name: Audio
       include_tasks: ./audio/packages.yml
-    - name: Media
-      include_tasks: ./media/packages.yml
-    - name: Desktop
-      include_tasks: ./desktop/packages.yml
-    - name: Mopidy
-      include_tasks: ./mopidy/packages.yml
-    - name: File Sharing
-      include_tasks: ./filesharing/packages.yml
-    - name: Plusdeck
-      include_tasks: ./plusdeck/packages.yml
+    - name: Cockpit
+      include_tasks: ./cockpit/packages.yml
     - name: Crystalfontz
       include_tasks: ./crystalfontz/packages.yml
+    - name: Desktop
+      include_tasks: ./desktop/packages.yml
+    - name: File Sharing
+      include_tasks: ./filesharing/packages.yml
+    - name: Media
+      include_tasks: ./media/packages.yml
+    - name: Mopidy
+      include_tasks: ./mopidy/packages.yml
+    - name: Network
+      include_tasks: ./network/packages.yml
+    - name: NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx
+    - name: Plusdeck
+      include_tasks: ./plusdeck/packages.yml
     - name: Stardeck
       include_tasks: ./stardeck/packages.yml
+    - name: Vim
+      include_tasks: ./vim/packages.yml
     - name: Development
       include_tasks: ./development/packages.yml
       when: development
