@@ -6,6 +6,10 @@ destination := 'josh@stardeck.local'
 default:
   @just --list
 
+# Run setup steps
+setup:
+  cd ./stardeck-playbook && npm install
+
 # Lint everything
 lint:
   just -f ./perl/Stardeck/justfile lint
