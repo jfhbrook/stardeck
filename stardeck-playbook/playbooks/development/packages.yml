@@ -1,11 +1,15 @@
 - name: Install Development Packages
   ansible.builtin.dnf:
     name:
+      # ansible
+      - python3-ansible-lint
       # git + github
       - git
       - gh
       # go dev
       - golang
+      # hugo
+      - hugo
       # neovim
       - neovim
       # perl dev
@@ -20,6 +24,8 @@
       - uv
       # rust
       - rust-analyzer
+      # shellcheck
+      - shellcheck
       # terraform
       - terraform
       # general cli tools
@@ -41,9 +47,6 @@
       - yq
       # yadm
       - yadm
-      # other
-      - python3-ansible-lint
-      - shellcheck
     state: present
 - name: Install Watchexec
   # TODO: Using the dnf module here yields an error...
