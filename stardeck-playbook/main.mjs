@@ -164,27 +164,28 @@ export async function main() {
   // Core playbooks
   //
   await ansible([
-    { name: 'vim', playbook: 'vim/main.yml', feature: 'vim' },
-    { name: 'login', playbook: 'login.yml', feature: 'login' },
-    { name: 'cockpit', playbook: 'cockpit/main.yml', feature: 'cockpit' },
-    { name: 'ssh', playbook: 'ssh/main.yml', feature: 'ssh' },
-    { name: 'bluetooth', playbook: 'audio/bluetooth.yml', feature: 'audio' },
-    { name: 'pipewire', playbook: 'audio/pipewire.yml', feature: 'audio' },
-    { name: 'pulseaudio', playbook: 'audio/pulseaudio.yml', feature: 'audio' },
-    { name: 'starship', playbook: 'starship/main.yml', feature: 'starship' },
-    { name: 'plusdeck', playbook: 'plusdeck/main.yml', feature: 'plusdeck' },
+    { feature: 'audio', name: 'bluetooth', playbook: 'audio/bluetooth.yml' },
+    { feature: 'audio', name: 'pipewire', playbook: 'audio/pipewire.yml' },
+    { feature: 'audio', name: 'pulseaudio', playbook: 'audio/pulseaudio.yml' },
+    { feature: 'cockpit', name: 'cockpit', playbook: 'cockpit/main.yml' },
     {
+      feature: 'crystalfontz',
       name: 'crystalfontz',
       playbook: 'crystalfontz/main.yml',
-      feature: 'crystalfontz',
     },
-    { name: 'dialout', playbook: 'dialout.yml', feature: 'dialout' },
-    { name: 'mopidy', playbook: 'mopidy/main.yml', feature: 'mopidy' },
+    { feature: 'dialout', name: 'dialout', playbook: 'dialout.yml' },
     {
+      feature: 'filesharing',
       name: 'filesharing',
       playbook: 'filesharing/main.yml',
-      feature: 'filesharing',
     },
+    { feature: 'login', name: 'login', playbook: 'login.yml' },
+    { feature: 'mopidy', name: 'mopidy', playbook: 'mopidy/main.yml' },
+    { feature: 'plusdeck', name: 'plusdeck', playbook: 'plusdeck/main.yml' },
+    { feature: 'ssh', name: 'ssh', playbook: 'ssh/main.yml' },
+    { feature: 'starship', name: 'starship', playbook: 'starship/main.yml' },
+    { feature: 'vim', name: 'vim', playbook: 'vim/main.yml' },
+    { feature: 'web', name: 'web', playbook: 'web.yml' },
   ]);
 
   if (configFile.development && !features.length) {

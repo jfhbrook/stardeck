@@ -1,0 +1,12 @@
+- name: Web
+  hosts: localhost
+  connection: local
+  tags:
+    - web
+  tasks:
+    - name: Configure NGINX firewall
+      ansible.posix.firewalld:
+        service: nginx
+        state: enabled
+        permanent: true
+        immediate: true
