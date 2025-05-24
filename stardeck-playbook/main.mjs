@@ -142,7 +142,6 @@ export async function main() {
       skipTags,
       ...options,
     };
-    console.log(opts);
     if (typeof stage === 'string') {
       return runAnsiblePlaybook(stage, opts);
     }
@@ -171,14 +170,6 @@ export async function main() {
   //
 
   await ansible('packages.yml');
-
-  //
-  // Install or update nginx
-  //
-
-  if (update || enabled('web')) {
-    await ansible('nginx.yml');
-  }
 
   //
   // Core playbooks
