@@ -27,12 +27,3 @@
     - name: Development
       include_tasks: ./development/packages.yml
       when: development
-- name: Packages - NGINX
-  hosts: localhost
-  connection: local
-  tags:
-    - web
-  tasks:
-    - name: NGINX
-      ansible.builtin.include_role:
-        name: nginxinc.nginx

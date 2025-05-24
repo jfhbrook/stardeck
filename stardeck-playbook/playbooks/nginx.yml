@@ -1,0 +1,27 @@
+- name: NGINX
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Check if NGINX is installed
+      ansible.builtin.stat:
+        path: /usr/sbin/nginx
+      register: nginx_bin
+      tags:
+        - web
+    - name: Install NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx
+      when: not nginx_bin.stat.executable
+      vars:
+        nginx_setup: install
+      tags:
+        - web
+    - name: Update NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx
+      when: nginx_bin.stat.executable
+      vars:
+        nginx_setup: upgrade
+      tags:
+        - web
+        - update

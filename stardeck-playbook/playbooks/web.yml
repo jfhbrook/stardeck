@@ -4,9 +4,12 @@
   tags:
     - web
   tasks:
-    - name: Configure NGINX firewall
+    - name: 'Configure firewall'
       ansible.posix.firewalld:
-        service: nginx
+        service: '{{ item }}'
         state: enabled
         permanent: true
         immediate: true
+      loop:
+        - http
+        - https

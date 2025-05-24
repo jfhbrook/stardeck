@@ -90,12 +90,22 @@ export async function main() {
     features = [features];
   }
 
-  const tags = features.length ? features.concat('update') : [];
-
   const check = argv['dry-run'];
   const diff = check;
   const update = argv.update;
   const serial = argv.serial;
+
+  let tags = Array.from(features);
+
+  if (features.length && update) {
+    tags.push('update');
+  }
+
+  let skipTags = undefined;
+
+  if (!features.length && !update) {
+    skipTags = ['update'];
+  }
 
   let configFile = argv['config-file'];
   if (!configFile || !configFile.length) {
@@ -129,8 +139,10 @@ export async function main() {
       configFile: ansibleConfigFile,
       serial,
       tags,
+      skipTags,
       ...options,
     };
+    console.log(opts);
     if (typeof stage === 'string') {
       return runAnsiblePlaybook(stage, opts);
     }
@@ -159,6 +171,14 @@ export async function main() {
   //
 
   await ansible('packages.yml');
+
+  //
+  // Install or update nginx
+  //
+
+  if (update || enabled('web')) {
+    await ansible('nginx.yml');
+  }
 
   //
   // Core playbooks

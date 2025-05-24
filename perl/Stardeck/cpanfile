@@ -10,4 +10,4 @@ on 'develop' => sub {
     requires 'Test::CheckManifest', '1.43';
     requires 'Test::Pod',           '>= 1.52, < 2.0';
     requires 'Test::Pod::Coverage', '>= 1.10, < 2.0';
-}
+  }
