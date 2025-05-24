@@ -6,7 +6,7 @@
   tasks:
     - name: Write SDDM config
       ansible.builtin.template:
-        src: 'sddm.conf'
+        src: 'sddm.conf.j2'
         dest: '/etc/sddm.conf.d/stardeck_settings.conf'
         owner: root
         group: root
