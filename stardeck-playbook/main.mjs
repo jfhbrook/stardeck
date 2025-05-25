@@ -200,7 +200,7 @@ export async function main() {
     { feature: 'ssh', name: 'ssh', playbook: 'ssh/main.yml' },
     { feature: 'starship', name: 'starship', playbook: 'starship/main.yml' },
     { feature: 'vim', name: 'vim', playbook: 'vim/main.yml' },
-    { feature: 'web', name: 'web', playbook: 'web.yml' },
+    { feature: 'web', name: 'web', playbook: 'web/main.yml' },
   ]);
 
   if (config.development && enabled('development')) {
