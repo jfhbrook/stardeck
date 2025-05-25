@@ -1,0 +1,13 @@
+- name: Add Go Environment to ~/.bashrc
+  ansible.builtin.blockinfile:
+    path: '/home/{{ item.key }}/.bashrc'
+    marker: '# {mark} Go'
+    marker_begin: Begin
+    marker_end: End
+    prepend_newline: true
+    append_newline: true
+    block: |
+      export GOPATH="${HOME}/go"
+      export GOBIN="${GOPATH}/bin"
+      export PATH="${GOBIN}:${PATH}"
+  when: development

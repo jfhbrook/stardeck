@@ -10,6 +10,9 @@
     - name: Starship
       include_tasks: ./starship/shell.yml
       loop: '{{ users | dict2items }}'
+    - name: Go
+      include_tasks: ./development/go-dev/shell.yml
+      loop: '{{ users | dict2items }}'
     - name: Rust
       include_tasks: ./development/rust-dev/shell.yml
       loop: '{{ users | dict2items }}'

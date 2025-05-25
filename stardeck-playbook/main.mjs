@@ -10,6 +10,7 @@ import {
   runParallelAnsiblePlaybooks,
   findAnsibleConfig,
   findStardeckConfig,
+  loadStardeckConfig,
   logger,
   LOG_LEVELS,
 } from './index.mjs';
@@ -38,6 +39,7 @@ FEATURES:
   cockpit       Cockpit web admin interface.
   crystalfontz  Crystalfontz LCD display.
   desktop       Desktop tools.
+  development   Development dependencies.
   dialout       The dialout group, which controls access to serial ports.
   filesharing   Configure Samba filesharing.
   login         Configure login and power settings.
@@ -111,6 +113,8 @@ export async function main() {
   if (!configFile || !configFile.length) {
     configFile = findStardeckConfig();
   }
+
+  const config = loadStardeckConfig(configFile);
 
   let ansibleConfigFile = argv['ansible-config'];
   if (!ansibleConfigFile || !ansibleConfigFile.length) {
@@ -199,10 +203,11 @@ export async function main() {
     { feature: 'web', name: 'web', playbook: 'web.yml' },
   ]);
 
-  if (configFile.development && !features.length) {
+  if (config.development && enabled('development')) {
     await ansible([
       { name: 'git', playbook: 'development/git.yml' },
       { name: 'gomplate', playbook: 'development/gomplate.yml' },
+      { name: 'hugo', playbook: 'development/hugo.yml' },
       { name: 'neovim', playbook: 'development/neovim.yml' },
       { name: 'node', playbook: 'development/node-dev/main.yml' },
       { name: 'perl', playbook: 'development/perl-dev/main.yml' },

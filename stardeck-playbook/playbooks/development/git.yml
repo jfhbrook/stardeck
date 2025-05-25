@@ -1,6 +1,8 @@
 - name: Git
   hosts: all
   connection: local
+  tags:
+    - development
   tasks:
     - name: Configure user name
       become: true

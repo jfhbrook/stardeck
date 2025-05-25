@@ -1,6 +1,8 @@
 - name: Neovim
   hosts: all
   connection: local
+  tags:
+    - development
   tasks:
     - name: Install plug
       become: true

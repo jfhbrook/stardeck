@@ -8,8 +8,6 @@
       - gh
       # go dev
       - golang
-      # hugo
-      - hugo
       # neovim
       - neovim
       # perl dev

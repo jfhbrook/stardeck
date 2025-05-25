@@ -1,0 +1,16 @@
+- name: Hugo
+  hosts: localhost
+  connection: local
+  tags:
+    - development
+  tasks:
+    # The version of hugo on Fedora is old...
+    - name: Install Hugo
+      become: true
+      become_user: '{{ item.key }}'
+      ansible.builtin.shell:
+        cmd: 'CGO_ENABLED=1 go install -tags extended github.com/gohugoio/hugo@v{{ hugo_version }}'
+      when: development
+      loop: '{{ users | dict2items }}'
+      vars:
+        hugo_version: '0.147.5'

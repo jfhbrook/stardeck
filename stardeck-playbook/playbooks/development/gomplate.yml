@@ -1,6 +1,8 @@
 - name: Gomplate
   hosts: localhost
   connection: local
+  tags:
+    - development
   tasks:
     - name: Install Gomplate
       become: true
