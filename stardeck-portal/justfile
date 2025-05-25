@@ -1,8 +1,22 @@
+default:
+  @just serve
+
+# Update the theme
 update:
   git submodule update --remote --merge
 
+# Create new content
 new *argv:
   hugo new content {{ argv }}
 
+# Serve the development site
 serve:
   hugo serve --buildDrafts
+
+# Build the site
+build:
+  hugo build
+
+# Install locally
+install: build
+  sudo ./scripts/install.sh
