@@ -38,7 +38,11 @@ http {
         listen       80;
         listen       [::]:80;
         server_name  _;
+        {% if development -%}
+        root         /srv/portal;
+        {%- else -%}
         root         /usr/share/nginx/html;
+        {%- endif %}
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;

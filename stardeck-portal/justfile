@@ -1,7 +1,11 @@
 default:
   @just serve
 
-# Update the theme
+# Install PaperMod
+install:
+  git submodule update --init --recursive 
+
+# Update PaperMod
 update:
   git submodule update --remote --merge
 
@@ -17,6 +21,6 @@ serve:
 build:
   hugo build
 
-# Install locally
-install: build
-  sudo ./scripts/install.sh
+# rsync build to /srv/portal
+rsync: build
+  sudo ./scripts/rsync.sh
