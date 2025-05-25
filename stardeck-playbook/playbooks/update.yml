@@ -9,17 +9,3 @@
         name: '*'
         state: latest
         update_cache: true
-- name: NGINX
-  hosts: localhost
-  connection: local
-  tags:
-    - update
-  tasks:
-    - name: Facts
-      include_tasks: ./nginx/facts.yml
-    - name: Update
-      ansible.builtin.include_role:
-        name: nginxinc.nginx
-      when: nginx_bin.stat.executable
-      vars:
-        nginx_setup: upgrade

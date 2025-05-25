@@ -24,20 +24,8 @@
       include_tasks: ./stardeck/packages.yml
     - name: Vim
       include_tasks: ./vim/packages.yml
+    - name: Web
+      include_tasks: ./web/packages.yml
     - name: Development
       include_tasks: ./development/packages.yml
       when: development
-- name: NGINX
-  hosts: localhost
-  connection: local
-  tags:
-    - web
-  tasks:
-    - name: Facts
-      include_tasks: ./nginx/facts.yml
-    - name: Install
-      ansible.builtin.include_role:
-        name: nginxinc.nginx
-      when: not nginx_bin.stat.executable
-      vars:
-        nginx_setup: install

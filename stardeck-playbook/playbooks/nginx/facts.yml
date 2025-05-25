@@ -1,7 +1,0 @@
-- name: Check if NGINX is installed
-  ansible.builtin.stat:
-    path: /usr/sbin/nginx
-  register: nginx_bin
-  tags:
-    - web
-    - update
