@@ -44,6 +44,10 @@ http {
         root         /usr/share/nginx/html;
         {%- endif %}
 
+        location = /cockpit {
+          return 302 https://$host:9090;
+        }
+
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
     }
