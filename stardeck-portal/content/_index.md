@@ -4,4 +4,4 @@ title = 'Stardeck 1A Media Appliance'
 +++
 
 - [Cockpit](/cockpit)
-- [Iris](http://stardeck.local:6680/iris)
+- [Iris](/iris)

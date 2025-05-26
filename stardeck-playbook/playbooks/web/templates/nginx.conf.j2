@@ -49,7 +49,7 @@ http {
         }
 
         location /iris {
-          return 302 https://$host:6680/iris;
+          return 302 http://$host:6680/iris;
         }
 
         # Load configuration files for the default server block.
