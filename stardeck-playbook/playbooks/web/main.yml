@@ -12,6 +12,13 @@
         group: root
         mode: '0644'
       notify: Reload NGINX
+    - name: Allow NGINX to proxy connections
+      ansible.builtin.command:
+        argv:
+          - setsebool
+          - -P
+          - httpd_can_network_connect
+          - '1'
     - name: 'Configure firewall'
       ansible.posix.firewalld:
         service: '{{ item }}'
