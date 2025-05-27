@@ -4,6 +4,8 @@
   tags:
     - web
   tasks:
+    - name: SSL Self-Signed Certificate
+      include_tasks: ./certificate.yml
     - name: Write NGINX config
       ansible.builtin.template:
         src: 'nginx.conf.j2'

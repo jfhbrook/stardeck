@@ -52,7 +52,7 @@ FEATURES:
   stardeck      Stardeck software.
   starship      Starship shell prompt.
   vim           Vim text editor.
-  web           NGINX web server.
+  web           HTTP/HTTPS web server.
 
 PLAYBOOKS:
   repositories.yml               System repositories.
@@ -72,8 +72,7 @@ PLAYBOOKS:
   ssh/main.yml                   SSH agent and user keys.
   starship/main.yml              Starship shell prompt.
   vim/main.yml                   Vim text editor.
-  web/certificate.yml            Self-signed certificate for SSL.
-  web/main.yml                   NGINX configuration.
+  web/main.yml                   HTTP/HTTPS server configuration.
   development/git.yml            Git configuration.
   development/gomplate.yml       Gomplate CLI template generator.
   development/hugo.yml           Hugo static site generator.
@@ -81,7 +80,6 @@ PLAYBOOKS:
   development/node-dev/main.yml  Node.js development environment.
   development/perl-dev/main.yml  Perl development environment.
   development/rust-dev/main.yml  Rust development environment.
- 
 `;
 
 export async function main() {
