@@ -1,25 +1,31 @@
-- name: Create OpenSSL Private Key Directory
-  ansible.builtin.file:
-    path: /etc/ssl/private
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-- name: Create OpenSSL Private Key
-  become: true
-  community.crypto.openssl_privatekey:
-    state: present
-    path: /etc/ssl/private/stardeck.key
-    type: RSA
-- name: Create Self-Signed SSL Certificate
-  become: true
-  community.crypto.x509_certificate:
-    state: present
-    path: /etc/ssl/certs/stardeck.crt
-    privatekey_path: /etc/ssl/private/stardeck.key
-    provider: selfsigned
-    selfsigned_digest: "sha256"
-    selfsigned_not_after: "+3650d"  # 10 years from generation
-    seuser: system_u
-    serole: object_r
-    setype: cert_t
+- name: SSL Self-Signed Certificate
+  hosts: localhost
+  connection: local
+  tags:
+    - web
+  tasks: 
+    - name: Create OpenSSL Private Key Directory
+      ansible.builtin.file:
+        path: /etc/ssl/private
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+    - name: Create OpenSSL Private Key
+      become: true
+      community.crypto.openssl_privatekey:
+        state: present
+        path: /etc/ssl/private/stardeck.key
+        type: RSA
+    - name: Create Self-Signed SSL Certificate
+      become: true
+      community.crypto.x509_certificate:
+        state: present
+        path: /etc/ssl/certs/stardeck.crt
+        privatekey_path: /etc/ssl/private/stardeck.key
+        provider: selfsigned
+        selfsigned_digest: "sha256"
+        selfsigned_not_after: "+3650d"  # 10 years from generation
+        seuser: system_u
+        serole: object_r
+        setype: cert_t

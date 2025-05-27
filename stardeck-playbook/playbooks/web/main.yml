@@ -1,11 +1,11 @@
+- name: SSL Self-Signed Certificate
+  ansible.builtin.import_playbook: ./certificate.yml
 - name: Web
   hosts: localhost
   connection: local
   tags:
     - web
   tasks:
-    - name: SSL Self-Signed Certificate
-      include_tasks: ./certificate.yml
     - name: Write NGINX config
       ansible.builtin.template:
         src: 'nginx.conf.j2'

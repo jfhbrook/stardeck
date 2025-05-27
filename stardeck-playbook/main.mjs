@@ -72,6 +72,7 @@ PLAYBOOKS:
   ssh/main.yml                   SSH agent and user keys.
   starship/main.yml              Starship shell prompt.
   vim/main.yml                   Vim text editor.
+  web/certificate.yml            SSL self-signed certificate.
   web/main.yml                   HTTP/HTTPS server configuration.
   development/git.yml            Git configuration.
   development/gomplate.yml       Gomplate CLI template generator.
