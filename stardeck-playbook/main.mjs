@@ -24,6 +24,7 @@ OPTIONS:
   --dry-run              Run ansible with --check and --diff.
   --feature FEATURE      Target a feature. May be specified more than once.
   --log-level LEVEL      Set the log level. Valid values are: ${Object.keys(LOG_LEVELS).join(', ')}
+  --playbook PLAYBOOK    Run a specific playbook and exit.
   --no-update            Do not run software updates.
   --serial               Run playbooks in order.
   --use-version          Specify the version of stardeck-playbook to run.
@@ -52,6 +53,34 @@ FEATURES:
   starship      Starship shell prompt.
   vim           Vim text editor.
   web           NGINX web server.
+
+PLAYBOOKS:
+  repositories.yml               System repositories.
+  update.yml                     System updates.
+  packages.yml                   System packages.
+  audio/bluetooth.yml            Bluetooth audio configuration.
+  audio/pipewire.yml             Pipewire configuration.
+  audio/pulseaudio.yml           Pulseaudio configuration.
+  cockpit/main.yml               Cockpit web admin interface.
+  crystalfontz/main.yml          Crystalfontz LCD display.
+  dialout.yml                    The dialout group, which controls access to
+                                 serial ports.
+  filesharing/main.yml           Configure Samba filesharing.
+  login.yml                      Configure login and power settings.
+  mopidy/main.yml                Mopidy media player.
+  plusdeck/main.yml              Plus Deck 2C PC Cassette Deck.
+  ssh/main.yml                   SSH agent and user keys.
+  starship/main.yml              Starship shell prompt.
+  vim/main.yml                   Vim text editor.
+  web/main.yml                   NGINX configuration.
+  development/git.yml            Git configuration.
+  development/gomplate.yml       Gomplate CLI template generator.
+  development/hugo.yml           Hugo static site generator.
+  development/neovim.yml         Neovim text editor.
+  development/node-dev/main.yml  Node.js development environment.
+  development/perl-dev/main.yml  Perl development environment.
+  development/rust-dev/main.yml  Rust development environment.
+ 
 `;
 
 export async function main() {
@@ -84,6 +113,8 @@ export async function main() {
     console.log(HELP);
     process.exit(0);
   }
+
+  const playbook = argv.playbook;
 
   let features = argv.feature;
   if (typeof features === 'undefined') {
@@ -153,6 +184,14 @@ export async function main() {
       stage.filter((stg) => !stg.feature || enabled(stg.feature)),
       opts,
     );
+  }
+
+  //
+  // Given a specific playbook, run it and exit.
+  //
+  if (playbook) {
+    await ansible(playbook);
+    return;
   }
 
   //
