@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
+
+NGINX_TEMPLATE_DIR="$(pwd)/playbooks/web/templates"
+
+set -x
 
 prettier --write .
 
 nginx-formatter \
   -char ' ' \
   -indent 4 \
-  -input "$(pwd)/playbooks/web/templates" \
-  -output "$(pwd)/playbooks/web/templates"
+  -input "${NGINX_TEMPLATE_DIR}" \
+  -output "${NGINX_TEMPLATE_DIR}" \

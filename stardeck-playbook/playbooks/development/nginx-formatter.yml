@@ -9,7 +9,7 @@
       become_user: '{{ item.key }}'
       ansible.builtin.unarchive:
         src: 'https://github.com/soulteary/nginx-formatter/releases/download/v{{ nginx_formatter_version }}/nginx-formatter_{{ nginx_formatter_version }}_linux_amd64.tar.gz'
-        dest: "/home/{{ item.key }}/.local/bin"
+        dest: '/home/{{ item.key }}/.local/bin'
         remote_src: true
         include:
           - nginx-formatter
