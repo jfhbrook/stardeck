@@ -34,6 +34,10 @@ update:
 playbook *ARGV:
   cd ./stardeck-playbook && sudo -E node main.mjs {{ ARGV }}
 
+# Scan music for mopidy
+scan-music:
+  sudo mopidyctl local scan
+
 # Control loopback
 loopback ACTION:
   @perl ./scripts/loopback.pl '{{ ACTION }}'
