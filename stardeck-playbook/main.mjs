@@ -55,32 +55,33 @@ FEATURES:
   web           HTTP/HTTPS web server.
 
 PLAYBOOKS:
-  repositories.yml               System repositories.
-  update.yml                     System updates.
-  packages.yml                   System packages.
-  audio/bluetooth.yml            Bluetooth audio configuration.
-  audio/pipewire.yml             Pipewire configuration.
-  audio/pulseaudio.yml           Pulseaudio configuration.
-  cockpit/main.yml               Cockpit web admin interface.
-  crystalfontz/main.yml          Crystalfontz LCD display.
-  dialout.yml                    The dialout group, which controls access to
-                                 serial ports.
-  filesharing/main.yml           Configure Samba filesharing.
-  login.yml                      Configure login and power settings.
-  mopidy/main.yml                Mopidy media player.
-  plusdeck/main.yml              Plus Deck 2C PC Cassette Deck.
-  ssh/main.yml                   SSH agent and user keys.
-  starship/main.yml              Starship shell prompt.
-  vim/main.yml                   Vim text editor.
-  web/certificate.yml            SSL self-signed certificate.
-  web/main.yml                   HTTP/HTTPS server configuration.
-  development/git.yml            Git configuration.
-  development/gomplate.yml       Gomplate CLI template generator.
-  development/hugo.yml           Hugo static site generator.
-  development/neovim.yml         Neovim text editor.
-  development/node-dev/main.yml  Node.js development environment.
-  development/perl-dev/main.yml  Perl development environment.
-  development/rust-dev/main.yml  Rust development environment.
+  repositories.yml                 System repositories.
+  update.yml                       System updates.
+  packages.yml                     System packages.
+  audio/bluetooth.yml              Bluetooth audio configuration.
+  audio/pipewire.yml               Pipewire configuration.
+  audio/pulseaudio.yml             Pulseaudio configuration.
+  cockpit/main.yml                 Cockpit web admin interface.
+  crystalfontz/main.yml            Crystalfontz LCD display.
+  dialout.yml                      The dialout group, which controls access to
+                                   serial ports.
+  filesharing/main.yml             Configure Samba filesharing.
+  login.yml                        Configure login and power settings.
+  mopidy/main.yml                  Mopidy media player.
+  plusdeck/main.yml                Plus Deck 2C PC Cassette Deck.
+  ssh/main.yml                     SSH agent and user keys.
+  starship/main.yml                Starship shell prompt.
+  vim/main.yml                     Vim text editor.
+  web/certificate.yml              SSL self-signed certificate.
+  web/main.yml                     HTTP/HTTPS server configuration.
+  development/git.yml              Git configuration.
+  development/gomplate.yml         Gomplate CLI template generator.
+  development/hugo.yml             Hugo static site generator.
+  development/neovim.yml           Neovim text editor.
+  development/nginx-formatter.yml  NGINX config file formatter.
+  development/node-dev/main.yml    Node.js development environment.
+  development/perl-dev/main.yml    Perl development environment.
+  development/rust-dev/main.yml    Rust development environment.
 `;
 
 export async function main() {
