@@ -248,6 +248,7 @@ export async function main() {
       { name: 'gomplate', playbook: 'development/gomplate.yml' },
       { name: 'hugo', playbook: 'development/hugo.yml' },
       { name: 'neovim', playbook: 'development/neovim.yml' },
+      { name: 'nginx-formatter', playbook: 'development/nginx-formatter.yml' },
       { name: 'node', playbook: 'development/node-dev/main.yml' },
       { name: 'perl', playbook: 'development/perl-dev/main.yml' },
       { name: 'rust', playbook: 'development/rust-dev/main.yml' },
