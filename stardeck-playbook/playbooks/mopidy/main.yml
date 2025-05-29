@@ -17,7 +17,7 @@
         immediate: true
     - name: Write mopidy.conf
       become: true
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: 'mopidy.conf'
         dest: '/etc/mopidy/mopidy.conf'
         owner: root
