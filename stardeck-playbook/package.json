@@ -10,7 +10,7 @@
   "scripts": {
     "install": "npm run install:ansible",
     "install:ansible": "node ./scripts/install.mjs",
-    "format": "prettier --write .",
+    "format": "./scripts/format.sh",
     "start": "node ./main.mjs",
     "lint": "prettier --list-different . && eslint --fix \"**.mjs\"",
     "test": "vitest --run"

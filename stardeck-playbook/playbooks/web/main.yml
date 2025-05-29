@@ -8,7 +8,7 @@
   tasks:
     - name: Write NGINX config
       ansible.builtin.template:
-        src: 'nginx.conf.j2'
+        src: 'nginx.conf'
         dest: '/etc/nginx/nginx.conf'
         owner: root
         group: root
