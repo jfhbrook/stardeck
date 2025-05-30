@@ -12,13 +12,11 @@
         group: root
         mode: '0755'
     - name: Create OpenSSL Private Key
-      become: true
       community.crypto.openssl_privatekey:
         state: present
         path: /etc/ssl/private/stardeck.key
         type: RSA
     - name: Create Self-Signed SSL Certificate
-      become: true
       community.crypto.x509_certificate:
         state: present
         path: /etc/ssl/certs/stardeck.crt
