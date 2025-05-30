@@ -1,13 +1,10 @@
 requires 'IPC::Run',           '20231003.0';
-requires 'JSON',               '>= 4.10, < 5.0';
-requires 'String::ShellQuote', '>= 1.04, < 2.0';
+requires 'JSON',               '4.10';
+requires 'String::ShellQuote', '1.04';
 
 on 'develop' => sub {
-    requires 'Dist::Zilla',         '>= 6.032, < 7.0';
-    requires 'Perl::Critic',        '>= 1.156, < 2.0';
-    requires 'Perl::Tidy',          '20250311';
     requires 'Pod::Coverage',       '0.23';
     requires 'Test::CheckManifest', '1.43';
-    requires 'Test::Pod',           '>= 1.52, < 2.0';
-    requires 'Test::Pod::Coverage', '>= 1.10, < 2.0';
+    requires 'Test::Pod',           '1.52';
+    requires 'Test::Pod::Coverage', '1.10';
   }
