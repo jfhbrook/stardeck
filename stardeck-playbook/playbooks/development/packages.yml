@@ -16,8 +16,11 @@
       - perl-App-cpm
       - perlbrew
       - perl-Carton
-      - perl-Dist-Zilla
+      - perltidy
       - perl-Perl-Critic
+      - perl-Perl-PrereqScanner
+      - perl-Dist-Zilla
+      - perl-Dist-Zilla-Plugin-Prereqs-FromCPANfile
       # python dev
       - uv
       # rust

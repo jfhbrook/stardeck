@@ -32,11 +32,19 @@
 
       perlbrew install-cpm
     creates: '/home/{{ user.key }}/perl5/perlbrew/bin/cpm'
-- name: 'Install {{ item.package }}'
+- name: Install cpanm
   become_user: '{{ user.key }}'
   ansible.builtin.shell:
     cmd: |
       source ~/perl5/perlbrew/etc/bashrc
 
-      cpanm {{ item.package }} {{ '--force' if item.force == 'true' else '' }}
+      perlbrew install-cpanm
+    creates: '/home/{{ user.key }}/perl5/perlbrew/bin/cpanm'
+- name: 'Install CPAN modules'
+  become_user: '{{ user.key }}'
+  ansible.builtin.shell:
+    cmd: |
+      source ~/perl5/perlbrew/etc/bashrc
+
+      cpanm {{ item.package }} {{ '--force' if item.force | default(false) else '' }}
   loop: []
