@@ -51,6 +51,7 @@ FEATURES:
   shell         Hooks for the user shell.
   stardeck      Stardeck software.
   starship      Starship shell prompt.
+  update        System updates.
   vim           Vim text editor.
   web           HTTP/HTTPS web server.
 
@@ -126,18 +127,19 @@ export async function main() {
 
   const check = argv['dry-run'];
   const diff = check;
-  const update = argv.update;
+  let update = argv.update;
   const serial = argv.serial;
 
-  let tags = Array.from(features);
-
-  if (features.length && update) {
-    tags.push('update');
-  }
-
+  const tags = Array.from(features);
   let skipTags = undefined;
 
-  if (!features.length && !update) {
+  if (features.length) {
+    // If features are being used, then treat 'update' as a feature, and
+    // disable/enable update accordingly
+    update = features.includes('update');
+  } else if (!update) {
+    // If features are *not* being used but updates are disabled, then skip
+    // that tag
     skipTags = ['update'];
   }
 
