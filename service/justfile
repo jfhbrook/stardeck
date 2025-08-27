@@ -2,7 +2,7 @@ start *argv:
   go run main.go {{ argv }}
 
 format:
-  go fmt .
+  go fmt . ./cmd ./lib
 
 build:
   go build -o bin/stardeck-service
