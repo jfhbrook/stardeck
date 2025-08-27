@@ -20,7 +20,7 @@ func ListenToSignals(conn *dbus.Conn, events *chan *Event) error {
 		case "org.jfhbrook.plusdeck.State":
 			HandlePlusdeckState(signal, events)
 		case "org.jfhbrook.crystalfontz.KeyActivityReports":
-			HandleCrystalfontzKeyActivityReport(signal, events)
+			HandleKeyActivityReport(signal, events)
 		}
 	}
 

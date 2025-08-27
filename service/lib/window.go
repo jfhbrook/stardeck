@@ -32,7 +32,7 @@ func NewWindowWorker() *WindowWorker {
 }
 
 func newWindowEvent(name string) *Event {
-	e := Event{EventType: WindowEvent, Name: name}
+	e := Event{Type: WindowEvent, Value: name}
 
 	return &e
 }

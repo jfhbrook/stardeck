@@ -24,11 +24,16 @@ const (
 func AddCrystalfontzMatchSignal(conn *dbus.Conn) error {
 	return conn.AddMatchSignal(
 		dbus.WithMatchObjectPath("/"),
-		dbus.WithMatchInterface("org.jfhbrook.crystalfontz"),
+		dbus.WithMatchInterface("org.jfhbrook.crystalfontz.KeyActivityReports"),
 	)
 }
 
-func HandleCrystalfontzKeyActivityReport(signal *dbus.Signal, events *chan *Event) {
-	// signal.Body[0] should be a byte representation of the report
-	// this will need to be unpacked
+func newKeyActivityReportEvent(activity byte) *Event {
+	e := Event{Type: KeyActivityReport, Value: activity}
+
+	return &e
+}
+
+func HandleKeyActivityReport(signal *dbus.Signal, events *chan *Event) {
+	*events <- newKeyActivityReportEvent(signal.Body[0].(byte))
 }

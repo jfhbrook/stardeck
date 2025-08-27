@@ -4,12 +4,11 @@ type EventType int
 
 const (
 	WindowEvent EventType = iota
-	PlusdeckStateEvent
-	CrystalfontzKeyActivityReportEvent
+	PlusdeckEvent
+	KeyActivityReport
 )
 
-// TODO: Make this an interface
 type Event struct {
-	EventType EventType
-	Name      string
+	Type  EventType
+	Value any
 }

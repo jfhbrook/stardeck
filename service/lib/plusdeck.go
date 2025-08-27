@@ -28,6 +28,12 @@ func AddPlusdeckMatchSignal(conn *dbus.Conn) error {
 	)
 }
 
+func newPlusdeckEvent(state string) *Event {
+	e := Event{Type: PlusdeckEvent, Value: state}
+
+	return &e
+}
+
 func HandlePlusdeckState(signal *dbus.Signal, events *chan *Event) {
-	// signal.Body[0] should be the event name
+	*events <- newPlusdeckEvent(signal.Body[0].(string))
 }
