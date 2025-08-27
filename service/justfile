@@ -1,0 +1,2 @@
+start *argv:
+  go run main.go {{ argv }}
