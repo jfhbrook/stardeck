@@ -8,18 +8,18 @@ default:
 
 # Run setup steps
 setup:
-  cd ./stardeck-playbook && npm install
+  cd ./playbook && npm install
 
 # Lint everything
 lint:
   just -f ./perl/Stardeck/justfile lint
-  cd ./stardeck-playbook && npm run lint
+  cd ./playbook && npm run lint
   shellcheck scripts/*.sh
 
 # Format everything
 format:
   just -f ./perl/Stardeck/justfile format
-  cd ./stardeck-playbook && npm run format
+  cd ./playbook && npm run format
 
 # Link tool
 link:
@@ -30,9 +30,9 @@ update:
   @bash ./scripts/playbook-dependencies.sh
   @just playbook
 
-# Run stardeck-playbook
+# Run playbook
 playbook *ARGV:
-  cd ./stardeck-playbook && sudo -E node main.mjs {{ ARGV }}
+  cd ./playbook && sudo -E node main.mjs {{ ARGV }}
 
 # Scan music for mopidy
 scan-music:
