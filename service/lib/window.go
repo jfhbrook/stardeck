@@ -8,11 +8,11 @@ import (
 
 type WindowWorker struct {
 	WindowInterval float64
-	ExitTimeout  float64
-	ExitInterval float64
-	ExitTryTimes int
-	running bool
-	Window string
+	ExitTimeout    float64
+	ExitInterval   float64
+	ExitTryTimes   int
+	running        bool
+	Window         string
 }
 
 func NewWindowWorker() *WindowWorker {
@@ -22,33 +22,22 @@ func NewWindowWorker() *WindowWorker {
 	exitTryTimes := int(exitTimeout * (1.0 / exitInterval))
 	w := WindowWorker{
 		WindowInterval: windowInterval,
-		ExitTimeout: exitTimeout,
-		ExitInterval: exitInterval,
-		ExitTryTimes: exitTryTimes,
-		running: true,
-		Window: "",
+		ExitTimeout:    exitTimeout,
+		ExitInterval:   exitInterval,
+		ExitTryTimes:   exitTryTimes,
+		running:        true,
+		Window:         "",
 	}
 	return &w
 }
 
-type EventType int
-
-const (
-	WindowEvent EventType = iota
-)
-
-type Event struct {
-	EventType EventType
-	Name string
-}
-
-func NewWindowEvent(name string) *Event {
-	e := Event{EventType: WindowEvent, Name: name};
+func newWindowEvent(name string) *Event {
+	e := Event{EventType: WindowEvent, Name: name}
 
 	return &e
 }
 
-func(w *WindowWorker) Poll() (*Event, error) {
+func (w *WindowWorker) Poll() (*Event, error) {
 	activeWindow, err := exec.Command("kdotool", "getactivewindow").Output()
 
 	if err != nil {
@@ -56,7 +45,7 @@ func(w *WindowWorker) Poll() (*Event, error) {
 	}
 
 	// TODO: Can I assign to err like that?
-	windowName, err := exec.Command("kdotool", "getwindowname", string(activeWindow)).Output();
+	windowName, err := exec.Command("kdotool", "getwindowname", string(activeWindow)).Output()
 
 	if err != nil {
 		return nil, err
@@ -64,9 +53,9 @@ func(w *WindowWorker) Poll() (*Event, error) {
 
 	next := string(windowName)
 
-	if (next != w.Window) {
+	if next != w.Window {
 		w.Window = next
-		e := NewWindowEvent(w.Window)
+		e := newWindowEvent(w.Window)
 		return e, nil
 	}
 
