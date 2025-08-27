@@ -1,92 +1,70 @@
 package lib
 
-/*
-my sub map_notification_actions {
-    my @actions = ();
-    while (@_) {
-        my $identifier = shift;
-        my $localized  = shift;
-        my @pair       = ( $identifier, $localized );
-        push( @actions, \@pair );
-    }
-    return \@actions;
+import (
+	"github.com/godbus/dbus/v5"
+)
+
+type NotificationInfo struct {
+	AppName       string
+	ReplacesId    uint
+	AppIcon       string
+	Summary       string
+	Body          string
+	Actions       map[string]string
+	Hints         map[string]any
+	ExpireTimeout int32
 }
 
-my sub map_notifications {
+func newNotificationEvent(payload []any) *Event {
+	info := NotificationInfo{
+		AppName:       payload[0].(string),
+		ReplacesId:    payload[1].(uint),
+		AppIcon:       payload[2].(string),
+		Summary:       payload[3].(string),
+		Body:          payload[4].(string),
+		Actions:       mapActions(payload[5].([]string)),
+		Hints:         payload[6].(map[string]any),
+		ExpireTimeout: payload[7].(int32),
+	}
 
-    # {
-    #   "type":"method_call",
-    #   "endian":"l",
-    #   "flags":0,
-    #   "version":1,
-    #   "cookie":9,
-    #   "timestamp-realtime":1744565025716135,
-    #   "sender":":1.135",
-    #   "destination":":1.45",
-    #   "path":"/org/freedesktop/Notifications",
-    #   "interface":"org.freedesktop.Notifications",
-    #   "member":"Notify",
-    #   "payload":{
-    #     "type":"susssasa{sv}i",
-    #     "data":[
-    #       "notify-send",
-    #       0,
-    #       "",
-    #       "Party time!",
-    #       "It is time to party hard",
-    #       ["dance", "Dance party!"],
-    #       {
-    #         "urgency":{
-    #           "type":"y",
-    #           "data":1
-    #         },
-    #         "sender-pid":{
-    #           "type":"x"
-    #           "data":129140
-    #         }
-    #       },
-    #       -1
-    #     ]
-    #   }
-    # }
-    my $method_call = decode_json $_;
-    my $payload     = $method_call->{'payload'};
-    my $data        = $payload->{'data'};
+	event := Event{Type: Notification, Value: info}
 
-    my $app_name       = $data->[0];
-    my $replaces_id    = $data->[1];
-    my $app_icon       = $data->[2];
-    my $summary        = $data->[3];
-    my $body           = $data->[4];
-    my $actions        = &map_notification_actions( $data->[5] );
-    my $hints          = $data->[6];
-    my $expire_timeout = $data->[7];
-
-    # TODO: Add timestamp
-    my %event = (
-        type           => 'Notification',
-        app_name       => $app_name,
-        replaces_id    => $replaces_id,
-        app_icon       => $app_icon,
-        summary        => $summary,
-        body           => $body,
-        actions        => $actions,
-        hints          => $hints,
-        expire_timeout => $expire_timeout
-    );
-
-    return \%event;
+	return &event
 }
 
-my sub notifications_worker {
-    my @command = (
-        'busctl', 'monitor', '--user',
-        '--destination=org.freedesktop.Notifications',
-        "--match=member='Notify'", '--json=short'
-    );
+func mapActions(raw []string) map[string]string {
+	var actions map[string]string
+	i := 0
 
-    &listen_process( 'notifications', \@command, \&map_notifications );
+	for i < len(raw) {
+		actions[raw[i]] = raw[i+1]
+		i += 2
+	}
 
-    return;
+	return actions
 }
-*/
+
+func ListenToNotifications(conn *dbus.Conn, events *chan *Event) error {
+	rules := []string{
+		"type='method_call',member='Notify',path='/org/freedesktop/Notifications',interface='org.freedesktop.Notifications'",
+	}
+	var flag uint = 0
+
+	call := conn.BusObject().Call("org.freedesktop.DBus.Monitoring.BecomeMonitor", 0, rules, flag)
+
+	if call.Err != nil {
+		return call.Err
+	}
+
+	messages := make(chan *dbus.Message)
+
+	conn.Eavesdrop(messages)
+
+	for message := range messages {
+		event := newNotificationEvent(message.Body)
+
+		*events <- event
+	}
+
+	return nil
+}

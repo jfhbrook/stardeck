@@ -6,6 +6,7 @@ const (
 	WindowEvent EventType = iota
 	PlusdeckEvent
 	KeyActivityReport
+	Notification
 )
 
 type Event struct {
