@@ -61,3 +61,31 @@ func (w *WindowWorker) Poll() (*Event, error) {
 
 	return nil, nil
 }
+
+/*
+my sub active_window_worker {
+    my $current = '';
+
+    while ($running) {
+
+        # TODO: Use open3 and log errors
+        my $window = `kdotool getactivewindow`;
+        my $next   = `kdotool getwindowname $window`;
+        if ( $next ne $current ) {
+            my %event = (
+                type => 'ActiveWindow',
+                name => "${next}"
+            );
+
+            $main_commands->enqueue( \%event );
+        }
+        $current = $next;
+
+        if ($running) {
+            usleep( $active_window_poll_interval * 10e6 );
+        }
+    }
+
+    return;
+}
+*/
