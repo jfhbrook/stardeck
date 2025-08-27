@@ -1,2 +1,8 @@
 start *argv:
   go run main.go {{ argv }}
+
+format:
+  go fmt .
+
+build:
+  go build -o bin/stardeck-service
