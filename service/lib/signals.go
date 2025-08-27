@@ -4,47 +4,25 @@ import (
 	"github.com/godbus/dbus/v5"
 )
 
-// https://github.com/godbus/dbus/blob/master/_examples/signal.go
-// https://pkg.go.dev/github.com/godbus/dbus/v5#Signal
-func SignalListener(bus *dbus.Conn) {
-	// Listens to all relevant signals from both crystalfontz and stardeck
+func ListenToSignals(conn *dbus.Conn, events *chan *Event) error {
+	if err := AddPlusdeckMatchSignal(conn); err != nil {
+		return err
+	}
+	if err := AddCrystalfontzMatchSignal(conn); err != nil {
+		return err
+	}
 
+	signals := make(chan *dbus.Signal, 10)
+	conn.Signal(signals)
+
+	for signal := range signals {
+		switch signal.Name {
+		case "org.jfhbrook.plusdeck.State":
+			HandlePlusdeckState(signal, events)
+		case "org.jfhbrook.crystalfontz.KeyActivityReports":
+			HandleCrystalfontzKeyActivityReport(signal, events)
+		}
+	}
+
+	return nil
 }
-
-/*
-my sub plusdeck_state_worker {
-    my @command = (
-        $python_bin, '-u', '-m', 'plusdeck.dbus.client', '--output', 'text',
-        'subscribe'
-    );
-
-    &listen_process(
-        'plusdeck_state',
-        \@command,
-        sub {
-            my %event = (
-                type  => "PlusdeckState",
-                state => $_
-            );
-            \%event;
-        }
-    );
-
-    return;
-}
-*/
-
-/*
-my sub crystalfontz_reports_worker {
-    my @command = (
-        $python_bin, '-u', '-m', 'crystalfontz.dbus.client', '--output',
-        'json',      'listen'
-    );
-
-    # {"type": "KeyActivityReport", "activity": "KEY_UP_PRESS"}
-    &listen_process( 'crystalfontz_reports', \@command,
-        sub { decode_json $_; } );
-
-    return;
-}
-*/
