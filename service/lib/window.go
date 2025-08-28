@@ -2,18 +2,15 @@ package lib
 
 import (
 	"os/exec"
+	"time"
 )
 
-type WindowWorker struct {
-	WindowInterval float64
-	Window         string
+type window struct {
+	name string
 }
 
-func NewWindowWorker(interval float64) *WindowWorker {
-	w := WindowWorker{
-		WindowInterval: interval,
-		Window:         "",
-	}
+func newWindow() *window {
+	w := window{name: ""}
 	return &w
 }
 
@@ -23,14 +20,13 @@ func newWindowEvent(name string) *Event {
 	return &e
 }
 
-func (w *WindowWorker) Poll() (*Event, error) {
+func (w *window) poll() (*Event, error) {
 	activeWindow, err := exec.Command("kdotool", "getactivewindow").Output()
 
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: Can I assign to err like that?
 	windowName, err := exec.Command("kdotool", "getwindowname", string(activeWindow)).Output()
 
 	if err != nil {
@@ -39,9 +35,9 @@ func (w *WindowWorker) Poll() (*Event, error) {
 
 	next := string(windowName)
 
-	if next != w.Window {
-		w.Window = next
-		e := newWindowEvent(w.Window)
+	if next != w.name {
+		w.name = next
+		e := newWindowEvent(w.name)
 		return e, nil
 	}
 
@@ -49,10 +45,11 @@ func (w *WindowWorker) Poll() (*Event, error) {
 }
 
 func ListenToWindow(interval float64, events *chan *Event) error {
-	w := NewWindowWorker(interval)
+	duration := time.Duration(interval * float64(time.Second))
+	w := newWindow()
 
 	for {
-		event, err := w.Poll()
+		event, err := w.poll()
 
 		if err != nil {
 			panic(err)
@@ -61,5 +58,7 @@ func ListenToWindow(interval float64, events *chan *Event) error {
 		if event != nil {
 			*events <- event
 		}
+
+		time.Sleep(duration)
 	}
 }
