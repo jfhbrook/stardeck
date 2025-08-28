@@ -14,11 +14,15 @@ func Service() error {
 		return err
 	}
 
+	defer sessionConn.Close()
+
 	systemConn, err := dbus.ConnectSystemBus()
 
 	if err != nil {
 		return err
 	}
+
+	defer systemConn.Close()
 
 	events := make(chan *Event)
 
