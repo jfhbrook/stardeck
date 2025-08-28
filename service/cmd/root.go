@@ -1,12 +1,10 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
-
 	"github.com/jfhbrook/stardeck/service/lib"
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -22,19 +20,7 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		w := lib.NewWindowWorker()
-
-		events := make(chan *lib.Event)
-
-		go func() {
-			w.Run(&events)
-		}()
-
-		for {
-			event := <-events
-			fmt.Println(event)
-		}
-
+		lib.Service()
 	},
 }
 

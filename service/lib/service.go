@@ -1,5 +1,22 @@
 package lib
 
+import (
+	"fmt"
+)
+
+func Service() {
+	w := NewWindowWorker()
+
+	events := make(chan *Event)
+
+	go w.Run(&events)
+
+	for {
+		event := <-events
+		fmt.Println(event)
+	}
+}
+
 /*
 my %commands = (
     StartProcess => sub {
