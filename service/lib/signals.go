@@ -4,12 +4,12 @@ import (
 	"github.com/godbus/dbus/v5"
 )
 
-func ListenToSignals(conn *dbus.Conn, events *chan *Event) error {
+func ListenToSignals(conn *dbus.Conn, events *chan *Event) {
 	if err := AddPlusdeckMatchSignal(conn); err != nil {
-		return err
+		panic(err)
 	}
 	if err := AddCrystalfontzMatchSignal(conn); err != nil {
-		return err
+		panic(err)
 	}
 
 	signals := make(chan *dbus.Signal, 10)
@@ -23,6 +23,4 @@ func ListenToSignals(conn *dbus.Conn, events *chan *Event) error {
 			HandleKeyActivityReport(signal, events)
 		}
 	}
-
-	return nil
 }

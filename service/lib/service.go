@@ -2,14 +2,29 @@ package lib
 
 import (
 	"fmt"
+	"github.com/godbus/dbus/v5"
 )
 
-func Service() {
-	w := NewWindowWorker()
+func Service() error {
+	windowPollInterval := 0.2
+
+	sessionConn, err := dbus.ConnectSessionBus()
+
+	if err != nil {
+		return err
+	}
+
+	systemConn, err := dbus.ConnectSystemBus()
+
+	if err != nil {
+		return err
+	}
 
 	events := make(chan *Event)
 
-	go w.Run(&events)
+	go ListenToWindow(windowPollInterval, &events)
+	go ListenToSignals(systemConn, &events)
+	go ListenToNotifications(sessionConn, &events)
 
 	for {
 		event := <-events

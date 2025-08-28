@@ -1,31 +1,17 @@
 package lib
 
 import (
-	// "fmt"
-	// "io"
 	"os/exec"
 )
 
 type WindowWorker struct {
 	WindowInterval float64
-	ExitTimeout    float64
-	ExitInterval   float64
-	ExitTryTimes   int
-	running        bool
 	Window         string
 }
 
-func NewWindowWorker() *WindowWorker {
-	windowInterval := 0.2
-	exitTimeout := 10.0
-	exitInterval := 0.1
-	exitTryTimes := int(exitTimeout * (1.0 / exitInterval))
+func NewWindowWorker(interval float64) *WindowWorker {
 	w := WindowWorker{
-		WindowInterval: windowInterval,
-		ExitTimeout:    exitTimeout,
-		ExitInterval:   exitInterval,
-		ExitTryTimes:   exitTryTimes,
-		running:        true,
+		WindowInterval: interval,
 		Window:         "",
 	}
 	return &w
@@ -62,8 +48,10 @@ func (w *WindowWorker) Poll() (*Event, error) {
 	return nil, nil
 }
 
-func (w *WindowWorker) Run(events *chan *Event) {
-	for w.running {
+func ListenToWindow(interval float64, events *chan *Event) error {
+	w := NewWindowWorker(interval)
+
+	for {
 		event, err := w.Poll()
 
 		if err != nil {

@@ -44,7 +44,7 @@ func mapActions(raw []string) map[string]string {
 	return actions
 }
 
-func ListenToNotifications(conn *dbus.Conn, events *chan *Event) error {
+func ListenToNotifications(conn *dbus.Conn, events *chan *Event) {
 	rules := []string{
 		"type='method_call',member='Notify',path='/org/freedesktop/Notifications',interface='org.freedesktop.Notifications'",
 	}
@@ -53,7 +53,7 @@ func ListenToNotifications(conn *dbus.Conn, events *chan *Event) error {
 	call := conn.BusObject().Call("org.freedesktop.DBus.Monitoring.BecomeMonitor", 0, rules, flag)
 
 	if call.Err != nil {
-		return call.Err
+		panic(call.Err)
 	}
 
 	messages := make(chan *dbus.Message)
@@ -65,6 +65,4 @@ func ListenToNotifications(conn *dbus.Conn, events *chan *Event) error {
 
 		*events <- event
 	}
-
-	return nil
 }
