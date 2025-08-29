@@ -53,7 +53,7 @@ func ListenToNotifications(conn *dbus.Conn, events *chan *Event) {
 	call := conn.BusObject().Call("org.freedesktop.DBus.Monitoring.BecomeMonitor", 0, rules, flag)
 
 	if call.Err != nil {
-		panic(call.Err)
+		flagrantError(call.Err)
 	}
 
 	messages := make(chan *dbus.Message)

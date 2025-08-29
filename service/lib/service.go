@@ -1,17 +1,18 @@
 package lib
 
 import (
-	"fmt"
 	"github.com/godbus/dbus/v5"
 )
 
-func Service() error {
-	windowPollInterval := 0.2
+func Service() {
+	interval := 0.2
+
+	configureLogger()
 
 	sessionConn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
-		return err
+		flagrantError(err)
 	}
 
 	defer sessionConn.Close()
@@ -19,29 +20,14 @@ func Service() error {
 	systemConn, err := dbus.ConnectSystemBus()
 
 	if err != nil {
-		return err
+		flagrantError(err)
 	}
 
 	defer systemConn.Close()
 
 	events := make(chan *Event)
 
-	go ListenToWindow(windowPollInterval, &events)
-	go ListenToSignals(systemConn, &events)
-	go ListenToNotifications(sessionConn, &events)
+	go Listen(systemConn, sessionConn, &events, interval)
 
-	for {
-		event := <-events
-
-		switch event.Type {
-		case WindowEvent:
-			fmt.Println(event)
-		case PlusdeckEvent:
-			fmt.Println(event)
-		case KeyActivityReport:
-			fmt.Println(event)
-		case Notification:
-			fmt.Println(event)
-		}
-	}
+	CommandRunner(events)
 }

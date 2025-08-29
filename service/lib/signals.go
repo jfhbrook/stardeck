@@ -6,10 +6,10 @@ import (
 
 func ListenToSignals(conn *dbus.Conn, events *chan *Event) {
 	if err := AddPlusdeckMatchSignal(conn); err != nil {
-		panic(err)
+		flagrantError(err)
 	}
 	if err := AddCrystalfontzMatchSignal(conn); err != nil {
-		panic(err)
+		flagrantError(err)
 	}
 
 	signals := make(chan *dbus.Signal, 10)

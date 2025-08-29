@@ -52,7 +52,7 @@ func ListenToWindow(interval float64, events *chan *Event) error {
 		event, err := w.poll()
 
 		if err != nil {
-			panic(err)
+			flagrantError(err)
 		}
 
 		if event != nil {
