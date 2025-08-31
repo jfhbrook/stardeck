@@ -2,6 +2,8 @@
   hosts: localhost
   connection: local
   tasks:
+    - name: Core
+      include_tasks: ./core/packages.yml
     - name: Audio
       include_tasks: ./audio/packages.yml
     - name: Cockpit

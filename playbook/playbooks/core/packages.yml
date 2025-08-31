@@ -1,0 +1,7 @@
+- name: Install packages
+  ansible.builtin.dnf:
+    state: present
+    name:
+      - rpmconf
+  tags:
+    - core
