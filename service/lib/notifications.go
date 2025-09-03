@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"fmt"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -61,8 +62,9 @@ func ListenToNotifications(conn *dbus.Conn, events *chan *Event) {
 	conn.Eavesdrop(messages)
 
 	for message := range messages {
-		event := newNotificationEvent(message.Body)
+		fmt.Println("%#v", message)
+		// event := newNotificationEvent(message.Body)
 
-		*events <- event
+		// *events <- event
 	}
 }
