@@ -1,3 +1,6 @@
+install:
+  go install
+
 start *argv:
   go run main.go {{ argv }}
 

@@ -1,6 +1,6 @@
 module github.com/jfhbrook/stardeck/service
 
-go 1.25.0
+go 1.24.6
 
 require (
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
