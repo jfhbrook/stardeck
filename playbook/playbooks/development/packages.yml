@@ -38,7 +38,7 @@
       - htop
       - just
       - jq
-      - neofetch
+      - fastfetch
       - pandoc
       - ranger
       - ripgrep
