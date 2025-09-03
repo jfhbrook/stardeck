@@ -10,7 +10,7 @@ func initConfig() {
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("/etc/stardeck")
 
-	viper.SetDefault("PollInterval", 0.2)
+	viper.SetDefault("poll_interval", 5.0)
 }
 
 func readInConfig() error {
