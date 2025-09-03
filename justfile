@@ -3,6 +3,8 @@ set dotenv-load := true
 email := 'josh.holbrook@gmail.com'
 destination := 'josh@stardeck.local'
 
+releasever := '42'
+
 default:
   @just --list
 
@@ -12,7 +14,6 @@ setup:
 
 # Lint everything
 lint:
-  just -f ./perl/Stardeck/justfile lint
   cd ./playbook && npm run lint
   shellcheck scripts/*.sh
 
@@ -29,6 +30,34 @@ link:
 update:
   @bash ./scripts/playbook-dependencies.sh
   @just playbook
+
+# Steps to run before upgrading Fedora
+pre-upgrade:
+  sudo dnf upgrade --refresh
+  sudo reboot
+
+# Upgrade Fedora
+upgrade:
+  sudo dnf system-upgrade download --releasever={{ releasever }}
+  sudo dnf5 offline reboot
+
+# Steps to run after upgrading Fedora
+post-upgrade:
+  bash ./scripts/post-upgrade.sh
+
+# Clean up extra packages
+cleanup-extras:
+  bash ./scripts/cleanup-extras.sh
+
+# Clean up old kernels
+cleanup-kernels:
+  bash ./scripts/cleanup-kernels.sh
+
+# Clean up dangling symlinks in /usr
+cleanup-symlinks:
+  bash ./scripts/cleanup-symlinks.sh
+
+
 
 # Run playbook
 playbook *ARGV:

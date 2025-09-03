@@ -2,6 +2,15 @@
   ansible.builtin.dnf:
     state: present
     name:
+      # Cleans up GPG pubkeys from dnf
+      - clean-rpm-gpg-pubkey
+      # Automates updating the rescue kernel
+      - dracut-config-rescue
+      # Removes retired Fedora packages
+      - remove-retired-packages
+      # Used to update system config files
       - rpmconf
+      # Used to clean up system symlinks
+      - symlinks
   tags:
     - core

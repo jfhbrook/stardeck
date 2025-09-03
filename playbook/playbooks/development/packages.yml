@@ -32,7 +32,6 @@
       # general cli tools
       - bat
       - btop
-      - eza
       - fd-find
       - fzf
       - gh
@@ -60,4 +59,4 @@
   register: watchexec_install
   changed_when: '"Nothing to do." not in watchexec_install.stdout'
   vars:
-    watchexec_version: '2.3.0'
+    watchexec_version: '2.3.2'
