@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"github.com/rs/zerolog/log"
 	"os/exec"
 	"time"
 )
@@ -52,10 +53,8 @@ func ListenToWindow(interval float64, events *chan *Event) error {
 		event, err := w.poll()
 
 		if err != nil {
-			flagrantError(err)
-		}
-
-		if event != nil {
+			log.Error().Stack().Err(err).Msg("Error when polling window")
+		} else if event != nil {
 			*events <- event
 		}
 
