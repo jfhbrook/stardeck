@@ -2,12 +2,20 @@ package lib
 
 import (
 	"github.com/godbus/dbus/v5"
+	"github.com/spf13/viper"
 )
 
 func Service() {
-	interval := 0.2
-
 	configureLogger()
+	initConfig()
+
+	if err := viper.ReadInConfig(); err != nil {
+		if !handleConfigFileNotFoundError(err) {
+			flagrantError(err)
+		}
+	}
+
+	interval := viper.GetFloat64("poll_interval")
 
 	sessionConn, err := dbus.ConnectSessionBus()
 
