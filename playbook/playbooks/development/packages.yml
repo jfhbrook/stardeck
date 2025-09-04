@@ -49,6 +49,8 @@
       - yadm
       # dbus
       - dbus-devel
+      # qt
+      - qt
     state: present
 - name: Install Watchexec
   # TODO: Using the dnf module here yields an error...
