@@ -19,7 +19,8 @@ type Event struct {
 }
 
 func Listen(systemConn *dbus.Conn, sessionConn *dbus.Conn, events *chan *Event, interval float64) {
-	go ListenToWindow(interval, events)
+	// TODO: This needs to use a dbus method callback, not kdotool
+	// go ListenToWindow(interval, events)
 	go ListenToSignals(systemConn, events)
 	go ListenToNotifications(sessionConn, events)
 }

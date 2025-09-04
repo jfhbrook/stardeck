@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Name": "Stardeck-KWin",
+        "Description": "Stardeck KWin plugin",
+        "Icon": "preferences-system-windows",
+        
+        "Authors": [
+            {
+                "Email": "josh.holbrook@gmail.com",
+                "Name": "Josh Holbrook"
+            }
+        ],
+        "Id": "stardeck-kwin",
+        "Version": "1.0",
+        "License": "MPL-2.0",
+        "Website": "https://github.com/jfhbrook/stardeck"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}
