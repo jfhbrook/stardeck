@@ -1,7 +1,13 @@
 package main
 
-import "github.com/jfhbrook/stardeck/service/cmd"
+import (
+	"flag"
+
+	"github.com/jfhbrook/stardeck/service/lib"
+)
 
 func main() {
-	cmd.Execute()
+	flag.Parse()
+
+	lib.Service()
 }
