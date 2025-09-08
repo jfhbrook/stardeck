@@ -17,7 +17,7 @@ function callback(methodName, ...args) {
 }
 
 function setWindow() {
-  callback('setWindow', workspace.activeWindow.caption);
+  callback('SetWindow', workspace.activeWindow.caption);
 }
 
 setInterval(setWindow, WINDOW_INTERVAL);
