@@ -33,6 +33,8 @@ func Service() {
 
 	defer systemConn.Close()
 
+	exportIface(sessionConn)
+
 	events := make(chan *Event)
 
 	go Listen(systemConn, sessionConn, &events, interval)
