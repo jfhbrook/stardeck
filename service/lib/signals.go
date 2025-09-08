@@ -4,7 +4,7 @@ import (
 	"github.com/godbus/dbus/v5"
 )
 
-func ListenToSignals(conn *dbus.Conn, events *chan *Event) {
+func ListenToSignals(conn *dbus.Conn, events chan *Event) {
 	if err := AddPlusdeckMatchSignal(conn); err != nil {
 		flagrantError(err)
 	}

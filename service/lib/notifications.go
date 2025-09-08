@@ -45,7 +45,7 @@ func mapActions(raw []string) map[string]string {
 	return actions
 }
 
-func ListenToNotifications(conn *dbus.Conn, events *chan *Event) {
+func ListenToNotifications(conn *dbus.Conn, events chan *Event) {
 	rules := []string{
 		"type='method_call',member='Notify',path='/org/freedesktop/Notifications',interface='org.freedesktop.Notifications'",
 	}

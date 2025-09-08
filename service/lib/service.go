@@ -36,8 +36,9 @@ func Service() {
 	exportIface(sessionConn)
 
 	events := make(chan *Event)
+	commands := make(chan *Command)
 
-	go Listen(systemConn, sessionConn, &events, interval)
-
-	CommandRunner(events)
+	go Listen(systemConn, sessionConn, events, interval)
+	go EventHandler(events, commands)
+	CommandRunner(commands)
 }

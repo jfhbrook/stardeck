@@ -36,8 +36,8 @@ func newPlusdeckEvent(state string) *Event {
 	return &e
 }
 
-func HandlePlusdeckState(signal *dbus.Signal, events *chan *Event) {
-	*events <- newPlusdeckEvent(signal.Body[0].(string))
+func HandlePlusdeckState(signal *dbus.Signal, events chan *Event) {
+	events <- newPlusdeckEvent(signal.Body[0].(string))
 }
 
 const (

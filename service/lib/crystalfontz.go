@@ -34,8 +34,8 @@ func newKeyActivityReportEvent(activity byte) *Event {
 	return &e
 }
 
-func HandleKeyActivityReport(signal *dbus.Signal, events *chan *Event) {
-	*events <- newKeyActivityReportEvent(signal.Body[0].(byte))
+func HandleKeyActivityReport(signal *dbus.Signal, events chan *Event) {
+	events <- newKeyActivityReportEvent(signal.Body[0].(byte))
 }
 
 type Crystalfontz struct {
