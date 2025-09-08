@@ -3,7 +3,6 @@ package lib
 import (
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
-	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -15,16 +14,18 @@ const (
 const intro = `
 <node>
 	<interface name="` + ifaceName + `">
-		<method name="setWindow">
+		<method name="SetWindow">
 			<arg direction="in" type="s"/>
 		</method>
 	</interface>` + introspect.IntrospectDataString + `
 </node>`
 
-type Iface struct{}
+type Iface struct {
+	commands chan *Command
+}
 
-func (i Iface) setWindow(name string) *dbus.Error {
-	log.Debug().Any("name", name).Msg("Set window name")
+func (i Iface) SetWindow(name string) *dbus.Error {
+	i.commands <- makeSetWindowNameCommand(name)
 	return nil
 }
 
