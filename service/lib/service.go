@@ -15,8 +15,6 @@ func Service() {
 		}
 	}
 
-	interval := viper.GetFloat64("poll_interval")
-
 	sessionConn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
@@ -38,7 +36,7 @@ func Service() {
 	events := make(chan *Event)
 	commands := make(chan *Command)
 
-	go Listen(systemConn, sessionConn, events, interval)
+	go Listen(systemConn, sessionConn, events)
 	go EventHandler(events, commands)
 	CommandRunner(commands)
 }

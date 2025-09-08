@@ -36,9 +36,7 @@ func EventHandler(events chan *Event, commands chan *Command) {
 	}
 }
 
-func Listen(systemConn *dbus.Conn, sessionConn *dbus.Conn, events chan *Event, interval float64) {
-	// TODO: This needs to use a dbus method callback, not kdotool
-	// go ListenToWindow(interval, events)
+func Listen(systemConn *dbus.Conn, sessionConn *dbus.Conn, events chan *Event) {
 	go ListenToSignals(systemConn, events)
 	go ListenToNotifications(sessionConn, events)
 }
