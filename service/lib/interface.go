@@ -3,6 +3,7 @@ package lib
 import (
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -22,7 +23,8 @@ const intro = `
 
 type Iface struct{}
 
-func (i Iface) setWindow() *dbus.Error {
+func (i Iface) setWindow(name string) *dbus.Error {
+	log.Debug().Any("name", name).Msg("Set window name")
 	return nil
 }
 
