@@ -5,7 +5,7 @@ start *argv:
   go run . {{ argv }}
 
 format:
-  go fmt .
+  go fmt . ./cmd
 
 build:
   go build -o bin/stardeckctl

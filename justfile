@@ -19,8 +19,9 @@ lint:
 
 # Format everything
 format:
-  just -f ./perl/Stardeck/justfile format
   cd ./playbook && npm run format
+  just -f stardeckd/justfile format
+  just -f stardeckctl/justfile format
 
 # Link tool
 link:
