@@ -1,0 +1,11 @@
+install:
+  go install
+
+start *argv:
+  go run . {{ argv }}
+
+format:
+  go fmt .
+
+build:
+  go build -o bin/stardeckd

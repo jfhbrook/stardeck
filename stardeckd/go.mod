@@ -1,4 +1,4 @@
-module github.com/jfhbrook/stardeck/service
+module github.com/jfhbrook/stardeck/stardeckd
 
 go 1.24.6
 

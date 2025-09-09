@@ -1,4 +1,4 @@
-package lib
+package main
 
 func makeSetWindowNameCommand(name string) *Command {
 	cmd := Command{
