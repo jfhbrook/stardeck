@@ -9,5 +9,7 @@ import (
 func main() {
 	flag.Parse()
 
+	// TODO: Accept log level flag and config file location
+
 	service.Service()
 }

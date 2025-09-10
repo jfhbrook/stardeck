@@ -4,33 +4,44 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
+	"errors"
 
 	"github.com/spf13/cobra"
+	"github.com/godbus/dbus/v5"
+
+	"github.com/jfhbrook/stardeck/client"
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 var setCmd = &cobra.Command{
 	Use:   "set",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Set a value",
+	Long: `Set an ephemeral value on the Stardeck service.`,
 }
 
 var setWindowCmd = &cobra.Command{
-	Use:   "window",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "window [name]",
+	Short: "Set the window title",
+	Long: `Set the title of the currently active window. This will be displayed on
+the LCD.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("set window called")
+		if len(args) != 1 {
+			logger.FlagrantError(errors.New("Window name is required"))
+		}
+
+		windowName := args[0]
+
+		conn, err := dbus.ConnectSessionBus()
+
+		if err != nil {
+			logger.FlagrantError(err)
+		}
+
+		defer conn.Close()
+
+		cl := client.NewStardeckClient(conn)
+
+		cl.SetWindow(windowName)
 	},
 }
 

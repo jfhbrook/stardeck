@@ -29,10 +29,10 @@ build:
   go build -o bin/stardeckctl ./cmd/stardeckctl/main.go
 
 stardeckd *argv:
-  go run ./stardeckd/main.go {{ argv }}
+  go run ./cmd/stardeckd/main.go {{ argv }}
 
 stardeckctl *argv:
-  go run ./stardeckctl/main.go {{ argv }}
+  go run ./cmd/stardeckctl/main.go {{ argv }}
 
 # Link tool
 link:
