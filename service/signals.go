@@ -8,7 +8,7 @@ import (
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
-func ListenToSignals(conn *dbus.Conn, events chan *Event) {
+func listenToSignals(conn *dbus.Conn, events chan *event) {
 	if err := plusdeck.AddStateMatchSignal(conn); err != nil {
 		logger.FlagrantError(err)
 	}
@@ -22,9 +22,9 @@ func ListenToSignals(conn *dbus.Conn, events chan *Event) {
 	for signal := range signals {
 		switch signal.Name {
 		case "org.jfhbrook.plusdeck.State":
-			HandlePlusdeckState(signal, events)
+	    events <- newPlusdeckEvent(signal.Body[0].(string))
 		case "org.jfhbrook.crystalfontz.KeyActivityReports":
-			HandleKeyActivityReport(signal, events)
+	    events <- newKeyActivityReportEvent(signal.Body[0].(byte))
 		}
 	}
 }

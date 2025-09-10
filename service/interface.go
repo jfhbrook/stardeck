@@ -23,7 +23,7 @@ const intro = `
 </node>`
 
 type Iface struct {
-	commands chan *Command
+	commands chan *command
 }
 
 func (i Iface) SetWindow(name string) *dbus.Error {
