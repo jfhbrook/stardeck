@@ -1,8 +1,15 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
+
+	"github.com/jfhbrook/stardeck/crystalfontz"
+	"github.com/jfhbrook/stardeck/logger"
+	"github.com/jfhbrook/stardeck/notifications"
+	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 type eventType int
@@ -32,16 +39,7 @@ func newPlusdeckEvent(state string) *event {
 }
 
 func newNotificationEvent(payload []any) *event {
-	info := notificationInfo{
-		AppName:       payload[0].(string),
-		ReplacesId:    payload[1].(uint),
-		AppIcon:       payload[2].(string),
-		Summary:       payload[3].(string),
-		Body:          payload[4].(string),
-		Actions:       mapActions(payload[5].([]string)),
-		Hints:         payload[6].(map[string]any),
-		ExpireTimeout: payload[7].(int32),
-	}
+	info := notifications.NewNotificationInfo(payload)
 
 	ev := event{Type: notification, Value: info}
 
@@ -62,6 +60,42 @@ func eventHandler(events chan *event, commands chan *command) {
 		case notification:
 			log.Debug().Any("event", ev).Msg("Notification")
 		}
+	}
+}
+
+func listenToSignals(conn *dbus.Conn, events chan *event) {
+	if err := plusdeck.AddStateMatchSignal(conn); err != nil {
+		logger.FlagrantError(err)
+	}
+	if err := crystalfontz.AddKeyActivityReportMatchSignal(conn); err != nil {
+		logger.FlagrantError(err)
+	}
+
+	signals := make(chan *dbus.Signal, 10)
+	conn.Signal(signals)
+
+	for signal := range signals {
+		switch signal.Name {
+		case "org.jfhbrook.plusdeck.State":
+	    events <- newPlusdeckEvent(signal.Body[0].(string))
+		case "org.jfhbrook.crystalfontz.KeyActivityReports":
+	    events <- newKeyActivityReportEvent(signal.Body[0].(byte))
+		}
+	}
+}
+
+func listenToNotifications(conn *dbus.Conn, events chan *event) {
+	messages, err := notifications.Eavesdrop(conn)
+
+	if err != nil {
+		logger.FlagrantError(err)
+	}
+
+	for message := range messages {
+		fmt.Printf("%#v\n", message)
+		// event := newNotificationEvent(message.Body)
+
+		// *events <- event
 	}
 }
 
