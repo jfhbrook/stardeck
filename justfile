@@ -25,8 +25,8 @@ format:
 
 build:
   mkdir -p bin
-  go build -o bin/stardeckd ./stardeckd/main.go
-  go build -o bin/stardeckctl ./stardeckctl/main.go
+  go build -o bin/stardeckd ./cmd/stardeckd/main.go
+  go build -o bin/stardeckctl ./cmd/stardeckctl/main.go
 
 stardeckd *argv:
   go run ./stardeckd/main.go {{ argv }}
