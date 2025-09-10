@@ -1,4 +1,4 @@
-package main
+package logger
 
 import (
 	"github.com/rs/zerolog"
@@ -7,11 +7,11 @@ import (
 	"os"
 )
 
-func configureLogger() {
+func ConfigureLogger() {
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 }
 
-func flagrantError(err error) {
+func FlagrantError(err error) {
 	log.Fatal().Stack().Err(err).Msg("Flagrant Error")
 }

@@ -1,4 +1,4 @@
-package main
+package plusdeck
 
 import (
 	"github.com/godbus/dbus/v5"
@@ -21,19 +21,9 @@ const (
 	Unsubscribed                  = "UNSUBSCRIBED"
 )
 
-func AddPlusdeckMatchSignal(conn *dbus.Conn) error {
+func AddStateMatchSignal(conn *dbus.Conn) error {
 	return conn.AddMatchSignal(
 		dbus.WithMatchObjectPath("/"),
 		dbus.WithMatchInterface("org.jfhbrook.plusdeck"),
 	)
-}
-
-func newPlusdeckEvent(state string) *Event {
-	e := Event{Type: PlusdeckEvent, Value: state}
-
-	return &e
-}
-
-func HandlePlusdeckState(signal *dbus.Signal, events chan *Event) {
-	events <- newPlusdeckEvent(signal.Body[0].(string))
 }

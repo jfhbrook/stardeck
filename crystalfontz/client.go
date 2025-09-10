@@ -1,4 +1,4 @@
-package main
+package crystalfontz
 
 import (
 	"github.com/godbus/dbus/v5"
@@ -21,21 +21,11 @@ const (
 	KeyExitRelease              = 12
 )
 
-func AddCrystalfontzMatchSignal(conn *dbus.Conn) error {
+func AddKeyActivityReportMatchSignal(conn *dbus.Conn) error {
 	return conn.AddMatchSignal(
 		dbus.WithMatchObjectPath("/"),
 		dbus.WithMatchInterface("org.jfhbrook.crystalfontz.KeyActivityReports"),
 	)
-}
-
-func newKeyActivityReportEvent(activity byte) *Event {
-	e := Event{Type: KeyActivityReport, Value: activity}
-
-	return &e
-}
-
-func HandleKeyActivityReport(signal *dbus.Signal, events chan *Event) {
-	events <- newKeyActivityReportEvent(signal.Body[0].(byte))
 }
 
 type Crystalfontz struct {

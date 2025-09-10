@@ -2,10 +2,12 @@ package main
 
 import (
 	"flag"
+
+	"github.com/jfhbrook/stardeck/service"
 )
 
 func main() {
 	flag.Parse()
 
-	Service()
+	service.Service()
 }

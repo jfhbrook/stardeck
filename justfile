@@ -19,13 +19,28 @@ lint:
 
 # Format everything
 format:
+  find . -name '*.go' -exec echo go fmt {} ';'
   cd ./playbook && npm run format
-  just -f stardeckd/justfile format
-  just -f stardeckctl/justfile format
+
+build:
+  mkdir -p bin
+  go build -o bin/stardeckd ./stardeckd/main.go
+  go build -o bin/stardeckctl ./stardeckctl/main.go
+
+stardeckd *argv:
+  go run ./stardeckd/main.go {{ argv }}
+
+stardeckctl *argv:
+  go run ./stardeckctl/main.go {{ argv }}
 
 # Link tool
 link:
   ./scripts/link-justfile.sh ./justfile stardeck
+
+# Install local dependencies
+install:
+  go install
+  cd playbook && npm i
 
 # Run updates
 update:
@@ -57,8 +72,6 @@ cleanup-kernels:
 # Clean up dangling symlinks in /usr
 cleanup-symlinks:
   bash ./scripts/cleanup-symlinks.sh
-
-
 
 # Run playbook
 playbook *ARGV:

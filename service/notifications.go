@@ -1,8 +1,10 @@
-package main
+package service
 
 import (
 	"fmt"
 	"github.com/godbus/dbus/v5"
+
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 type NotificationInfo struct {
@@ -54,7 +56,7 @@ func ListenToNotifications(conn *dbus.Conn, events chan *Event) {
 	call := conn.BusObject().Call("org.freedesktop.DBus.Monitoring.BecomeMonitor", 0, rules, flag)
 
 	if call.Err != nil {
-		flagrantError(call.Err)
+		logger.FlagrantError(call.Err)
 	}
 
 	messages := make(chan *dbus.Message)

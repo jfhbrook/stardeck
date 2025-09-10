@@ -1,15 +1,19 @@
-package main
+package service
 
 import (
 	"github.com/godbus/dbus/v5"
+
+	"github.com/jfhbrook/stardeck/crystalfontz"
+	"github.com/jfhbrook/stardeck/logger"
+	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 func ListenToSignals(conn *dbus.Conn, events chan *Event) {
-	if err := AddPlusdeckMatchSignal(conn); err != nil {
-		flagrantError(err)
+	if err := plusdeck.AddStateMatchSignal(conn); err != nil {
+		logger.FlagrantError(err)
 	}
-	if err := AddCrystalfontzMatchSignal(conn); err != nil {
-		flagrantError(err)
+	if err := crystalfontz.AddKeyActivityReportMatchSignal(conn); err != nil {
+		logger.FlagrantError(err)
 	}
 
 	signals := make(chan *dbus.Signal, 10)

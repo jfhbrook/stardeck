@@ -1,24 +1,27 @@
-package main
+package service
 
 import (
 	"github.com/godbus/dbus/v5"
 	"github.com/spf13/viper"
+
+	"github.com/jfhbrook/stardeck/config"
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 func Service() {
-	configureLogger()
-	initConfig()
+	logger.ConfigureLogger()
+	config.InitConfig()
 
 	if err := viper.ReadInConfig(); err != nil {
-		if !handleConfigFileNotFoundError(err) {
-			flagrantError(err)
+		if !config.HandleConfigFileNotFoundError(err) {
+			logger.FlagrantError(err)
 		}
 	}
 
 	sessionConn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
-		flagrantError(err)
+		logger.FlagrantError(err)
 	}
 
 	defer sessionConn.Close()
@@ -26,7 +29,7 @@ func Service() {
 	systemConn, err := dbus.ConnectSystemBus()
 
 	if err != nil {
-		flagrantError(err)
+		logger.FlagrantError(err)
 	}
 
 	defer systemConn.Close()

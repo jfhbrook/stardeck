@@ -2,3 +2,5 @@
 /roles
 /.terraform
 /terraform.tfstate*
+/bin/stardeckd
+/bin/stardeckctl
