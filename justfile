@@ -14,6 +14,7 @@ setup:
 
 # Lint everything
 lint:
+  find . -name '*.go' -exec dirname {} ';' | sort -u | xargs go vet
   cd ./playbook && npm run lint
   shellcheck scripts/*.sh
 

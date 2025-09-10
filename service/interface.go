@@ -1,6 +1,8 @@
 package service
 
 import (
+	"strconv"
+
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
 )
@@ -34,7 +36,17 @@ type DbusRequestNameError struct {
 }
 
 func (e DbusRequestNameError) Error() string {
-	return string(e.Reply)
+	switch e.Reply {
+	case dbus.RequestNameReplyPrimaryOwner:
+		return "PrimaryOwner"
+	case dbus.RequestNameReplyInQueue:
+		return "InQueue"
+	case dbus.RequestNameReplyExists:
+		return "Exists"
+	case dbus.RequestNameReplyAlreadyOwner:
+		return "AlreadyOwner"
+	}
+	return strconv.FormatUint(uint64(e.Reply), 10)
 }
 
 func exportIface(conn *dbus.Conn) error {

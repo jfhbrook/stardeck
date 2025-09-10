@@ -64,7 +64,7 @@ func ListenToNotifications(conn *dbus.Conn, events chan *Event) {
 	conn.Eavesdrop(messages)
 
 	for message := range messages {
-		fmt.Println("%#v", message)
+		fmt.Printf("%#v\n", message)
 		// event := newNotificationEvent(message.Body)
 
 		// *events <- event
