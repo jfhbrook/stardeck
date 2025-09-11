@@ -4,6 +4,7 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"errors"
 
 	"github.com/spf13/cobra"
@@ -45,17 +46,38 @@ the LCD.`,
 	},
 }
 
+var enable bool
+var disable bool
+var manage bool
+var noManage bool
+
+var setLoopbackCmd = &cobra.Command{
+	Use: "loopback",
+	Short: "Configure loopback settings",
+	Long: `Enable/disable or manage/unmanage audio loopback`,
+	Run: func(cmd *cobra.Command, args []string) {
+		if enable && disable {
+			logger.FlagrantError(errors.New("Can not both enable and disable loopback"))
+		}
+
+		if manage && noManage {
+			logger.FlagrantError(errors.New("Can not both manage and not manage loopback"))
+		}
+
+		fmt.Println(enable)
+		fmt.Println(disable)
+		fmt.Println(manage)
+		fmt.Println(noManage)
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(setCmd)
 	setCmd.AddCommand(setWindowCmd)
+	setCmd.AddCommand(setLoopbackCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// setCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// setCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	setLoopbackCmd.Flags().BoolVar(&enable, "enable", false, "Enable loopback")
+	setLoopbackCmd.Flags().BoolVar(&disable, "disable", false, "Disable loopback")
+	setLoopbackCmd.Flags().BoolVar(&manage, "manage", false, "Manage loopback")
+	setLoopbackCmd.Flags().BoolVar(&noManage, "no-manage", false, "Do not manage loopback")
 }
