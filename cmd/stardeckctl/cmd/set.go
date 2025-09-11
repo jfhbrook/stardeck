@@ -12,6 +12,7 @@ import (
 
 	"github.com/jfhbrook/stardeck/client"
 	"github.com/jfhbrook/stardeck/logger"
+	"github.com/jfhbrook/stardeck/loopback"
 )
 
 var setCmd = &cobra.Command{
@@ -64,10 +65,20 @@ var setLoopbackCmd = &cobra.Command{
 			logger.FlagrantError(errors.New("Can not both manage and not manage loopback"))
 		}
 
-		fmt.Println(enable)
-		fmt.Println(disable)
-		fmt.Println(manage)
-		fmt.Println(noManage)
+		if enable || disable {
+			manager := loopback.NewLoopbackManager("", -1, -1)
+
+			if enable {
+				manager.Enable()
+			} else {
+				manager.Disable()
+			}
+		}
+
+		if manage || noManage {
+			fmt.Println(manage)
+			fmt.Println(noManage)
+		}
 	},
 }
 
