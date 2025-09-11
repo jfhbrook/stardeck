@@ -3,6 +3,8 @@ package loopback
 import (
 	"fmt"
 	"os/exec"
+
+	"github.com/jfhbrook/stardeck/loopback/parser"
 )
 
 const (
@@ -36,6 +38,21 @@ func NewLoopbackManager(source string, latency int32, volume int32) *LoopbackMan
 	lb := LoopbackManager{source: src, latency: lt, volume: vol}
 
 	return &lb
+}
+
+func (lb *LoopbackManager) Status() (*parser.Module, error) {
+	output, err := exec.Command(
+		"pactl",
+		"list",
+		"modules",
+		"short",
+	).Output()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parser.ParseModuleOutput(output)
 }
 
 func (lb *LoopbackManager) Enable() error {

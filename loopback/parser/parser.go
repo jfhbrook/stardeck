@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func parse(output []byte) (*Module, error) {
+func ParseModuleOutput(output []byte) (*Module, error) {
 	closingBraceRe := regexp.MustCompile(`^ +\}+ *$`)
 	lines := bytes.Split(output, []byte("\n"))
 
