@@ -6,7 +6,7 @@ import (
 )
 
 func ParseModuleOutput(output []byte) (*Module, error) {
-	closingBraceRe := regexp.MustCompile(`^ +\}+ *$`)
+	closingBraceRe := regexp.MustCompile(`^\s+}\s*$`)
 	lines := bytes.Split(output, []byte("\n"))
 
 	if len(lines) == 0 {
@@ -29,20 +29,28 @@ func ParseModuleOutput(output []byte) (*Module, error) {
 		parser := newLineParser(line, i + 1)
 		module, err := parser.module()
 
-		if module != nil && module.name == "module-loopback" {
-			return module, err
+		if module != nil {
+			if module.Name == "module-loopback" {
+				return module, err
+			}
 		}
 
-		if err := advance(); err != nil {
-			return nil, err
-		}
-
-		if err != nil && err.code == codeComplex {
+		if err != nil {
+			if err.code == codeComplex {
 				for !closingBraceRe.Match(line) {
 					if err := advance(); err != nil {
 						return nil, err
 					}
 				}
+			} else {
+				if err := advance(); err != nil {
+					return nil, err
+				}
+			}
+		} else {
+			if err := advance(); err != nil {
+				return nil, err
+			}
 		}
 	}
 }

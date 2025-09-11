@@ -22,7 +22,7 @@ func newLineParser(line []byte, lineNo int) *lineParser {
 		line: line,
 		lineNo: lineNo,
 		columnNo: 0,
-		spacesRe: regexp.MustCompile(`^ +`),
+		spacesRe: regexp.MustCompile(`^\s+`),
 		eqRe: regexp.MustCompile(`^=`),
 		braceRe: regexp.MustCompile(`^\{`),
 		moduleNumberRe: regexp.MustCompile(`^\d+`),
@@ -34,13 +34,16 @@ func newLineParser(line []byte, lineNo int) *lineParser {
 }
 
 func (p *lineParser) match(re *regexp.Regexp) []int {
+	if p.columnNo >= len(p.line) {
+		return nil
+	}
 	loc := re.FindIndex(p.line[p.columnNo:])
 	if loc == nil {
 		return nil
 	}
-	loc[0] += p.columnNo
-	loc[1] += p.columnNo
-	p.columnNo += loc[1]
+	loc[0] = loc[0] + p.columnNo
+	loc[1] = loc[1] + p.columnNo
+	p.columnNo = loc[1]
 	return loc
 }
 
@@ -95,6 +98,9 @@ func (p *lineParser) module() (*Module, *ParseError) {
 
 		key, value, err := p.param()
 		if err != nil {
+			if err.code == codeExpect {
+				return newModule(moduleNo, name, params), nil
+			}
 			return nil, err
 		}
 
