@@ -2,12 +2,10 @@ package set
 
 import (
 	"fmt"
-	"errors"
 
 	"github.com/spf13/cobra"
 	"github.com/rs/zerolog/log"
 
-	"github.com/jfhbrook/stardeck/logger"
 	"github.com/jfhbrook/stardeck/loopback"
 )
 
@@ -24,13 +22,6 @@ var setLoopbackCmd = &cobra.Command{
 		if !(enable || disable || manage || noManage) {
 			log.Warn().Msg("No actions taken")
 			return
-		}
-		if enable && disable {
-			logger.FlagrantError(errors.New("Can not both enable and disable loopback"))
-		}
-
-		if manage && noManage {
-			logger.FlagrantError(errors.New("Can not both manage and not manage loopback"))
 		}
 
 		if enable || disable {
@@ -55,6 +46,9 @@ func init() {
 
 	setLoopbackCmd.Flags().BoolVar(&enable, "enable", false, "Enable loopback")
 	setLoopbackCmd.Flags().BoolVar(&disable, "disable", false, "Disable loopback")
+	setLoopbackCmd.MarkFlagsMutuallyExclusive("enable", "disable")
+
 	setLoopbackCmd.Flags().BoolVar(&manage, "manage", false, "Manage loopback")
 	setLoopbackCmd.Flags().BoolVar(&noManage, "no-manage", false, "Do not manage loopback")
+	setLoopbackCmd.MarkFlagsMutuallyExclusive("manage", "no-manage")
 }
