@@ -40,7 +40,7 @@ func ConfigureLogger(logLevel string) {
 
 	writer := zerolog.ConsoleWriter{
 		Out:        os.Stderr,
-		TimeFormat: time.RFC822,
+		TimeFormat: time.DateTime,
 	}
 
 	writer.FormatLevel = func(i interface{}) string {
