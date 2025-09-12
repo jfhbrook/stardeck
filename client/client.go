@@ -10,7 +10,7 @@ type StardeckClient struct {
 
 func NewStardeckClient(conn *dbus.Conn) *StardeckClient {
 	obj := conn.Object("org.jfhbrook.stardeck", "/")
-	client := StardeckClient {
+	client := StardeckClient{
 		object: obj,
 	}
 

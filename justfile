@@ -20,7 +20,7 @@ lint:
 
 # Format everything
 format:
-  find . -name '*.go' -exec echo go fmt {} ';'
+  find . -name '*.go' -exec go fmt {} ';'
   cd ./playbook && npm run format
 
 build:

@@ -26,7 +26,7 @@ func Parse(output []byte) (*Module, error) {
 	}
 
 	for {
-		parser := newLineParser(line, i + 1)
+		parser := newLineParser(line, i+1)
 		module, err := parser.module()
 
 		if module != nil {

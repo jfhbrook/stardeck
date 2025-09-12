@@ -1,8 +1,8 @@
 package crystalfontz
 
 import (
-	"github.com/pkg/errors"
 	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 )
 
 type KeyActivity = byte

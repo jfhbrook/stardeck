@@ -5,17 +5,17 @@ import (
 )
 
 const (
-	CodeNone string = "NONE"
-	CodeExpect = "EXPECT"
-	CodeNumber = "NUMBER"
-	CodeComplex = "COMPLEX"
-	CodeNotFound = "NOT_FOUND"
+	CodeNone     string = "NONE"
+	CodeExpect          = "EXPECT"
+	CodeNumber          = "NUMBER"
+	CodeComplex         = "COMPLEX"
+	CodeNotFound        = "NOT_FOUND"
 )
 
 type ParseError struct {
-	Code string
-	Message string
-	LineNo int
+	Code     string
+	Message  string
+	LineNo   int
 	ColumnNo int
 }
 
@@ -24,10 +24,10 @@ func (err ParseError) Error() string {
 }
 
 func notFoundError(lineNo int) *ParseError {
-	err := ParseError {
-		Code: CodeNotFound,
-		Message: "Module not found",
-		LineNo: lineNo,
+	err := ParseError{
+		Code:     CodeNotFound,
+		Message:  "Module not found",
+		LineNo:   lineNo,
 		ColumnNo: 0,
 	}
 

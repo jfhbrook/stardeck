@@ -9,9 +9,9 @@ import (
 )
 
 var getLoopbackCmd = &cobra.Command{
-	Use: "loopback",
+	Use:   "loopback",
 	Short: "Get loopback settings",
-	Long: `Get current settings for audio loopback`,
+	Long:  `Get current settings for audio loopback`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		manager := loopback.NewLoopbackManager("", -1, -1)
 

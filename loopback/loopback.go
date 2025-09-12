@@ -21,9 +21,9 @@ const (
 )
 
 type Status struct {
-	Source string
+	Source  string
 	Latency int32
-	Volume int32
+	Volume  int32
 }
 
 type LoopbackManager struct {
@@ -75,7 +75,7 @@ func (lb *LoopbackManager) parseSources(output string) (string, error) {
 		fields := strings.Fields(source)
 		if len(fields) >= 2 {
 			if fields[1] == lb.source {
-			  return fields[0], nil
+				return fields[0], nil
 			}
 		}
 	}
@@ -127,7 +127,7 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 		return -1, pkgerrors.Wrap(err, "Failed to get source volume")
 	}
 
-  return volume, nil
+	return volume, nil
 }
 
 func (lb *LoopbackManager) Status() (*Status, error) {
@@ -138,7 +138,7 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 	}
 
 	latencyParam := module.Params["--latency_msec"]
-  latency, err := strconv.Atoi(latencyParam)
+	latency, err := strconv.Atoi(latencyParam)
 
 	if err != nil {
 		log.Debug().Msg(err.Error())
@@ -151,10 +151,10 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 		log.Debug().Msg(err.Error())
 	}
 
-  st := Status {
-		Source: lb.source,
+	st := Status{
+		Source:  lb.source,
 		Latency: int32(latency),
-		Volume: int32(volume),
+		Volume:  int32(volume),
 	}
 
 	return &st, nil

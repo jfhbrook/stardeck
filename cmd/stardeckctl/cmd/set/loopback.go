@@ -3,8 +3,8 @@ package set
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/cobra"
 
 	"github.com/jfhbrook/stardeck/loopback"
 )
@@ -15,9 +15,9 @@ var manage bool
 var noManage bool
 
 var setLoopbackCmd = &cobra.Command{
-	Use: "loopback",
+	Use:   "loopback",
 	Short: "Configure loopback settings",
-	Long: `Enable/disable or manage/unmanage audio loopback`,
+	Long:  `Enable/disable or manage/unmanage audio loopback`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !(enable || disable || manage || noManage) {
 			log.Warn().Msg("No actions taken")

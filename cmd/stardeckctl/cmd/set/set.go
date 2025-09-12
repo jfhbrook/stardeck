@@ -7,7 +7,7 @@ import (
 var SetCmd = &cobra.Command{
 	Use:   "set",
 	Short: "Set a value",
-	Long: `Set an ephemeral value on the Stardeck service.`,
+	Long:  `Set an ephemeral value on the Stardeck service.`,
 }
 
 func init() {

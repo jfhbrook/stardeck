@@ -77,9 +77,9 @@ func listenToSignals(conn *dbus.Conn, events chan *event) {
 	for signal := range signals {
 		switch signal.Name {
 		case "org.jfhbrook.plusdeck.State":
-	    events <- newPlusdeckEvent(signal.Body[0].(string))
+			events <- newPlusdeckEvent(signal.Body[0].(string))
 		case "org.jfhbrook.crystalfontz.KeyActivityReports":
-	    events <- newKeyActivityReportEvent(signal.Body[0].(byte))
+			events <- newKeyActivityReportEvent(signal.Body[0].(byte))
 		}
 	}
 }

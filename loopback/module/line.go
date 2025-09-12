@@ -6,28 +6,28 @@ import (
 )
 
 type lineParser struct {
-	line []byte
-	lineNo int
-	columnNo int
-	spacesRe *regexp.Regexp
-	eqRe *regexp.Regexp
-	braceRe *regexp.Regexp
+	line           []byte
+	lineNo         int
+	columnNo       int
+	spacesRe       *regexp.Regexp
+	eqRe           *regexp.Regexp
+	braceRe        *regexp.Regexp
 	moduleNumberRe *regexp.Regexp
-	identifierRe *regexp.Regexp
-	valueRe *regexp.Regexp
+	identifierRe   *regexp.Regexp
+	valueRe        *regexp.Regexp
 }
 
 func newLineParser(line []byte, lineNo int) *lineParser {
-	parser := lineParser {
-		line: line,
-		lineNo: lineNo,
-		columnNo: 0,
-		spacesRe: regexp.MustCompile(`^\s+`),
-		eqRe: regexp.MustCompile(`^=`),
-		braceRe: regexp.MustCompile(`^\{`),
+	parser := lineParser{
+		line:           line,
+		lineNo:         lineNo,
+		columnNo:       0,
+		spacesRe:       regexp.MustCompile(`^\s+`),
+		eqRe:           regexp.MustCompile(`^=`),
+		braceRe:        regexp.MustCompile(`^\{`),
 		moduleNumberRe: regexp.MustCompile(`^\d+`),
-		identifierRe: regexp.MustCompile(`^[a-zA-Z\-_]+`),
-		valueRe: regexp.MustCompile(`^[a-zA-Z\-_\d]+`),
+		identifierRe:   regexp.MustCompile(`^[a-zA-Z\-_]+`),
+		valueRe:        regexp.MustCompile(`^[a-zA-Z\-_\d]+`),
 	}
 
 	return &parser
@@ -60,10 +60,10 @@ func (p *lineParser) substring(loc []int) string {
 }
 
 func (p *lineParser) parseError(code string, message string) *ParseError {
-	err := ParseError {
-		Code: code,
-		Message: message,
-		LineNo: p.lineNo,
+	err := ParseError{
+		Code:     code,
+		Message:  message,
+		LineNo:   p.lineNo,
 		ColumnNo: p.columnNo,
 	}
 
@@ -87,7 +87,7 @@ func (p *lineParser) module() (*Module, *ParseError) {
 	params := make(map[string]string)
 
 	for {
-	  err := p.spaces()
+		err := p.spaces()
 		if err != nil {
 			return newModule(moduleNo, name, params), nil
 		}
@@ -125,7 +125,7 @@ func (p *lineParser) value() (string, *ParseError) {
 		return "", err
 	}
 
-  return p.substring(loc), nil
+	return p.substring(loc), nil
 }
 
 func (p *lineParser) moduleNumber() (int, *ParseError) {
@@ -146,7 +146,7 @@ func (p *lineParser) number(loc []int) (int, *ParseError) {
 	if err != nil {
 		return -1, p.parseError(CodeNumber, err.Error())
 	}
-  return no, nil
+	return no, nil
 }
 
 func (p *lineParser) moduleName() (string, *ParseError) {
@@ -157,7 +157,6 @@ func (p *lineParser) moduleName() (string, *ParseError) {
 
 	return p.substring(loc), nil
 }
-
 
 func (p *lineParser) paramName() (string, *ParseError) {
 	loc, err := p.expect(p.identifierRe, "Expected parameter name")
@@ -175,7 +174,7 @@ func (p *lineParser) param() (string, string, *ParseError) {
 		return "", "", p.parseError(CodeNone, err.Message)
 	}
 
-  err = p.eq()
+	err = p.eq()
 
 	if err != nil {
 		return "", "", err
