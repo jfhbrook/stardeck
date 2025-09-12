@@ -1,8 +1,10 @@
 package logger
 
 import (
+	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -10,36 +12,47 @@ import (
 )
 
 func getLogLevel(logLevel string) zerolog.Level {
-	lvl := strings.ToLower(logLevel)
-	switch lvl {
-	case "trace":
-		return zerolog.TraceLevel
-	case "debug":
-		return zerolog.DebugLevel
-	case "info":
+	level, err := zerolog.ParseLevel(strings.ToLower(logLevel))
+
+	if err != nil {
+		log.Warn().Str("log-level", logLevel).Msg("Unknown log level")
 		return zerolog.InfoLevel
-	case "warn":
-		return zerolog.WarnLevel
-	case "error":
-		return zerolog.ErrorLevel
-	case "fatal":
-		return zerolog.FatalLevel
-	case "panic":
-		return zerolog.PanicLevel
 	}
-	log.Warn().Str("log-level", lvl).Msg("Unknown log level")
-	return zerolog.InfoLevel
+
+	return level
 }
 
+func colorize(formatted string, code int, disabled bool) string {
+	if disabled {
+		return formatted
+	}
+
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", code, formatted)
+}
+
+// TODO: --no-color flag
+// TODO: Pull log level from config
 func ConfigureLogger(logLevel string) {
 	lvl := getLogLevel(logLevel)
 	zerolog.SetGlobalLevel(lvl)
 
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
-	// TODO: Custom writer
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
+	writer := zerolog.ConsoleWriter{
+		Out:        os.Stderr,
+		TimeFormat: time.RFC822,
+	}
+
+	writer.FormatLevel = func(i interface{}) string {
+		level, _ := zerolog.ParseLevel(i.(string))
+		formatted := fmt.Sprintf("%+5s:", i)
+		return colorize(formatted, zerolog.LevelColors[level], false)
+	}
+
+	log.Logger = log.Output(writer)
+
 }
 
 func FlagrantError(err error) {
-	log.Fatal().Stack().Err(err).Msg("Flagrant Error")
+	log.Fatal().Stack().Err(err).Msg("Flagrant error!")
 }

@@ -45,6 +45,6 @@ func init() {
 }
 
 func initConfig() {
-	config.InitConfig(cfgFile)
 	logger.ConfigureLogger(logLevel)
+	config.InitConfig(cfgFile)
 }
