@@ -8,9 +8,10 @@ import (
 
 	"github.com/jfhbrook/stardeck/config"
 	"github.com/jfhbrook/stardeck/logger"
+	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/get"
+	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/set"
 )
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "stardeckctl",
 	Short: "A brief description of your application",
@@ -22,8 +23,6 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -32,17 +31,9 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	rootCmd.AddCommand(get.GetCmd)
+	rootCmd.AddCommand(set.SetCmd)
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.stardeckctl.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	// TODO: Accept log level flag and config file location
 	logger.ConfigureLogger()
 	config.InitConfig()
 
