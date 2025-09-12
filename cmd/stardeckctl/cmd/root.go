@@ -4,11 +4,11 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/get"
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/set"
 	"github.com/jfhbrook/stardeck/config"
-	"github.com/jfhbrook/stardeck/logger"
 )
 
 var rootCmd = &cobra.Command{
@@ -30,21 +30,20 @@ func Execute() {
 }
 
 var (
-	cfgFile  string
-	logLevel string
+	cfgFile string
 )
 
 func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config-file", "", "Config file (default is /etc/stardeck/stardeck.yml)")
-	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "info", "Log level (default is 'info')")
+	rootCmd.PersistentFlags().String("log-level", "info", "Log level (default is 'info')")
+	viper.BindPFlag("log-level", rootCmd.PersistentFlags().Lookup("log-level"))
 
 	rootCmd.AddCommand(get.GetCmd)
 	rootCmd.AddCommand(set.SetCmd)
 }
 
 func initConfig() {
-	logger.ConfigureLogger(logLevel)
 	config.InitConfig(cfgFile)
 }

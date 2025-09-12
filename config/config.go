@@ -5,6 +5,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
+
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 func InitConfig(cfgFile string) {
@@ -19,6 +21,8 @@ func InitConfig(cfgFile string) {
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
+
+	logger.ConfigureLogger(viper.GetString("log-level"))
 
 	if err != nil {
 		log.Debug().Msg(err.Error())
