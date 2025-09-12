@@ -16,7 +16,7 @@ func ParseModuleOutput(output []byte) (*Module, error) {
 	i := 0
 	line := lines[0]
 
-	advance := func() error {
+	advance := func() *ParseError {
 		i += 1
 		if i >= len(lines) {
 			return notFoundError(i)
@@ -31,12 +31,12 @@ func ParseModuleOutput(output []byte) (*Module, error) {
 
 		if module != nil {
 			if module.Name == "module-loopback" {
-				return module, err
+				return module, nil
 			}
 		}
 
 		if err != nil {
-			if err.code == codeComplex {
+			if err.Code == CodeComplex {
 				for !closingBraceRe.Match(line) {
 					if err := advance(); err != nil {
 						return nil, err

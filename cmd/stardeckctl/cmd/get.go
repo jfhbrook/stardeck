@@ -32,7 +32,7 @@ var getLoopbackCmd = &cobra.Command{
 	Short: "Get loopback settings",
 	Long: `Get current settings for audio loopback`,
 	Run: func(cmd *cobra.Command, args []string) {
-		manager := loopback.NewLoopbackManager("", -1, -1)
+		manager := loopback.NewLoopbackManager("", "", -1, -1)
 
 		fmt.Println(manager.Status())
 	},

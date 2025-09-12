@@ -50,7 +50,7 @@ func (p *lineParser) match(re *regexp.Regexp) []int {
 func (p *lineParser) expect(re *regexp.Regexp, message string) ([]int, *ParseError) {
 	loc := p.match(re)
 	if loc == nil {
-		return nil, p.parseError(codeExpect, message)
+		return nil, p.parseError(CodeExpect, message)
 	}
 	return loc, nil
 }
@@ -61,10 +61,10 @@ func (p *lineParser) substring(loc []int) string {
 
 func (p *lineParser) parseError(code string, message string) *ParseError {
 	err := ParseError {
-		code: code,
-		message: message,
-		lineNo: p.lineNo,
-		columnNo: p.columnNo,
+		Code: code,
+		Message: message,
+		LineNo: p.lineNo,
+		ColumnNo: p.columnNo,
 	}
 
 	return &err
@@ -93,12 +93,12 @@ func (p *lineParser) module() (*Module, *ParseError) {
 		}
 
 		if p.match(p.braceRe) != nil {
-			return newModule(moduleNo, name, params), p.parseError(codeComplex, "Encountered complex params")
+			return newModule(moduleNo, name, params), p.parseError(CodeComplex, "Encountered complex params")
 		}
 
 		key, value, err := p.param()
 		if err != nil {
-			if err.code == codeNone {
+			if err.Code == CodeNone {
 				return newModule(moduleNo, name, params), nil
 			}
 			return nil, err
@@ -144,7 +144,7 @@ func (p *lineParser) moduleNumber() (int, *ParseError) {
 func (p *lineParser) number(loc []int) (int, *ParseError) {
 	no, err := strconv.Atoi(p.substring(loc))
 	if err != nil {
-		return -1, p.parseError(codeNumber, err.Error())
+		return -1, p.parseError(CodeNumber, err.Error())
 	}
   return no, nil
 }
@@ -172,7 +172,7 @@ func (p *lineParser) param() (string, string, *ParseError) {
 	key, err := p.paramName()
 
 	if err != nil {
-		return "", "", p.parseError(codeNone, err.message)
+		return "", "", p.parseError(CodeNone, err.Message)
 	}
 
   err = p.eq()
