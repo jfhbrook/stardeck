@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/jfhbrook/stardeck/client"
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 var setWindowCmd = &cobra.Command{
@@ -13,13 +14,13 @@ var setWindowCmd = &cobra.Command{
 	Long: `Set the title of the currently active window. This will be displayed on
 the LCD.`,
 	Args: cobra.ExactArgs(1),
-	RunE: func(cmd *cobra.Command, args []string) error {
+	Run: func(cmd *cobra.Command, args []string) {
 		windowName := args[0]
 
 		conn, err := dbus.ConnectSessionBus()
 
 		if err != nil {
-			return err
+			logger.FlagrantError(err)
 		}
 
 		defer conn.Close()
@@ -27,8 +28,6 @@ the LCD.`,
 		cl := client.NewStardeckClient(conn)
 
 		cl.SetWindow(windowName)
-
-		return nil
 	},
 }
 
