@@ -98,7 +98,7 @@ func (p *lineParser) module() (*Module, *ParseError) {
 
 		key, value, err := p.param()
 		if err != nil {
-			if err.code == codeExpect {
+			if err.code == codeNone {
 				return newModule(moduleNo, name, params), nil
 			}
 			return nil, err
@@ -172,7 +172,7 @@ func (p *lineParser) param() (string, string, *ParseError) {
 	key, err := p.paramName()
 
 	if err != nil {
-		return "", "", err
+		return "", "", p.parseError(codeNone, err.message)
 	}
 
   err = p.eq()

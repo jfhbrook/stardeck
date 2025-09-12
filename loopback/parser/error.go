@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	codeExpect string = "EXPECT"
+	codeNone string = "NONE"
+	codeExpect = "EXPECT"
 	codeNumber = "NUMBER"
 	codeComplex = "COMPLEX"
 	codeNotFound = "NOT_FOUND"
