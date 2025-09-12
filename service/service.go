@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/config"
@@ -21,7 +22,7 @@ func Service() {
 	sessionConn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
-		logger.FlagrantError(err)
+		logger.FlagrantError(errors.Wrap(err, "Failed to connect to session bus"))
 	}
 
 	defer sessionConn.Close()
@@ -29,7 +30,7 @@ func Service() {
 	systemConn, err := dbus.ConnectSystemBus()
 
 	if err != nil {
-		logger.FlagrantError(err)
+		logger.FlagrantError(errors.Wrap(err, "Failed to connect to system bus"))
 	}
 
 	defer systemConn.Close()

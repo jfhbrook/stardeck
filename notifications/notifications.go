@@ -2,6 +2,7 @@ package notifications
 
 import (
 	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 )
 
 type NotificationInfo struct {
@@ -51,7 +52,7 @@ func Eavesdrop(conn *dbus.Conn) (chan *dbus.Message, error) {
 	call := conn.BusObject().Call("org.freedesktop.DBus.Monitoring.BecomeMonitor", 0, rules, flag)
 
 	if call.Err != nil {
-		return nil, call.Err
+		return nil, errors.Wrap(call.Err, "Failed to eavesdrop")
 	}
 
 	messages := make(chan *dbus.Message)

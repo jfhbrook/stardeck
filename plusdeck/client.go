@@ -1,6 +1,7 @@
 package plusdeck
 
 import (
+	"github.com/pkg/errors"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -22,8 +23,14 @@ const (
 )
 
 func AddStateMatchSignal(conn *dbus.Conn) error {
-	return conn.AddMatchSignal(
+	err := conn.AddMatchSignal(
 		dbus.WithMatchObjectPath("/"),
 		dbus.WithMatchInterface("org.jfhbrook.plusdeck"),
 	)
+
+	if err != nil {
+		return errors.Wrap(err, "Failed to match signal for plusdeck state")
+	}
+
+	return nil
 }

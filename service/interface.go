@@ -5,6 +5,7 @@ import (
 
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
+	"github.com/pkg/errors"
 )
 
 const (
@@ -58,11 +59,11 @@ func exportIface(conn *dbus.Conn) error {
 	reply, err := conn.RequestName(busName, dbus.NameFlagDoNotQueue)
 
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Failed to export DBus interface")
 	}
 
 	if reply != dbus.RequestNameReplyPrimaryOwner {
-		return DbusRequestNameError{Reply: reply}
+		return errors.Wrap(DbusRequestNameError{Reply: reply}, "Failed to export DBus interface")
 	}
 
 	return nil

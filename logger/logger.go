@@ -9,6 +9,7 @@ import (
 
 func ConfigureLogger() {
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
+	// TODO: Custom writer
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 }
 

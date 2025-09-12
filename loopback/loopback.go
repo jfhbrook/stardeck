@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	pkgerrors "github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
 	"github.com/jfhbrook/stardeck/loopback/module"
@@ -67,19 +68,8 @@ func (lb *LoopbackManager) getModule() (*module.Module, error) {
 	return module.Parse(output)
 }
 
-func (lb *LoopbackManager) getSourceNo() (string, error) {
-	output, err := exec.Command(
-		"pactl",
-		"list",
-		"sources",
-		"short",
-	).Output()
-
-	if err != nil {
-		return "", err
-	}
-
-	sources := strings.Split(string(output), "\n")
+func (lb *LoopbackManager) parseSources(output string) (string, error) {
+	sources := strings.Split(output, "\n")
 
 	for _, source := range sources {
 		fields := strings.Fields(source)
@@ -90,14 +80,35 @@ func (lb *LoopbackManager) getSourceNo() (string, error) {
 		}
 	}
 
-	return "", errors.New("Sink not found")
+	return "", pkgerrors.Wrap(errors.New("Sink not found"), "Sink not found")
+}
+
+func (lb *LoopbackManager) getSourceNo() (string, error) {
+	output, err := exec.Command(
+		"pactl",
+		"list",
+		"sources",
+		"short",
+	).Output()
+
+	if err != nil {
+		return "", pkgerrors.Wrap(err, "Failed to list sources")
+	}
+
+	return lb.parseSources(string(output))
+}
+
+func parseVolume(output []byte) (int, error) {
+	re := regexp.MustCompile(`\d+`)
+	found := re.Find(output)
+	return strconv.Atoi(string(found))
 }
 
 func (lb *LoopbackManager) getVolume() (int, error) {
 	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
-		return -1, err
+		return -1, pkgerrors.Wrap(err, "Failed to get source volume")
 	}
 
 	output, err := exec.Command(
@@ -107,19 +118,23 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 	).Output()
 
 	if err != nil {
-		return -1, err
+		return -1, pkgerrors.Wrap(err, "Failed to get source volume")
 	}
 
-	re := regexp.MustCompile(`\d+`)
-	found := re.Find(output)
-	return strconv.Atoi(string(found))
+	volume, err := parseVolume(output)
+
+	if err != nil {
+		return -1, pkgerrors.Wrap(err, "Failed to get source volume")
+	}
+
+  return volume, nil
 }
 
 func (lb *LoopbackManager) Status() (*Status, error) {
 	module, err := lb.getModule()
 
 	if err != nil {
-		return nil, err
+		return nil, pkgerrors.Wrap(err, "Failed to get status")
 	}
 
 	latencyParam := module.Params["--latency_msec"]
