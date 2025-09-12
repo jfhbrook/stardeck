@@ -1,20 +1,28 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
-func InitConfig() {
-	viper.SetConfigName("stardeck")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("/etc/stardeck")
-}
-
-func HandleConfigFileNotFoundError(err error) bool {
-	if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-		log.Debug().Msg(err.Error())
-		return true
+func InitConfig(cfgFile string) {
+	if cfgFile != "" {
+		viper.SetConfigFile(cfgFile)
+	} else {
+		viper.AddConfigPath("/etc/stardeck")
+		viper.SetConfigType("yaml")
+		viper.SetConfigName("stardeck.yml")
 	}
-	return false
+
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+
+	if err != nil {
+		log.Debug().Msg(err.Error())
+	} else {
+		log.Debug().Msg(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
+	}
 }
