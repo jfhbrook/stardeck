@@ -1,12 +1,10 @@
 package set
 
 import (
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/godbus/dbus/v5"
 
 	"github.com/jfhbrook/stardeck/client"
-	"github.com/jfhbrook/stardeck/logger"
 )
 
 var setWindowCmd = &cobra.Command{
@@ -15,13 +13,13 @@ var setWindowCmd = &cobra.Command{
 	Long: `Set the title of the currently active window. This will be displayed on
 the LCD.`,
   Args: cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		windowName := args[0]
 
 		conn, err := dbus.ConnectSessionBus()
 
 		if err != nil {
-		  logger.FlagrantError(errors.Wrap(err, "Failed to connect to session bus"))
+		  return err
 		}
 
 		defer conn.Close()
@@ -29,6 +27,8 @@ the LCD.`,
 		cl := client.NewStardeckClient(conn)
 
 		cl.SetWindow(windowName)
+
+		return nil
 	},
 }
 

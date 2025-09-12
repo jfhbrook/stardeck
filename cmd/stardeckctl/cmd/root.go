@@ -31,12 +31,16 @@ func Execute() {
 }
 
 func init() {
+	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(get.GetCmd)
 	rootCmd.AddCommand(set.SetCmd)
+}
 
+func initConfig() {
 	logger.ConfigureLogger()
 	config.InitConfig()
 
+	// TODO: https://github.com/spf13/cobra/blob/main/site/content/user_guide.md#create-rootcmd
 	if err := viper.ReadInConfig(); err != nil {
 		if !config.HandleConfigFileNotFoundError(err) {
 			logger.FlagrantError(err)

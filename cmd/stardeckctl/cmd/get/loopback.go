@@ -12,10 +12,18 @@ var getLoopbackCmd = &cobra.Command{
 	Use: "loopback",
 	Short: "Get loopback settings",
 	Long: `Get current settings for audio loopback`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		manager := loopback.NewLoopbackManager("", -1, -1)
 
-		fmt.Println(manager.Status())
+		status, err := manager.Status()
+
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(status)
+
+		return nil
 	},
 }
 
