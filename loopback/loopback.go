@@ -15,7 +15,6 @@ import (
 
 const (
 	DefaultLoopbackSource  string = "alsa_input.pci-0000_00_1f.3.analog-stereo"
-	DefaultLoopbackSink  string = "alsa_output.pci-0000_00_1f.3.analog-stereo"
 	DefaultLoopbackLatency int32  = 1
 	DefaultLoopbackVolume  int32  = 10
 )
@@ -28,20 +27,14 @@ type Status struct {
 
 type LoopbackManager struct {
 	source  string
-	sink string
 	latency int32
 	volume  int32
 }
 
-func NewLoopbackManager(source string, sink string, latency int32, volume int32) *LoopbackManager {
+func NewLoopbackManager(source string, latency int32, volume int32) *LoopbackManager {
 	src := source
 	if src == "" {
 		src = DefaultLoopbackSource
-	}
-
-	snk := sink
-	if snk == "" {
-		snk = DefaultLoopbackSink
 	}
 
 	lt := latency
@@ -54,7 +47,7 @@ func NewLoopbackManager(source string, sink string, latency int32, volume int32)
 		vol = DefaultLoopbackVolume
 	}
 
-	lb := LoopbackManager{source: src, sink: snk, latency: lt, volume: vol}
+	lb := LoopbackManager{source: src, latency: lt, volume: vol}
 
 	return &lb
 }
@@ -74,11 +67,11 @@ func (lb *LoopbackManager) getModule() (*parser.Module, error) {
 	return parser.ParseModuleOutput(output)
 }
 
-func (lb *LoopbackManager) getSinkNo() (string, error) {
+func (lb *LoopbackManager) getSourceNo() (string, error) {
 	output, err := exec.Command(
 		"pactl",
 		"list",
-		"sinks",
+		"sources",
 		"short",
 	).Output()
 
@@ -86,12 +79,12 @@ func (lb *LoopbackManager) getSinkNo() (string, error) {
 		return "", err
 	}
 
-	sinks := strings.Split(string(output), "\n")
+	sources := strings.Split(string(output), "\n")
 
-	for _, sink := range sinks {
-		fields := strings.Fields(sink)
+	for _, source := range sources {
+		fields := strings.Fields(source)
 		if len(fields) >= 2 {
-			if fields[1] == lb.sink {
+			if fields[1] == lb.source {
 			  return fields[0], nil
 			}
 		}
@@ -101,7 +94,7 @@ func (lb *LoopbackManager) getSinkNo() (string, error) {
 }
 
 func (lb *LoopbackManager) getVolume() (int, error) {
-	sinkNo, err := lb.getSinkNo()
+	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
 		return -1, err
@@ -109,8 +102,8 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 
 	output, err := exec.Command(
 		"pactl",
-		"get-sink-volume",
-		sinkNo,
+		"get-source-volume",
+		sourceNo,
 	).Output()
 
 	if err != nil {
@@ -166,7 +159,7 @@ func (lb *LoopbackManager) Enable() error {
 }
 
 func (lb *LoopbackManager) setVolume() error {
-	sinkNo, err := lb.getSinkNo()
+	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
 		return err
@@ -175,7 +168,7 @@ func (lb *LoopbackManager) setVolume() error {
 	return exec.Command(
 		"pactl",
 		"set-source-volume",
-		sinkNo,
+		sourceNo,
 		fmt.Sprintf("%d", lb.volume),
 	).Run()
 }
