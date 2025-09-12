@@ -1,11 +1,11 @@
-package parser
+package module
 
 import (
 	"bytes"
 	"regexp"
 )
 
-func ParseModuleOutput(output []byte) (*Module, error) {
+func Parse(output []byte) (*Module, error) {
 	closingBraceRe := regexp.MustCompile(`^\s+}\s*$`)
 	lines := bytes.Split(output, []byte("\n"))
 

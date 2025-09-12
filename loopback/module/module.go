@@ -1,4 +1,4 @@
-package parser
+package module
 
 type Module struct {
 	Number int

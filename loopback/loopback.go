@@ -10,7 +10,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/jfhbrook/stardeck/loopback/parser"
+	"github.com/jfhbrook/stardeck/loopback/module"
 )
 
 const (
@@ -52,7 +52,7 @@ func NewLoopbackManager(source string, latency int32, volume int32) *LoopbackMan
 	return &lb
 }
 
-func (lb *LoopbackManager) getModule() (*parser.Module, error) {
+func (lb *LoopbackManager) getModule() (*module.Module, error) {
 	output, err := exec.Command(
 		"pactl",
 		"list",
@@ -64,7 +64,7 @@ func (lb *LoopbackManager) getModule() (*parser.Module, error) {
 		return nil, err
 	}
 
-	return parser.ParseModuleOutput(output)
+	return module.Parse(output)
 }
 
 func (lb *LoopbackManager) getSourceNo() (string, error) {
