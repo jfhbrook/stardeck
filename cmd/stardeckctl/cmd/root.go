@@ -9,17 +9,13 @@ import (
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/get"
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/set"
 	"github.com/jfhbrook/stardeck/config"
+	"github.com/jfhbrook/stardeck/logger"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "stardeckctl",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Control the Stardeck 1A Media Applicance",
+	Long:  `Control the Stardeck 1A Media Appliance.`,
 }
 
 func Execute() {
@@ -38,12 +34,18 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config-file", "", "Config file (default is /etc/stardeck/stardeck.yml)")
 	rootCmd.PersistentFlags().String("log-level", "info", "Log level (default is 'info')")
-	viper.BindPFlag("log-level", rootCmd.PersistentFlags().Lookup("log-level"))
+	viper.BindPFlag("cli.log_level", rootCmd.PersistentFlags().Lookup("log-level"))
+
+	rootCmd.PersistentFlags().String("log-format", logger.PrettyFormat, "Log format (default is 'pretty')")
+	viper.BindPFlag("cli.log_format", rootCmd.PersistentFlags().Lookup("log-format"))
+
+	rootCmd.PersistentFlags().Bool("log-color", true, "Show logs in color (default is 'true')")
+	viper.BindPFlag("cli.log_color", rootCmd.PersistentFlags().Lookup("log-color"))
 
 	rootCmd.AddCommand(get.GetCmd)
 	rootCmd.AddCommand(set.SetCmd)
 }
 
 func initConfig() {
-	config.InitConfig(cfgFile)
+	config.InitConfig(cfgFile, config.Cli)
 }
