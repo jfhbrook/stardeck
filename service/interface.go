@@ -20,6 +20,9 @@ const intro = `
 		<method name="SetWindow">
 			<arg direction="in" type="s"/>
 		</method>
+		<method name = "SetLoopback">
+			<arg direction="in" type="b"/>
+		</method>
 	</interface>` + introspect.IntrospectDataString + `
 </node>`
 
@@ -29,6 +32,11 @@ type Iface struct {
 
 func (i Iface) SetWindow(name string) *dbus.Error {
 	i.commands <- makeSetWindowNameCommand(name)
+	return nil
+}
+
+func (i Iface) SetLoopback(manage bool) *dbus.Error {
+	i.commands <- makeSetLoopbackCommand(manage)
 	return nil
 }
 

@@ -1,7 +1,6 @@
 package set
 
 import (
-	"github.com/godbus/dbus/v5"
 	"github.com/spf13/cobra"
 
 	"github.com/jfhbrook/stardeck/client"
@@ -17,15 +16,11 @@ the LCD.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		windowName := args[0]
 
-		conn, err := dbus.ConnectSessionBus()
+		cl, err := client.Connect()
 
 		if err != nil {
 			logger.FlagrantError(err)
 		}
-
-		defer conn.Close()
-
-		cl := client.NewStardeckClient(conn)
 
 		cl.SetWindow(windowName)
 	},

@@ -7,7 +7,8 @@ import (
 type commandType int
 
 const (
-	setWindowNameCommand commandType = iota
+	setWindowNameCommand commandType = 0
+	setLoopbackCommand               = 1
 )
 
 type command struct {
@@ -24,13 +25,24 @@ func makeSetWindowNameCommand(name string) *command {
 	return &cmd
 }
 
+func makeSetLoopbackCommand(managed bool) *command {
+	cmd := command{
+		Type:  setLoopbackCommand,
+		Value: managed,
+	}
+
+	return &cmd
+}
+
 func CommandRunner(commands chan *command) {
 	for {
 		command := <-commands
 
 		switch command.Type {
 		case setWindowNameCommand:
-			log.Debug().Any("name", command.Value).Msg("SetWindowNameCommand")
+			log.Debug().Any("name", command.Value).Msg("setWindowName")
+		case setLoopbackCommand:
+			log.Debug().Any("managed", command.Value).Msg("setLoopback")
 		}
 	}
 }
