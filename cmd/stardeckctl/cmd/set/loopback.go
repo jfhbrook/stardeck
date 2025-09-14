@@ -1,11 +1,11 @@
 package set
 
 import (
-	"fmt"
-
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 
+	"github.com/jfhbrook/stardeck/client"
+	"github.com/jfhbrook/stardeck/logger"
 	"github.com/jfhbrook/stardeck/loopback"
 )
 
@@ -35,8 +35,13 @@ var setLoopbackCmd = &cobra.Command{
 		}
 
 		if manage || noManage {
-			fmt.Println(manage)
-			fmt.Println(noManage)
+			cl, err := client.Connect()
+
+			if err != nil {
+				logger.FlagrantError(err)
+			}
+
+			cl.SetLoopback(manage)
 		}
 	},
 }
