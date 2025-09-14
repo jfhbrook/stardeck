@@ -6,6 +6,7 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -31,11 +32,13 @@ type Iface struct {
 }
 
 func (i Iface) SetWindow(name string) *dbus.Error {
+	log.Debug().Str("name", name).Msg("Received SetWindow")
 	i.commands <- makeSetWindowNameCommand(name)
 	return nil
 }
 
 func (i Iface) SetLoopback(manage bool) *dbus.Error {
+	log.Debug().Bool("manage", manage).Msg("Received SetLoopback")
 	i.commands <- makeSetLoopbackCommand(manage)
 	return nil
 }

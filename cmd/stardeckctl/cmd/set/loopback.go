@@ -1,6 +1,8 @@
 package set
 
 import (
+	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 
@@ -35,13 +37,19 @@ var setLoopbackCmd = &cobra.Command{
 		}
 
 		if manage || noManage {
-			cl, err := client.Connect()
+			conn, err := dbus.ConnectSessionBus()
 
 			if err != nil {
-				logger.FlagrantError(err)
+				logger.FlagrantError(errors.Wrap(err, "Failed to connect to Stardeck service"))
 			}
 
-			cl.SetLoopback(manage)
+			defer conn.Close()
+
+			cl := client.NewClient(conn)
+
+			if err := cl.SetLoopback(manage); err != nil {
+				logger.FlagrantError(err)
+			}
 		}
 	},
 }

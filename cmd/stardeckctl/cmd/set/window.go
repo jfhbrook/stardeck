@@ -1,6 +1,8 @@
 package set
 
 import (
+	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
 	"github.com/jfhbrook/stardeck/client"
@@ -16,13 +18,19 @@ the LCD.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		windowName := args[0]
 
-		cl, err := client.Connect()
+		conn, err := dbus.ConnectSessionBus()
 
 		if err != nil {
-			logger.FlagrantError(err)
+			logger.FlagrantError(errors.Wrap(err, "Failed to connect to Stardeck service"))
 		}
 
-		cl.SetWindow(windowName)
+		defer conn.Close()
+
+		cl := client.NewClient(conn)
+
+		if err := cl.SetWindow(windowName); err != nil {
+			logger.FlagrantError(err)
+		}
 	},
 }
 

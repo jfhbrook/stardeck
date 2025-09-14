@@ -31,7 +31,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(func() {
-		config.InitConfig(cfgFile, config.Service)
+		config.InitConfig(cfgFile, config.Cli)
 	})
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config-file", "", "Config file (default is /etc/stardeck/stardeck.yml)")
