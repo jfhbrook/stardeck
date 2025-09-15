@@ -45,3 +45,8 @@ reconfigure:
 # Tail KWin logs
 tail:
   journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting
+
+# Build for release
+build:
+  mkdir -p build
+  zip -r - metadata.json contents > build/stardeck.kwinscript
