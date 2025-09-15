@@ -7,13 +7,7 @@ const DBUS_INTERFACE = 'org.jfhbrook.stardeck';
 const WINDOW_INTERVAL = 1 * SECOND;
 
 function callback(methodName, ...args) {
-  callDBus(
-    DBUS_DESTINATION,
-    DBUS_PATH,
-    DBUS_INTERFACE,
-    methodName,
-    ...args
-  );
+  callDBus(DBUS_DESTINATION, DBUS_PATH, DBUS_INTERFACE, methodName, ...args);
 }
 
 function setWindow() {

@@ -1,0 +1,31 @@
+{
+  "name": "stardeck-kwin",
+  "version": "1.0.0",
+  "description": "Stardeck KWin plugin",
+  "main": "contents/code/main.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "prettier --list-different . && eslint --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jfhbrook/stardeck.git"
+  },
+  "keywords": [
+    "KDE"
+  ],
+  "author": "Josh Holbrook",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/jfhbrook/stardeck/issues"
+  },
+  "homepage": "https://github.com/jfhbrook/stardeck#readme",
+  "dependencies": {
+    "@eslint/js": "^9.35.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.6.2"
+  }
+}
