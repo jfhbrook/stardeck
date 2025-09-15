@@ -1,0 +1,30 @@
+{
+  "exclude": [
+    "contents",
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "outDir": "contents/code",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "lib": [
+      "es2022"
+    ],
+    "types": ["kwin-types"],
+    "esModuleInterop": true,
+    "incremental": true,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": false
+  }
+}
