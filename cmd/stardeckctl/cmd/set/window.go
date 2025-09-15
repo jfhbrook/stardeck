@@ -3,6 +3,7 @@ package set
 import (
 	"github.com/godbus/dbus/v5"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 
 	"github.com/jfhbrook/stardeck/client"
@@ -31,6 +32,8 @@ the LCD.`,
 		if err := cl.SetWindow(windowName); err != nil {
 			logger.FlagrantError(err)
 		}
+
+		log.Info().Str("name", windowName).Msg("Set window name")
 	},
 }
 

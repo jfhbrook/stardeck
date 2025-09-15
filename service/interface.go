@@ -33,13 +33,13 @@ type Iface struct {
 }
 
 func (i Iface) SetWindow(name string) *dbus.Error {
-	log.Debug().Str("name", name).Msg("Received SetWindow")
+	log.Trace().Str("name", name).Msg("Received SetWindow")
 	i.commands <- makeSetWindowNameCommand(name)
 	return nil
 }
 
 func (i Iface) SetLoopback(manage bool) *dbus.Error {
-	log.Debug().Bool("manage", manage).Msg("Received SetLoopback")
+	log.Trace().Bool("manage", manage).Msg("Received SetLoopback")
 	i.commands <- makeSetLoopbackCommand(manage)
 	return nil
 }
@@ -62,8 +62,8 @@ func (e DbusRequestNameError) Error() string {
 	return strconv.FormatUint(uint64(e.Reply), 10)
 }
 
-func exportIface(conn *dbus.Conn) error {
-	i := Iface{}
+func exportIface(conn *dbus.Conn, commands chan *command) error {
+	i := Iface{commands: commands}
 
 	conn.Export(i, objectPath, ifaceName)
 	conn.Export(introspect.Introspectable(intro), objectPath, "org.freedesktop.DBus.Introspectable")

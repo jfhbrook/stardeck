@@ -36,6 +36,7 @@ func makeSetLoopbackCommand(managed bool) *command {
 
 func CommandRunner(commands chan *command) {
 	for {
+		log.Trace().Msg("Waiting for command")
 		command := <-commands
 
 		switch command.Type {

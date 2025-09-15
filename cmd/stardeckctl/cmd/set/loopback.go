@@ -31,8 +31,10 @@ var setLoopbackCmd = &cobra.Command{
 
 			if enable {
 				manager.Enable()
+				log.Info().Msg("Enabled loopback")
 			} else {
 				manager.Disable()
+				log.Info().Msg("Disabled loopback")
 			}
 		}
 
@@ -49,6 +51,12 @@ var setLoopbackCmd = &cobra.Command{
 
 			if err := cl.SetLoopback(manage); err != nil {
 				logger.FlagrantError(err)
+			}
+
+			if manage {
+				log.Info().Msg("Loopback is now managed")
+			} else {
+				log.Info().Msg("Loopback is no longer managed")
 			}
 		}
 	},

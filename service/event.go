@@ -71,7 +71,7 @@ func listenToSignals(conn *dbus.Conn, events chan *event) {
 		logger.FlagrantError(err)
 	}
 
-	signals := make(chan *dbus.Signal, 10)
+	signals := make(chan *dbus.Signal, 1)
 	conn.Signal(signals)
 
 	for signal := range signals {

@@ -7,7 +7,7 @@ import (
 	"github.com/jfhbrook/stardeck/logger"
 )
 
-func serve() {
+func serve(commands chan *command) {
 	conn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
@@ -16,7 +16,7 @@ func serve() {
 
 	defer conn.Close()
 
-	err = exportIface(conn)
+	err = exportIface(conn, commands)
 
 	if err != nil {
 		logger.FlagrantError(errors.Wrap(err, "Failed to export interface"))
@@ -43,11 +43,10 @@ func Service() {
 
 	defer systemConn.Close()
 
-	go serve()
+	events := make(chan *event, 1)
+	commands := make(chan *command, 1)
 
-	events := make(chan *event)
-	commands := make(chan *command)
-
+	go serve(commands)
 	go listen(systemConn, sessionConn, events)
 	go eventHandler(events, commands)
 	CommandRunner(commands)
