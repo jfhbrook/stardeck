@@ -8,7 +8,7 @@ export default [
       globals: {
         callDBus: 'readable',
         workspace: 'readable',
-        setInterval: 'readable',
+        QTimer: 'readable',
       },
     },
   },
