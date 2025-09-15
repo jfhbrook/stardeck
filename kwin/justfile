@@ -1,0 +1,47 @@
+# Show help and exit
+help:
+  @just --list
+
+# Format JavaScript
+format:
+  npm run format
+
+# Lint JavaScript
+lint:
+  npm run lint
+
+# Run tests
+test:
+  npm test
+
+# Install the plugin
+install:
+  kpackagetool6 --type=KWin/Script -i .
+  @just enable
+
+# Upgrade the plugin
+upgrade:
+  kpackagetool6 --type=KWin/Script -u .
+
+# Remove (uninstall) the plugin
+remove:
+  @just disable
+  kpackagetool6 --type=KWin/Script -r "$(./scripts/plugin-id.sh)"
+
+# Enable the plugin in KWin's config
+enable:
+  kwriteconfig6 --file kwinrc --group Plugins --key "$(./scripts/plugin-id.sh)"Enabled true
+  @just reconfigure
+
+# Disable the plugin in KWin's config
+disable:
+  kwriteconfig6 --file kwinrc --group Plugins --key "$(./scripts/plugin-id.sh)"Enabled false
+  @just reconfigure
+
+# Trigger a reconfigure in KWin to load configuration
+reconfigure:
+  dbus-send --session --dest=org.kde.KWin --print-reply /KWin org.kde.KWin.reconfigure
+
+# Tail KWin logs
+tail:
+  journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting
