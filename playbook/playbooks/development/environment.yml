@@ -1,0 +1,13 @@
+- name: Environment
+  hosts: localhost
+  connection: local
+  tags:
+    - development
+  tasks:
+    - name: Update /etc/environment
+      ansible.builtin.copy:
+        src: environment
+        dest: /etc/environment
+        owner: root
+        group: root
+        mode: '0644'

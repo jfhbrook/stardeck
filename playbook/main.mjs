@@ -75,6 +75,7 @@ PLAYBOOKS:
   vim/main.yml                     Vim text editor.
   web/certificate.yml              SSL self-signed certificate.
   web/main.yml                     HTTP/HTTPS server configuration.
+  development/environment.yml      Global shell environment.
   development/git.yml              Git configuration.
   development/gomplate.yml         Gomplate CLI template generator.
   development/hugo.yml             Hugo static site generator.
@@ -247,6 +248,7 @@ export async function main() {
 
   if (config.development && enabled('development')) {
     await ansible([
+      { name: 'environment', playbook: 'development/environment.yml' },
       { name: 'git', playbook: 'development/git.yml' },
       { name: 'gomplate', playbook: 'development/gomplate.yml' },
       { name: 'hugo', playbook: 'development/hugo.yml' },
