@@ -6,7 +6,8 @@
   "scripts": {
     "format": "prettier --write .",
     "lint": "prettier --list-different . && eslint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:kwin": "bash ./scripts/install.sh"
   },
   "repository": {
     "type": "git",
