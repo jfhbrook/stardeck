@@ -16,14 +16,14 @@ setup:
 lint:
   find . -name '*.go' -exec dirname {} ';' | sort -u | xargs go vet
   cd ./playbook && npm run lint
-  cd ./kwin && npm run lint
+  just -f ./kwin/justfile lint
   shellcheck scripts/*.sh
 
 # Format everything
 format:
   find . -name '*.go' -exec go fmt {} ';'
   cd ./playbook && npm run format
-  cd ./kwin && npm run format
+  just -f ./kwin/justfile format
 
 build:
   mkdir -p bin
