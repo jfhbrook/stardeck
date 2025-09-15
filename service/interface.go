@@ -16,6 +16,7 @@ const (
 )
 
 const intro = `
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "https://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
 	<interface name="` + ifaceName + `">
 		<method name="SetWindow">
@@ -70,11 +71,11 @@ func exportIface(conn *dbus.Conn) error {
 	reply, err := conn.RequestName(busName, dbus.NameFlagDoNotQueue)
 
 	if err != nil {
-		return errors.Wrap(err, "Failed to export DBus interface")
+		return errors.Wrap(err, "Failed to request "+busName)
 	}
 
 	if reply != dbus.RequestNameReplyPrimaryOwner {
-		return errors.Wrap(DbusRequestNameError{Reply: reply}, "Failed to export DBus interface")
+		return errors.Wrap(DbusRequestNameError{Reply: reply}, busName+" already taken")
 	}
 
 	return nil

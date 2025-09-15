@@ -21,6 +21,7 @@
       - perl-Perl-PrereqScanner
       - perl-Dist-Zilla
       - perl-Dist-Zilla-Plugin-Prereqs-FromCPANfile
+      - expat-devel
       # python dev
       - uv
       # rust
