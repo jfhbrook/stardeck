@@ -5,9 +5,14 @@
   "main": "contents/code/main.js",
   "scripts": {
     "format": "prettier --write .",
-    "lint": "prettier --list-different . && eslint --fix",
+    "lint": "prettier --list-different . && eslint --fix && shellcheck ./scripts/*.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install:kwin": "bash ./scripts/install.sh"
+    "install:kwin": "bash ./scripts/install.sh",
+    "upgrade:kwin": "bash ./scripts/install.sh",
+    "remove:kwin": "bash ./scripts/remove.sh",
+    "enable:kwin": "bash ./scripts/enable.sh",
+    "disable:kwin": "bash ./scripts/disable.sh",
+    "reconfigure:kwin": "bash ./scripts/reconfigure.sh"
   },
   "repository": {
     "type": "git",
