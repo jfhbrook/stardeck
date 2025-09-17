@@ -22,6 +22,7 @@ install:
 # Upgrade the plugin
 upgrade:
   kpackagetool6 --type=KWin/Script -u .
+  @just reconfigure
 
 # Remove (uninstall) the plugin
 remove:

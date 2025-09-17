@@ -8,8 +8,14 @@ function callback(methodName, ...args) {
   callDBus(DBUS_DESTINATION, DBUS_PATH, DBUS_INTERFACE, methodName, ...args);
 }
 
+let caption = '';
+
 function setWindow() {
-  callback('SetWindow', workspace.activeWindow.caption);
+  if (caption === workspace.activeWindow.caption) {
+    return;
+  }
+  caption = workspace.activeWindow.caption;
+  callback('SetWindow', caption);
 }
 
 let timer = new QTimer();
