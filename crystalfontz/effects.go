@@ -9,63 +9,87 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type EffectCommand int
+const deviceWidth int = 16
 
-const StopEffectCommand EffectCommand = 1
+type Marquee struct {
+	row     byte
+	text    string
+	tick    time.Duration
+	pause   time.Duration
+	shift   int
+	running bool
+	client  *Crystalfontz
+}
 
-func (lcd *Crystalfontz) Marquee(row byte, text string) (*chan EffectCommand, error) {
+func NewMarquee(row byte, text string, client *Crystalfontz) (*Marquee, error) {
 	if row < 0 || row > 1 {
 		return nil, errors.New(fmt.Sprintf("Invalid row: %d", row))
 	}
 
 	tick := time.Duration(0.3 * float64(time.Second))
-	pause := tick
+	pause := time.Duration(0.3 * float64(time.Second))
 	text = fmt.Sprintf("%-16s", text)
-	shift := 0
 
-	commands := make(chan EffectCommand)
-
-	line := func() []byte {
-		left := text[shift:]
-		right := text[0:shift]
-		middle := strings.Repeat(" ", max(16-len(text), 1))
-		assembled := []byte(left + middle + right)
-		return assembled[0:16]
+	marquee := Marquee{
+		row:     row,
+		text:    text,
+		tick:    tick,
+		pause:   pause,
+		shift:   0,
+		running: false,
+		client:  client,
 	}
 
-	send := func() {
-		err := lcd.SendData(row, 0, line(), -1.0, -1)
+	return &marquee, nil
+}
 
-		if err != nil {
-			log.Error().Err(err).Msg("Error while rendering marquee")
+func (m *Marquee) line() []byte {
+	left := m.text[m.shift:]
+	right := m.text[0:m.shift]
+	middle := strings.Repeat(" ", max(16-len(m.text), 1))
+	assembled := []byte(left + middle + right)
+	return assembled[0:16]
+}
+
+func (m *Marquee) send() {
+	err := m.client.SendData(m.row, 0, m.line(), -1.0, -1)
+
+	if err != nil {
+		log.Error().Err(err).Msg("Error while rendering marquee")
+	}
+}
+
+func (m *Marquee) Start() {
+	if m.running {
+		return
+	}
+	m.running = true
+
+	m.send()
+	m.shift += 1
+
+	if !m.running {
+		return
+	}
+
+	time.Sleep(m.pause)
+
+	for {
+		if !m.running {
+			return
 		}
-	}
 
-	loop := func() {
-		send()
-		time.Sleep(pause)
+		m.send()
+		m.shift += 1
 
-		shift += 1
-
-		for {
-			select {
-			case cmd := <-commands:
-				if cmd == StopEffectCommand {
-					return
-				}
-			default:
-				shift += 1
-
-				if shift > 16 {
-					shift = 0
-				}
-
-				time.Sleep(tick)
-			}
+		if m.shift > 16 {
+			m.shift = 0
 		}
+
+		time.Sleep(m.tick)
 	}
+}
 
-	go loop()
-
-	return &commands, nil
+func (m *Marquee) Stop() {
+	m.running = false
 }
