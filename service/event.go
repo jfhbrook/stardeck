@@ -52,7 +52,8 @@ func eventHandler(events chan *event, commands chan *command) {
 
 		switch ev.Type {
 		case windowEvent:
-			log.Debug().Any("event", ev).Msg("WindowEvent")
+			setWindowNameCmd := makeSetWindowNameCommand(ev.Value.(string))
+			commands <- setWindowNameCmd
 		case plusdeckEvent:
 			log.Debug().Any("event", ev).Msg("PlusdeckEvent")
 		case keyActivityReport:

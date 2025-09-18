@@ -41,9 +41,9 @@ func CommandRunner(commands chan *command) {
 
 		switch command.Type {
 		case setWindowNameCommand:
-			log.Debug().Any("name", command.Value).Msg("setWindowName")
+			log.Debug().Str("name", command.Value.(string)).Msg("setWindowName")
 		case setLoopbackCommand:
-			log.Debug().Any("managed", command.Value).Msg("setLoopback")
+			log.Debug().Bool("managed", command.Value.(bool)).Msg("setLoopback")
 		}
 	}
 }
