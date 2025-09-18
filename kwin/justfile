@@ -9,6 +9,7 @@ format:
 # Lint JavaScript
 lint:
   npm run lint
+  shellcheck ./scripts/*.sh
 
 # Run tests
 test:
@@ -22,7 +23,7 @@ install:
 # Upgrade the plugin
 upgrade:
   kpackagetool6 --type=KWin/Script -u .
-  @just reconfigure
+  @just restart
 
 # Remove (uninstall) the plugin
 remove:
@@ -43,8 +44,12 @@ disable:
 reconfigure:
   dbus-send --session --dest=org.kde.KWin --print-reply /KWin org.kde.KWin.reconfigure
 
+# Restart kwin
+restart:
+  kwin_wayland --replace
+
 # Tail KWin logs
-tail:
+logs:
   journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting
 
 # Build for release

@@ -4,8 +4,19 @@ const DBUS_DESTINATION = 'org.jfhbrook.stardeck';
 const DBUS_PATH = '/';
 const DBUS_INTERFACE = 'org.jfhbrook.stardeck';
 
+// TODO: Make configurable
+const SET_WINDOW_EVERY = 1 * SECOND;
+const RESET_WINDOW_EVERY = 10 * SECOND;
+
 function callback(methodName, ...args) {
   callDBus(DBUS_DESTINATION, DBUS_PATH, DBUS_INTERFACE, methodName, ...args);
+}
+
+function setInterval(callback, interval) {
+  const timer = new QTimer();
+  timer.interval = interval;
+  timer.timeout.connect(callback);
+  timer.start();
 }
 
 let caption = '';
@@ -18,7 +29,9 @@ function setWindow() {
   callback('SetWindow', caption);
 }
 
-let timer = new QTimer();
-timer.interval = 1 * SECOND;
-timer.timeout.connect(setWindow);
-timer.start();
+function resetWindow() {
+  caption = '';
+}
+
+setInterval(setWindow, SET_WINDOW_EVERY);
+setInterval(resetWindow, RESET_WINDOW_EVERY);
