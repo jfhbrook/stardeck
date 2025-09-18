@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/godbus/dbus/v5"
+	"github.com/pkg/errors"
 )
 
 type BusType int
@@ -25,9 +26,21 @@ func NewClient(conn *dbus.Conn) *Client {
 }
 
 func (client *Client) SetWindow(name string) error {
-	return client.object.Call("org.jfhbrook.stardeck.SetWindow", 0, name).Store()
+	call := client.object.Call("org.jfhbrook.stardeck.SetWindow", 0, name)
+
+	if call.Err != nil {
+		return errors.Wrap(call.Err, "Failed to set window title")
+	}
+
+	return nil
 }
 
 func (client *Client) SetLoopback(manage bool) error {
-	return client.object.Call("org.jfhbrook.stardeck.SetLoopback", 0, manage).Store()
+	call := client.object.Call("org.jfhbrook.stardeck.SetLoopback", 0, manage)
+
+	if call.Err != nil {
+		return errors.Wrap(call.Err, "Failed to set loopback")
+	}
+
+	return nil
 }
