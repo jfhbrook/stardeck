@@ -34,3 +34,23 @@ func AddStateMatchSignal(conn *dbus.Conn) error {
 
 	return nil
 }
+
+type Plusdeck struct {
+	object dbus.BusObject
+}
+
+func NewPlusdeck(conn *dbus.Conn) *Plusdeck {
+	obj := conn.Object("org.jfhbrook.plusdeck", "/")
+	lcd := Plusdeck{object: obj}
+	return &lcd
+}
+
+func (p *Plusdeck) CurrentState() (string, error) {
+	prop, err := p.object.GetProperty("org.jfhbrook.plusdeck.CurrentState")
+
+	if err != nil {
+		return "", err
+	}
+
+	return prop.Value().(string), nil
+}
