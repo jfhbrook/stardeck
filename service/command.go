@@ -51,47 +51,91 @@ func newSetPlusdeckStateCommand(state plusdeck.PlusdeckState) *command {
 	return &cmd
 }
 
-func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
-	unmanagedStates := []plusdeck.PlusdeckState{
-		plusdeck.Subscribed,
-		plusdeck.Stopped,
-		plusdeck.Ejected,
-		plusdeck.Subscribing,
-		plusdeck.Unsubscribing,
-		plusdeck.Unsubscribed,
+func stringToData(text string) []byte {
+	data := []byte(text)
+	if len(data) > 16 {
+		data = data[0:16]
 	}
 
+	return data
+}
+
+func windowNameSetter(lcd *crystalfontz.Crystalfontz, name *string) func(update string) {
+	return func(update string) {
+		if update != *name {
+			lcd.SendData(0, 0, stringToData(update), -1.0, -1)
+			*name = update
+		}
+	}
+}
+
+func loopbackManager(state *plusdeck.PlusdeckState, managed *bool) func(update bool) {
+	// loopbackManager := loopback.NewLoopbackManager("", -1, -1)
+	managedStates := []plusdeck.PlusdeckState{
+		plusdeck.PlayingA,
+		plusdeck.PausedA,
+		plusdeck.PlayingB,
+		plusdeck.PausedB,
+		plusdeck.FastForwardingA,
+		plusdeck.FastForwardingB,
+		plusdeck.Stopped,
+	}
+
+	return func(update bool) {
+		if update {
+			if slices.Contains(managedStates, *state) {
+				log.Warn().Msg("TODO: enable loopback")
+			} else {
+				log.Warn().Msg("TODO: disable loopback")
+			}
+		}
+		*managed = update
+	}
+}
+
+func plusdeckStateSetter(state *plusdeck.PlusdeckState) func(update plusdeck.PlusdeckState) {
+	displayedStates := []plusdeck.PlusdeckState{
+		plusdeck.PlayingA,
+		plusdeck.PausedA,
+		plusdeck.PlayingB,
+		plusdeck.PausedB,
+		plusdeck.FastForwardingA,
+		plusdeck.FastForwardingB,
+	}
+
+	return func(update plusdeck.PlusdeckState) {
+		if slices.Contains(displayedStates, update) {
+			log.Warn().Str("state", update).Msg("TODO: Display plusdeck state")
+		} else {
+			log.Debug().Str("state", update).Msg("NOTE: Do not display plusdeck state")
+		}
+		*state = update
+	}
+}
+
+func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
 	loopbackManaged := false
 	plusdeckState := plusdeck.Unsubscribed
 
-	// loopbackManager := loopback.NewLoopbackManager("", -1, -1)
 	lcd := crystalfontz.NewCrystalfontz(systemConn)
+
+	setWindowName := windowNameSetter(lcd, &windowName)
+	manageLoopback := loopbackManager(&plusdeckState, &loopbackManaged)
+	setPlusdeckState := plusdeckStateSetter(&plusdeckState)
 
 	for {
 		log.Trace().Msg("Waiting for command")
 		command := <-commands
-		log.Debug().Any("command", command).Msg("Received command")
+		log.Trace().Any("command", command).Msg("Received command")
 
 		switch command.Type {
 		case setWindowNameCommand:
-			updated := command.Value.(string)
-			if updated != windowName {
-				lcd.SendData(0, 0, []byte(updated[0:16]), -1.0, -1)
-			}
-			windowName = updated
+			setWindowName(command.Value.(string))
 		case setLoopbackCommand:
-			loopbackManaged = command.Value.(bool)
+			manageLoopback(command.Value.(bool))
 		case setPlusdeckStateCommand:
-			plusdeckState = command.Value.(plusdeck.PlusdeckState)
-		}
-
-		if loopbackManaged {
-			if slices.Contains(unmanagedStates, plusdeckState) {
-				log.Debug().Msg("TODO: disable loopback")
-			} else {
-				log.Debug().Msg("TODO: enable loopback")
-			}
+			setPlusdeckState(command.Value.(plusdeck.PlusdeckState))
 		}
 
 		log.Debug().

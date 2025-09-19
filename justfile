@@ -31,10 +31,10 @@ build:
   go build -o bin/stardeckctl ./cmd/stardeckctl/main.go
 
 stardeckd *argv:
-  go run ./cmd/stardeckd/main.go --log-level debug {{ argv }}
+  go run ./cmd/stardeckd/main.go --log-level trace --log-format pretty {{ argv }}
 
 stardeckctl *argv:
-  go run ./cmd/stardeckctl/main.go --log-level debug {{ argv }}
+  go run ./cmd/stardeckctl/main.go --log-level trace {{ argv }}
 
 # Link tool
 link:

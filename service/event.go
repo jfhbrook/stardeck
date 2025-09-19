@@ -53,7 +53,7 @@ func eventHandler(events chan *event, commands chan *command) {
 	for {
 		log.Trace().Msg("Waiting for event")
 		ev := <-events
-		log.Debug().Any("event", ev).Msg("Received event")
+		log.Trace().Any("event", ev).Msg("Received event")
 
 		switch ev.Type {
 		case windowEvent:

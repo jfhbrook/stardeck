@@ -47,9 +47,9 @@ func init() {
 	viper.BindPFlag("service.log_format", rootCmd.PersistentFlags().Lookup("log-format"))
 	viper.SetDefault("service.log_format", logger.JsonFormat)
 
-	rootCmd.PersistentFlags().Bool("log-color", false, "Show logs in color (default is 'false')")
+	rootCmd.PersistentFlags().Bool("log-color", true, "Show pretty logs in color (default is 'true')")
 	viper.BindPFlag("service.log_color", rootCmd.PersistentFlags().Lookup("log-color"))
-	viper.SetDefault("service.log_color", false)
+	viper.SetDefault("service.log_color", true)
 
 	rootCmd.AddCommand(get.GetCmd)
 	rootCmd.AddCommand(set.SetCmd)
