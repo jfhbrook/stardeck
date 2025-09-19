@@ -3,8 +3,10 @@ package service
 import (
 	"slices"
 
+	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 
+	"github.com/jfhbrook/stardeck/crystalfontz"
 	// "github.com/jfhbrook/stardeck/loopback"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
@@ -49,7 +51,7 @@ func newSetPlusdeckStateCommand(state plusdeck.PlusdeckState) *command {
 	return &cmd
 }
 
-func CommandRunner(commands chan *command) {
+func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	unmanagedStates := []plusdeck.PlusdeckState{
 		plusdeck.Subscribed,
 		plusdeck.Stopped,
@@ -58,10 +60,13 @@ func CommandRunner(commands chan *command) {
 		plusdeck.Unsubscribing,
 		plusdeck.Unsubscribed,
 	}
+
 	windowName := ""
-	// loopbackManager := loopback.NewLoopbackManager("", -1, -1)
 	loopbackManaged := false
 	plusdeckState := plusdeck.Unsubscribed
+
+	// loopbackManager := loopback.NewLoopbackManager("", -1, -1)
+	lcd := crystalfontz.NewCrystalfontz(systemConn)
 
 	for {
 		log.Trace().Msg("Waiting for command")
@@ -70,7 +75,11 @@ func CommandRunner(commands chan *command) {
 
 		switch command.Type {
 		case setWindowNameCommand:
-			windowName = command.Value.(string)
+			updated := command.Value.(string)
+			if updated != windowName {
+				lcd.SendData(0, 0, []byte(updated[0:16]), -1.0, -1)
+			}
+			windowName = updated
 		case setLoopbackCommand:
 			loopbackManaged = command.Value.(bool)
 		case setPlusdeckStateCommand:

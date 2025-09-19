@@ -49,5 +49,5 @@ func Service() {
 	go serve(commands)
 	go listen(systemConn, sessionConn, events)
 	go eventHandler(events, commands)
-	CommandRunner(commands)
+	CommandRunner(systemConn, commands)
 }
