@@ -68,16 +68,32 @@ func eventHandler(events chan *event, commands chan *command) {
 	}
 }
 
-func getInitialPlusdeckState(conn *dbus.Conn, ch chan string) {
-	pd := plusdeck.NewPlusdeck(conn)
-	state, err := pd.CurrentState()
+func loadInitialState(conn *dbus.Conn, signals chan *dbus.Signal, events chan *event) {
+	states := make(chan string)
+	go func() {
+		pd := plusdeck.NewPlusdeck(conn)
+		state, err := pd.CurrentState()
 
-	if err != nil {
-		log.Debug().Err(err).Msg("Error while pulling current state")
-		return
+		if err != nil {
+			log.Debug().Err(err).Msg("Error while pulling current state")
+			return
+		}
+
+		states <- state
+	}()
+
+	for {
+		select {
+		case state := <-states:
+			events <- newPlusdeckEvent(state)
+			return
+		case signal := <-signals:
+			events <- mapSignal(signal)
+			if signal.Name == "org.jfhbrook.plusdeck.State" {
+				return
+			}
+		}
 	}
-
-	ch <- state
 }
 
 func listenToSignals(conn *dbus.Conn, events chan *event) {
@@ -91,35 +107,21 @@ func listenToSignals(conn *dbus.Conn, events chan *event) {
 	signals := make(chan *dbus.Signal, 1)
 	conn.Signal(signals)
 
-	initialStates := make(chan string, 1)
-	go getInitialPlusdeckState(conn, initialStates)
-
-loadInitialState:
-	for {
-		select {
-		case state := <-initialStates:
-			events <- newPlusdeckEvent(state)
-			break loadInitialState
-		case signal := <-signals:
-			handleSignal(signal, events)
-			if signal.Name == "org.jfhbrook.plusdeck.State" {
-				break loadInitialState
-			}
-		}
-	}
+	loadInitialState(conn, signals, events)
 
 	for signal := range signals {
-		handleSignal(signal, events)
+		events <- mapSignal(signal)
 	}
 }
 
-func handleSignal(signal *dbus.Signal, events chan *event) {
+func mapSignal(signal *dbus.Signal) *event {
 	switch signal.Name {
 	case "org.jfhbrook.plusdeck.State":
-		events <- newPlusdeckEvent(signal.Body[0].(string))
+		return newPlusdeckEvent(signal.Body[0].(string))
 	case "org.jfhbrook.crystalfontz.KeyActivityReports":
-		events <- newKeyActivityReportEvent(signal.Body[0].(byte))
+		return newKeyActivityReportEvent(signal.Body[0].(byte))
 	}
+	panic(fmt.Sprintf("Unknown signal %s", signal.Name))
 }
 
 func listenToNotifications(conn *dbus.Conn, events chan *event) {
