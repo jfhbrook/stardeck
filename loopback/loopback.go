@@ -133,6 +133,8 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 func (lb *LoopbackManager) Status() (*Status, error) {
 	module, err := lb.getModule()
 
+	// TODO: If err is CodeNotFound, then return a disabled status
+
 	if err != nil {
 		return nil, pkgerrors.Wrap(err, "Failed to get status")
 	}
