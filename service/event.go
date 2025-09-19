@@ -48,22 +48,28 @@ func newNotificationEvent(payload []any) *event {
 
 func eventHandler(events chan *event, commands chan *command) {
 	windowName := ""
+	plusdeckState := plusdeck.Unsubscribed
+
 	for {
+		log.Trace().Msg("Waiting for event")
 		ev := <-events
+		log.Debug().Any("event", ev).Msg("Received event")
 
 		switch ev.Type {
 		case windowEvent:
 			if ev.Value.(string) != windowName {
 				windowName = ev.Value.(string)
-				setWindowNameCmd := makeSetWindowNameCommand(windowName)
-				commands <- setWindowNameCmd
+				commands <- newSetWindowNameCommand(windowName)
 			}
 		case plusdeckEvent:
-			log.Debug().Any("event", ev).Msg("PlusdeckEvent")
+			if ev.Value.(plusdeck.PlusdeckState) != plusdeckState {
+				plusdeckState = ev.Value.(plusdeck.PlusdeckState)
+				commands <- newSetPlusdeckStateCommand(plusdeckState)
+			}
 		case keyActivityReport:
-			log.Debug().Any("event", ev).Msg("KeyActivityReport")
+			log.Debug().Any("event", ev).Msg("keyActivityReport")
 		case notification:
-			log.Debug().Any("event", ev).Msg("Notification")
+			log.Debug().Any("event", ev).Msg("notification")
 		}
 	}
 }

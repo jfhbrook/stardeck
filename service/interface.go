@@ -34,13 +34,13 @@ type Iface struct {
 
 func (i Iface) SetWindow(name string) *dbus.Error {
 	log.Trace().Str("name", name).Msg("Received SetWindow")
-	i.commands <- makeSetWindowNameCommand(name)
+	i.commands <- newSetWindowNameCommand(name)
 	return nil
 }
 
 func (i Iface) SetLoopback(manage bool) *dbus.Error {
 	log.Trace().Bool("manage", manage).Msg("Received SetLoopback")
-	i.commands <- makeSetLoopbackCommand(manage)
+	i.commands <- newSetLoopbackCommand(manage)
 	return nil
 }
 

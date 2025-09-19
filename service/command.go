@@ -2,13 +2,16 @@ package service
 
 import (
 	"github.com/rs/zerolog/log"
+
+	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 type commandType int
 
 const (
-	setWindowNameCommand commandType = 0
-	setLoopbackCommand               = 1
+	setWindowNameCommand    commandType = 0
+	setLoopbackCommand                  = 1
+	setPlusdeckStateCommand             = 2
 )
 
 type command struct {
@@ -16,7 +19,7 @@ type command struct {
 	Value any
 }
 
-func makeSetWindowNameCommand(name string) *command {
+func newSetWindowNameCommand(name string) *command {
 	cmd := command{
 		Type:  setWindowNameCommand,
 		Value: name,
@@ -25,7 +28,7 @@ func makeSetWindowNameCommand(name string) *command {
 	return &cmd
 }
 
-func makeSetLoopbackCommand(managed bool) *command {
+func newSetLoopbackCommand(managed bool) *command {
 	cmd := command{
 		Type:  setLoopbackCommand,
 		Value: managed,
@@ -34,16 +37,38 @@ func makeSetLoopbackCommand(managed bool) *command {
 	return &cmd
 }
 
+func newSetPlusdeckStateCommand(state plusdeck.PlusdeckState) *command {
+	cmd := command{
+		Type:  setPlusdeckStateCommand,
+		Value: state,
+	}
+
+	return &cmd
+}
+
 func CommandRunner(commands chan *command) {
+	windowName := ""
+	loopbackManaged := false
+	plusdeckState := plusdeck.Unsubscribed
+
 	for {
 		log.Trace().Msg("Waiting for command")
 		command := <-commands
+		log.Debug().Any("command", command).Msg("Received command")
 
 		switch command.Type {
 		case setWindowNameCommand:
-			log.Debug().Str("name", command.Value.(string)).Msg("setWindowName")
+			windowName = command.Value.(string)
 		case setLoopbackCommand:
-			log.Debug().Bool("managed", command.Value.(bool)).Msg("setLoopback")
+			loopbackManaged = command.Value.(bool)
+		case setPlusdeckStateCommand:
+			plusdeckState = command.Value.(plusdeck.PlusdeckState)
 		}
+
+		log.Debug().
+			Str("windowName", windowName).
+			Bool("loopbackManaged", loopbackManaged).
+			Any("plusdeckState", plusdeckState).
+			Msg("State updated")
 	}
 }
