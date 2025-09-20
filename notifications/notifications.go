@@ -43,6 +43,14 @@ func NewNotificationInfo(payload []any) *NotificationInfo {
 	return &info
 }
 
+// Initial "bad" message:
+/*
+&dbus.Message{Type:0x4, Flags:0x1, Headers:map[dbus.HeaderField]dbus.Variant{0x1:dbus.Variant{sig:dbus.Signature{str:"o"}, value:"/org/freedesktop/DBus"}, 0x2:dbus.Variant{sig:dbus.Signature{str:"s"}, value:"org.freedesktop.DBus"}, 0x3:dbus.Variant{sig:dbus.Signature{str:"s"}, value:"NameLost"}, 0x6:dbus.Variant{sig:dbus.Signature{str:"s"}, value:":1.197"}, 0x7:dbus.Variant{sig:dbus.Signature{str:"s"}, value:"org.freedesktop.DBus"}, 0x8:dbus.Variant{sig:dbus.Signature{str:"g"}, value:dbus.Signature{str:"s"}}}, Body:[]interface {}{":1.197"}, serial:0xffffffff}
+*/
+// Actual notification:
+/*
+&dbus.Message{Type:0x1, Flags:0x0, Headers:map[dbus.HeaderField]dbus.Variant{0x1:dbus.Variant{sig:dbus.Signature{str:"o"}, value:"/org/freedesktop/Notifications"}, 0x2:dbus.Variant{sig:dbus.Signature{str:"s"}, value:"org.freedesktop.Notifications"}, 0x3:dbus.Variant{sig:dbus.Signature{str:"s"}, value:"Notify"}, 0x6:dbus.Variant{sig:dbus.Signature{str:"s"}, value:":1.184"}, 0x7:dbus.Variant{sig:dbus.Signature{str:"s"}, value:":1.201"}, 0x8:dbus.Variant{sig:dbus.Signature{str:"g"}, value:dbus.Signature{str:"susssasa{sv}i"}}}, Body:[]interface {}{"notify-send", 0x0, "", "hello", "there", []string{}, map[string]dbus.Variant{"sender-pid":dbus.Variant{sig:dbus.Signature{str:"x"}, value:270289}, "urgency":dbus.Variant{sig:dbus.Signature{str:"y"}, value:0x1}}, -1}, serial:0x9}
+*/
 func Eavesdrop(conn *dbus.Conn) (chan *dbus.Message, error) {
 	rules := []string{
 		"type='method_call',member='Notify',path='/org/freedesktop/Notifications',interface='org.freedesktop.Notifications'",
