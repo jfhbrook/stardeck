@@ -5,7 +5,7 @@ const DBUS_PATH = '/';
 const DBUS_INTERFACE = 'org.jfhbrook.stardeck';
 
 const SET_WINDOW_EVERY = 0.2 * SECOND;
-const RESET_WINDOW_EVERY = 30 * SECOND;
+const RESET_WINDOW_EVERY = 10 * SECOND;
 
 function callback(methodName, ...args) {
   callDBus(DBUS_DESTINATION, DBUS_PATH, DBUS_INTERFACE, methodName, ...args);
