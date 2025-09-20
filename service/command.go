@@ -6,7 +6,6 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/jfhbrook/stardeck/crystalfontz"
 	// "github.com/jfhbrook/stardeck/loopback"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
@@ -25,47 +24,23 @@ type command struct {
 }
 
 func newSetWindowNameCommand(name string) *command {
-	cmd := command{
+	return &command{
 		Type:  setWindowNameCommand,
 		Value: name,
 	}
-
-	return &cmd
 }
 
 func newSetLoopbackCommand(managed bool) *command {
-	cmd := command{
+	return &command{
 		Type:  setLoopbackCommand,
 		Value: managed,
 	}
-
-	return &cmd
 }
 
 func newSetPlusdeckStateCommand(state plusdeck.PlusdeckState) *command {
-	cmd := command{
+	return &command{
 		Type:  setPlusdeckStateCommand,
 		Value: state,
-	}
-
-	return &cmd
-}
-
-func stringToData(text string) []byte {
-	data := []byte(text)
-	if len(data) > 16 {
-		data = data[0:16]
-	}
-
-	return data
-}
-
-func windowNameSetter(lcd *crystalfontz.Crystalfontz, name *string) func(update string) {
-	return func(update string) {
-		if update != *name {
-			lcd.SendData(0, 0, stringToData(update), -1.0, -1)
-			*name = update
-		}
 	}
 }
 
@@ -118,9 +93,8 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	loopbackManaged := false
 	plusdeckState := plusdeck.Unsubscribed
 
-	lcd := crystalfontz.NewCrystalfontz(systemConn)
+	sendData := crystalfontzSender(systemConn)
 
-	setWindowName := windowNameSetter(lcd, &windowName)
 	manageLoopback := loopbackManager(&plusdeckState, &loopbackManaged)
 	setPlusdeckState := plusdeckStateSetter(&plusdeckState)
 
@@ -131,7 +105,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 		switch command.Type {
 		case setWindowNameCommand:
-			setWindowName(command.Value.(string))
+			sendData(command.Value.(string))
 		case setLoopbackCommand:
 			manageLoopback(command.Value.(bool))
 		case setPlusdeckStateCommand:
