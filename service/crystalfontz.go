@@ -19,11 +19,16 @@ func makeCrystalfontzSender(systemConn *dbus.Conn) crystalfontzSender {
 	var column byte = 0
 
 	return func(text string) {
+		if text == "" {
+			text = "Hello!"
+		}
+
 		data := []byte(text)
+
 		if len(data) > 16 {
 			data = data[0:16]
 		} else {
-			data = append(data, bytes.Repeat([]byte{' '}, 16 - len(data))...)
+			data = append(data, bytes.Repeat([]byte{' '}, 16-len(data))...)
 		}
 
 		log.Debug().
