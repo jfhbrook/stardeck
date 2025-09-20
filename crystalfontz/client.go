@@ -35,19 +35,19 @@ func AddKeyActivityReportMatchSignal(conn *dbus.Conn) error {
 	return nil
 }
 
-type Crystalfontz struct {
+type Client struct {
 	object               dbus.BusObject
 	DefaultContrast      float64
 	DefaultLcdBrightness float64
 }
 
-func NewCrystalfontz(conn *dbus.Conn) *Crystalfontz {
+func NewClient(conn *dbus.Conn) *Client {
 	obj := conn.Object("org.jfhbrook.crystalfontz", "/")
-	lcd := Crystalfontz{object: obj, DefaultContrast: 0.5, DefaultLcdBrightness: 0.1}
+	lcd := Client{object: obj, DefaultContrast: 0.5, DefaultLcdBrightness: 0.1}
 	return &lcd
 }
 
-func (lcd *Crystalfontz) SetContrast(contrast float64, timeout float64, retryTimes int64) error {
+func (lcd *Client) SetContrast(contrast float64, timeout float64, retryTimes int64) error {
 	call := lcd.object.Call("org.jfhbrook.crystalfontz.SetContrast", 0, contrast, timeout, retryTimes)
 
 	if call.Err != nil {
@@ -57,7 +57,7 @@ func (lcd *Crystalfontz) SetContrast(contrast float64, timeout float64, retryTim
 	return nil
 }
 
-func (lcd *Crystalfontz) SetBacklight(lcdBrightness float64, keypadBrightness float64, timeout float64, retryTimes int64) error {
+func (lcd *Client) SetBacklight(lcdBrightness float64, keypadBrightness float64, timeout float64, retryTimes int64) error {
 	call := lcd.object.Call("org.jfhbrook.crystalfontz.SetBacklight", 0, lcdBrightness, keypadBrightness, timeout, retryTimes)
 
 	if call.Err != nil {
@@ -67,7 +67,7 @@ func (lcd *Crystalfontz) SetBacklight(lcdBrightness float64, keypadBrightness fl
 	return nil
 }
 
-func (lcd *Crystalfontz) ClearScreen(timeout float64, retryTimes int64) error {
+func (lcd *Client) ClearScreen(timeout float64, retryTimes int64) error {
 	call := lcd.object.Call("org.jfhbrook.crystalfontz.ClearScreen", 0, timeout, retryTimes)
 
 	if call.Err != nil {
@@ -77,7 +77,7 @@ func (lcd *Crystalfontz) ClearScreen(timeout float64, retryTimes int64) error {
 	return nil
 }
 
-func (lcd *Crystalfontz) SendData(row byte, column byte, data []byte, timeout float64, retryTimes int64) error {
+func (lcd *Client) SendData(row byte, column byte, data []byte, timeout float64, retryTimes int64) error {
 	call := lcd.object.Call("org.jfhbrook.crystalfontz.SendData", 0, row, column, data, timeout, retryTimes)
 
 	if call.Err != nil {
@@ -87,7 +87,7 @@ func (lcd *Crystalfontz) SendData(row byte, column byte, data []byte, timeout fl
 	return nil
 }
 
-func (lcd *Crystalfontz) Splash() error {
+func (lcd *Client) Splash() error {
 	if err := lcd.SendData(0, 0, []byte("YES THIS"), -1.0, -1); err != nil {
 		return errors.Wrap(err, "Failed to display splash screen")
 	}
@@ -99,7 +99,7 @@ func (lcd *Crystalfontz) Splash() error {
 	return nil
 }
 
-func (lcd *Crystalfontz) Reset() error {
+func (lcd *Client) Reset() error {
 	if err := lcd.SetContrast(lcd.DefaultContrast, -1.0, -1); err != nil {
 		return errors.Wrap(err, "Failed to reset LCD")
 	}

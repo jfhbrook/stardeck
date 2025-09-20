@@ -18,10 +18,10 @@ type Marquee struct {
 	pause   time.Duration
 	shift   int
 	running bool
-	client  *Crystalfontz
+	client  *Client
 }
 
-func NewMarquee(row byte, text string, client *Crystalfontz) (*Marquee, error) {
+func NewMarquee(row byte, text string, client *Client) (*Marquee, error) {
 	if row < 0 || row > 1 {
 		return nil, errors.New(fmt.Sprintf("Invalid row: %d", row))
 	}

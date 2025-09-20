@@ -8,7 +8,7 @@ import (
 )
 
 func crystalfontzSender(systemConn *dbus.Conn) func(text string) {
-	lcd := crystalfontz.NewCrystalfontz(systemConn)
+	lcd := crystalfontz.NewClient(systemConn)
 
 	var row byte = 0
 	var column byte = 0
