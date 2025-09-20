@@ -8,7 +8,12 @@ import (
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
-func plusdeckStateSetter(state *plusdeck.State) func(update plusdeck.State) {
+type plusdeckManager struct {
+	displayedStates []plusdeck.State
+	state         plusdeck.State
+}
+
+func newPlusdeckManager(state plusdeck.State) *plusdeckManager {
 	displayedStates := []plusdeck.State{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
@@ -18,12 +23,17 @@ func plusdeckStateSetter(state *plusdeck.State) func(update plusdeck.State) {
 		plusdeck.FastForwardingB,
 	}
 
-	return func(update plusdeck.State) {
-		if slices.Contains(displayedStates, update) {
-			log.Warn().Str("state", update).Msg("TODO: Display plusdeck state")
-		} else {
-			log.Debug().Str("state", update).Msg("NOTE: Do not display plusdeck state")
-		}
-		*state = update
+	return &plusdeckManager{
+		displayedStates: displayedStates,
+		state: state,
 	}
+}
+
+func (pd *plusdeckManager) update(state plusdeck.State) {
+	if slices.Contains(pd.displayedStates, state) {
+		log.Warn().Str("state", state).Msg("TODO: Display plusdeck state")
+	} else {
+		log.Debug().Str("state", state).Msg("NOTE: Do not display plusdeck state")
+	}
+	pd.state = state
 }

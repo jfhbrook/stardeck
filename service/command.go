@@ -49,7 +49,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	sendData := crystalfontzSender(systemConn)
 
 	lb := newLoopbackManager(plusdeckState)
-	// setPlusdeckState := plusdeckStateSetter(&plusdeckState)
+	pd := newPlusdeckManager(plusdeckState)
 
 	for {
 		log.Trace().Msg("Waiting for command")
@@ -60,12 +60,9 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 		case setWindowNameCommand:
 			sendData(command.Value.(string))
 		case setLoopbackCommand:
-			loopbackManaged := command.Value.(bool)
-			lb.update(loopbackManaged, plusdeckState)
+			loopbackManaged = command.Value.(bool)
 		case setPlusdeckStateCommand:
-			plusdeckState := command.Value.(plusdeck.State)
-			// setPlusdeckState(plusdeckState)
-			lb.update(loopbackManaged, plusdeckState)
+			plusdeckState = command.Value.(plusdeck.State)
 		}
 
 		log.Debug().
@@ -73,5 +70,8 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 			Bool("loopbackManaged", loopbackManaged).
 			Any("plusdeckState", plusdeckState).
 			Msg("State updated")
+
+		lb.update(loopbackManaged, plusdeckState)
+		pd.update(plusdeckState)
 	}
 }
