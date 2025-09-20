@@ -3,17 +3,16 @@ package service
 import (
 	"slices"
 
-	"github.com/rs/zerolog/log"
-
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 type plusdeckManager struct {
 	displayedStates []plusdeck.State
-	state         plusdeck.State
+	state           plusdeck.State
+	sendData        crystalfontzSender
 }
 
-func newPlusdeckManager(state plusdeck.State) *plusdeckManager {
+func newPlusdeckManager(state plusdeck.State, sendData crystalfontzSender) *plusdeckManager {
 	displayedStates := []plusdeck.State{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
@@ -25,15 +24,20 @@ func newPlusdeckManager(state plusdeck.State) *plusdeckManager {
 
 	return &plusdeckManager{
 		displayedStates: displayedStates,
-		state: state,
+		state:           state,
+		sendData:        sendData,
 	}
 }
 
-func (pd *plusdeckManager) update(state plusdeck.State) {
-	if slices.Contains(pd.displayedStates, state) {
-		log.Warn().Str("state", state).Msg("TODO: Display plusdeck state")
-	} else {
-		log.Debug().Str("state", state).Msg("NOTE: Do not display plusdeck state")
-	}
+func (pd *plusdeckManager) isDisplaying() bool {
+	return slices.Contains(pd.displayedStates, pd.state)
+}
+
+func (pd *plusdeckManager) update(state plusdeck.State) bool {
 	pd.state = state
+	displaying := pd.isDisplaying()
+	if displaying {
+		pd.sendData(state)
+	}
+	return displaying
 }

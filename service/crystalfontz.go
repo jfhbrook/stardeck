@@ -7,7 +7,9 @@ import (
 	"github.com/jfhbrook/stardeck/crystalfontz"
 )
 
-func crystalfontzSender(systemConn *dbus.Conn) func(text string) {
+type crystalfontzSender func(text string)
+
+func makeCrystalfontzSender(systemConn *dbus.Conn) crystalfontzSender {
 	lcd := crystalfontz.NewClient(systemConn)
 
 	var row byte = 0
