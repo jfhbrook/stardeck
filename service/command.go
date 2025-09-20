@@ -37,15 +37,15 @@ func newSetLoopbackCommand(managed bool) *command {
 	}
 }
 
-func newSetPlusdeckStateCommand(state plusdeck.PlusdeckState) *command {
+func newSetPlusdeckStateCommand(state plusdeck.State) *command {
 	return &command{
 		Type:  setPlusdeckStateCommand,
 		Value: state,
 	}
 }
 
-func plusdeckStateSetter(state *plusdeck.PlusdeckState) func(update plusdeck.PlusdeckState) {
-	displayedStates := []plusdeck.PlusdeckState{
+func plusdeckStateSetter(state *plusdeck.State) func(update plusdeck.State) {
+	displayedStates := []plusdeck.State{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
 		plusdeck.PlayingB,
@@ -54,7 +54,7 @@ func plusdeckStateSetter(state *plusdeck.PlusdeckState) func(update plusdeck.Plu
 		plusdeck.FastForwardingB,
 	}
 
-	return func(update plusdeck.PlusdeckState) {
+	return func(update plusdeck.State) {
 		if slices.Contains(displayedStates, update) {
 			log.Warn().Str("state", update).Msg("TODO: Display plusdeck state")
 		} else {
@@ -86,7 +86,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 			loopbackManaged := command.Value.(bool)
 			lb.update(loopbackManaged, plusdeckState)
 		case setPlusdeckStateCommand:
-			plusdeckState := command.Value.(plusdeck.PlusdeckState)
+			plusdeckState := command.Value.(plusdeck.State)
 			// setPlusdeckState(plusdeckState)
 			lb.update(loopbackManaged, plusdeckState)
 		}

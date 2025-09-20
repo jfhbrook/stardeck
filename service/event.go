@@ -62,8 +62,8 @@ func eventHandler(events chan *event, commands chan *command) {
 				commands <- newSetWindowNameCommand(windowName)
 			}
 		case plusdeckEvent:
-			if ev.Value.(plusdeck.PlusdeckState) != plusdeckState {
-				plusdeckState = ev.Value.(plusdeck.PlusdeckState)
+			if ev.Value.(plusdeck.State) != plusdeckState {
+				plusdeckState = ev.Value.(plusdeck.State)
 				commands <- newSetPlusdeckStateCommand(plusdeckState)
 			}
 		case keyActivityReport:
@@ -77,7 +77,7 @@ func eventHandler(events chan *event, commands chan *command) {
 func loadInitialState(conn *dbus.Conn, signals chan *dbus.Signal, events chan *event) {
 	states := make(chan string)
 	go func() {
-		pd := plusdeck.NewPlusdeck(conn)
+		pd := plusdeck.NewClient(conn)
 		state, err := pd.CurrentState()
 
 		if err != nil {

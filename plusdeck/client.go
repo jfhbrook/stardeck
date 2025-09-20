@@ -5,21 +5,21 @@ import (
 	"github.com/pkg/errors"
 )
 
-type PlusdeckState = string
+type State = string
 
 const (
-	PlayingA        PlusdeckState = "PLAYING_A"
-	PausedA                       = "PAUSED_A"
-	PlayingB                      = "PLAYING_B"
-	Subscribed                    = "SUBSCRIBED"
-	PausedB                       = "PAUSED_B"
-	FastForwardingA               = "FAST_FORWARDING_A"
-	FastForwardingB               = "FAST_FORWARDING_B"
-	Stopped                       = "STOPPED"
-	Ejected                       = "EJECTED"
-	Subscribing                   = "SUBSCRIBING"
-	Unsubscribing                 = "UNSUBSCRIBING"
-	Unsubscribed                  = "UNSUBSCRIBED"
+	PlayingA        State = "PLAYING_A"
+	PausedA               = "PAUSED_A"
+	PlayingB              = "PLAYING_B"
+	Subscribed            = "SUBSCRIBED"
+	PausedB               = "PAUSED_B"
+	FastForwardingA       = "FAST_FORWARDING_A"
+	FastForwardingB       = "FAST_FORWARDING_B"
+	Stopped               = "STOPPED"
+	Ejected               = "EJECTED"
+	Subscribing           = "SUBSCRIBING"
+	Unsubscribing         = "UNSUBSCRIBING"
+	Unsubscribed          = "UNSUBSCRIBED"
 )
 
 func AddStateMatchSignal(conn *dbus.Conn) error {
@@ -35,17 +35,17 @@ func AddStateMatchSignal(conn *dbus.Conn) error {
 	return nil
 }
 
-type Plusdeck struct {
+type Client struct {
 	object dbus.BusObject
 }
 
-func NewPlusdeck(conn *dbus.Conn) *Plusdeck {
+func NewClient(conn *dbus.Conn) *Client {
 	obj := conn.Object("org.jfhbrook.plusdeck", "/")
-	lcd := Plusdeck{object: obj}
+	lcd := Client{object: obj}
 	return &lcd
 }
 
-func (p *Plusdeck) CurrentState() (string, error) {
+func (p *Client) CurrentState() (string, error) {
 	prop, err := p.object.GetProperty("org.jfhbrook.plusdeck.CurrentState")
 
 	if err != nil {
