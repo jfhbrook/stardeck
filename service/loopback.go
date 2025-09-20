@@ -10,12 +10,14 @@ import (
 
 type loopbackManager struct {
 	managed       bool
-	managedStates []plusdeck.PlusdeckState
-	state         *plusdeck.PlusdeckState
+	enabledStates []plusdeck.PlusdeckState
+	state         plusdeck.PlusdeckState
+	managedCh     chan bool
+	stateCh       chan plusdeck.PlusdeckState
 }
 
-func newLoopbackManager(state *plusdeck.PlusdeckState) *loopbackManager {
-	managedStates := []plusdeck.PlusdeckState{
+func newLoopbackManager(state plusdeck.PlusdeckState) *loopbackManager {
+	enabledStates := []plusdeck.PlusdeckState{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
 		plusdeck.PlayingB,
@@ -25,15 +27,17 @@ func newLoopbackManager(state *plusdeck.PlusdeckState) *loopbackManager {
 		plusdeck.Stopped,
 	}
 
-	return &loopbackManager{
+	m := &loopbackManager{
 		managed:       false,
-		managedStates: managedStates,
+		enabledStates: enabledStates,
 		state:         state,
+		managedCh:     make(chan bool),
+		stateCh:       make(chan plusdeck.PlusdeckState),
 	}
-}
 
-func (m *loopbackManager) isManagedState() bool {
-	return slices.Contains(m.managedStates, *m.state)
+	go m.worker()
+
+	return m
 }
 
 func (m *loopbackManager) enable() {
@@ -44,12 +48,34 @@ func (m *loopbackManager) disable() {
 	log.Warn().Msg("TODO: disable loopback")
 }
 
-func (m *loopbackManager) set(managed bool) {
-	if managed {
-		if m.isManagedState() {
-			m.enable()
-		} else {
-			m.disable()
+func (m *loopbackManager) toggle(managed bool, state plusdeck.PlusdeckState) {
+	if managed && slices.Contains(m.enabledStates, state) {
+		m.enable()
+	} else {
+		m.disable()
+	}
+
+	m.managed = managed
+	m.state = state
+}
+
+func (m *loopbackManager) worker() {
+	for {
+		select {
+		case managed := <-m.managedCh:
+			m.toggle(managed, m.state)
+		case state := <-m.stateCh:
+			m.toggle(m.managed, state)
 		}
+	}
+}
+
+func (m *loopbackManager) update(managed bool, state plusdeck.PlusdeckState) {
+	if managed != m.managed {
+		m.managedCh <- managed
+	}
+
+	if state != m.state {
+		m.stateCh <- state
 	}
 }
