@@ -8,8 +8,13 @@ import (
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
-func loopbackManager(state *plusdeck.PlusdeckState, managed *bool) func(update bool) {
-	// loopbackManager := loopback.NewLoopbackManager("", -1, -1)
+type loopbackManager struct {
+	managed       bool
+	managedStates []plusdeck.PlusdeckState
+	state         *plusdeck.PlusdeckState
+}
+
+func newLoopbackManager(state *plusdeck.PlusdeckState) *loopbackManager {
 	managedStates := []plusdeck.PlusdeckState{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
@@ -20,14 +25,31 @@ func loopbackManager(state *plusdeck.PlusdeckState, managed *bool) func(update b
 		plusdeck.Stopped,
 	}
 
-	return func(update bool) {
-		if update {
-			if slices.Contains(managedStates, *state) {
-				log.Warn().Msg("TODO: enable loopback")
-			} else {
-				log.Warn().Msg("TODO: disable loopback")
-			}
+	return &loopbackManager{
+		managed:       false,
+		managedStates: managedStates,
+		state:         state,
+	}
+}
+
+func (m *loopbackManager) isManagedState() bool {
+	return slices.Contains(m.managedStates, *m.state)
+}
+
+func (m *loopbackManager) enable() {
+	log.Warn().Msg("TODO: enable loopback")
+}
+
+func (m *loopbackManager) disable() {
+	log.Warn().Msg("TODO: disable loopback")
+}
+
+func (m *loopbackManager) set(managed bool) {
+	if managed {
+		if m.isManagedState() {
+			m.enable()
+		} else {
+			m.disable()
 		}
-		*managed = update
 	}
 }
