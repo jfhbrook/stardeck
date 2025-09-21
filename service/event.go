@@ -138,10 +138,11 @@ func listenToNotifications(conn *dbus.Conn, events chan *event) {
 	}
 
 	for message := range messages {
-		fmt.Printf("%#v\n", message)
-		// event := newNotificationEvent(message.Body)
+		if message.Type == dbus.TypeMethodCall {
+			event := newNotificationEvent(message.Body)
 
-		// *events <- event
+			events <- event
+		}
 	}
 }
 
