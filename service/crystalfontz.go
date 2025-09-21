@@ -108,8 +108,6 @@ func (l *lcdLine) scroll() {
 }
 
 func (l *lcdLine) loop() {
-	text := l.text
-
 	l.running = true
 
 	l.send(l.data())
@@ -126,10 +124,8 @@ func (l *lcdLine) loop() {
 			return
 		}
 
-		if text != l.text {
-			l.send(l.data())
-			text = l.text
-		}
+		// TODO: Debounce this signal
+		l.send(l.data())
 		l.scroll()
 
 		time.Sleep(lcdTick)
