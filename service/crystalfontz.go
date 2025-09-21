@@ -126,8 +126,9 @@ func (l *lcdLine) loop() {
 			return
 		}
 
-		if text != l.text && len(l.text) > lcdWidth {
+		if text != l.text {
 			l.send(l.data())
+			text = l.text
 		}
 		l.scroll()
 
