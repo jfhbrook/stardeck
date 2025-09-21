@@ -1,19 +1,26 @@
 package service
 
 import (
+	"time"
+
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 
 	"github.com/jfhbrook/stardeck/crystalfontz"
+	"github.com/jfhbrook/stardeck/notifications"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
+
+const notificationTimeout time.Duration = time.Duration(10 * time.Second)
 
 type commandType int
 
 const (
-	setWindowNameCommand    commandType = 0
-	setLoopbackCommand                  = 1
-	setPlusdeckStateCommand             = 2
+	setWindowNameCommand              commandType = 0
+	setLoopbackCommand                            = 1
+	setPlusdeckStateCommand                       = 2
+	displayNotificationCommand                    = 3
+	stopDisplayingNotificationCommand             = 4
 )
 
 type command struct {
@@ -42,6 +49,20 @@ func newSetPlusdeckStateCommand(state plusdeck.State) *command {
 	}
 }
 
+func newDisplayNotificationCommand(notification *notifications.NotificationInfo) *command {
+	return &command{
+		Type:  displayNotificationCommand,
+		Value: notification,
+	}
+}
+
+func newStopDisplayingNotificationCommand() *command {
+	return &command{
+		Type:  stopDisplayingNotificationCommand,
+		Value: nil,
+	}
+}
+
 func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
 	loopbackManaged := false
@@ -58,6 +79,24 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	lb := newLoopbackManager(plusdeckState)
 	pd := newPlusdeckManager(plusdeckState, line1)
 
+	displayNotification := func(info *notifications.NotificationInfo) {
+		text := info.Summary
+
+		if len(info.Body) > 0 {
+			text += (" - " + info.Body)
+		}
+
+		log.Debug().Str("text", text).Msg("Displaying notification")
+
+		line2.update(text)
+
+		go func() {
+			time.Sleep(notificationTimeout)
+			log.Debug().Msg("Stop displaying notification")
+			commands <- newStopDisplayingNotificationCommand()
+		}()
+	}
+
 	for {
 		log.Trace().Msg("Waiting for command")
 		command := <-commands
@@ -70,6 +109,10 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 			loopbackManaged = command.Value.(bool)
 		case setPlusdeckStateCommand:
 			plusdeckState = command.Value.(plusdeck.State)
+		case displayNotificationCommand:
+			displayNotification(command.Value.(*notifications.NotificationInfo))
+		case stopDisplayingNotificationCommand:
+			line2.update("")
 		}
 
 		log.Debug().

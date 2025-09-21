@@ -27,23 +27,17 @@ type event struct {
 }
 
 func newKeyActivityReportEvent(activity byte) *event {
-	e := event{Type: keyActivityReport, Value: activity}
-
-	return &e
+	return &event{Type: keyActivityReport, Value: activity}
 }
 
 func newPlusdeckEvent(state string) *event {
-	e := event{Type: plusdeckEvent, Value: state}
-
-	return &e
+	return &event{Type: plusdeckEvent, Value: state}
 }
 
 func newNotificationEvent(payload []any) *event {
 	info := notifications.NewNotificationInfo(payload)
 
-	ev := event{Type: notification, Value: info}
-
-	return &ev
+	return &event{Type: notification, Value: info}
 }
 
 func eventHandler(events chan *event, commands chan *command) {
@@ -69,7 +63,8 @@ func eventHandler(events chan *event, commands chan *command) {
 		case keyActivityReport:
 			log.Debug().Any("event", ev).Msg("keyActivityReport")
 		case notification:
-			log.Debug().Any("event", ev).Msg("notification")
+			notification := ev.Value.(*notifications.NotificationInfo)
+			commands <- newDisplayNotificationCommand(notification)
 		}
 	}
 }

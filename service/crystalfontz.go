@@ -112,7 +112,6 @@ func (l *lcdLine) loop() {
 
 	l.running = true
 
-	fmt.Println("Sending line before pause")
 	l.send(l.data())
 	l.scroll()
 
@@ -128,7 +127,6 @@ func (l *lcdLine) loop() {
 		}
 
 		if text != l.text && len(l.text) > lcdWidth {
-			fmt.Println("Sending line after pause")
 			l.send(l.data())
 		}
 		l.scroll()
