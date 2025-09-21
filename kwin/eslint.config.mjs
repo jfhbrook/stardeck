@@ -7,6 +7,7 @@ export default [
     languageOptions: {
       globals: {
         callDBus: 'readable',
+        print: 'readable',
         workspace: 'readable',
         QTimer: 'readable',
       },

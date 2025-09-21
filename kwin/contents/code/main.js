@@ -8,6 +8,7 @@ const SET_WINDOW_EVERY = 0.2 * SECOND;
 const RESET_WINDOW_EVERY = 10 * SECOND;
 
 function callback(methodName, ...args) {
+  print('Calling dbus:', methodName, ...args);
   callDBus(DBUS_DESTINATION, DBUS_PATH, DBUS_INTERFACE, methodName, ...args);
 }
 
@@ -25,10 +26,12 @@ function setWindow() {
     return;
   }
   caption = workspace.activeWindow.caption;
+  print('New active window caption detected:', caption);
   callback('SetWindow', caption);
 }
 
 function resetWindow() {
+  print('Resetting caption');
   caption = '';
 }
 
