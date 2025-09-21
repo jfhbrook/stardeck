@@ -7,12 +7,12 @@ import (
 
 type NotificationInfo struct {
 	AppName       string
-	ReplacesId    uint
+	ReplacesId    uint32
 	AppIcon       string
 	Summary       string
 	Body          string
 	Actions       map[string]string
-	Hints         map[string]any
+	Hints         map[string]dbus.Variant
 	ExpireTimeout int32
 }
 
@@ -31,12 +31,12 @@ func mapActions(raw []string) map[string]string {
 func NewNotificationInfo(payload []any) *NotificationInfo {
 	info := NotificationInfo{
 		AppName:       payload[0].(string),
-		ReplacesId:    payload[1].(uint),
+		ReplacesId:    payload[1].(uint32),
 		AppIcon:       payload[2].(string),
 		Summary:       payload[3].(string),
 		Body:          payload[4].(string),
 		Actions:       mapActions(payload[5].([]string)),
-		Hints:         payload[6].(map[string]any),
+		Hints:         payload[6].(map[string]dbus.Variant),
 		ExpireTimeout: payload[7].(int32),
 	}
 
