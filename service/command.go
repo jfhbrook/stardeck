@@ -4,6 +4,7 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 
+	"github.com/jfhbrook/stardeck/crystalfontz"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
@@ -46,9 +47,16 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	loopbackManaged := false
 	plusdeckState := plusdeck.Unsubscribed
 
-	sendData := makeCrystalfontzSender(systemConn)
+	lcd := crystalfontz.NewClient(systemConn)
+
+	line1 := newLcdLine(0, "Hello!", lcd)
+	line2 := newLcdLine(1, "", lcd)
+
+	line1.start()
+	line2.start()
+
 	lb := newLoopbackManager(plusdeckState)
-	pd := newPlusdeckManager(plusdeckState, sendData)
+	pd := newPlusdeckManager(plusdeckState, line1)
 
 	for {
 		log.Trace().Msg("Waiting for command")
@@ -72,7 +80,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 		lb.update(loopbackManaged, plusdeckState)
 		if !pd.update(plusdeckState) {
-			sendData(windowName)
+			line1.update(windowName)
 		}
 	}
 }

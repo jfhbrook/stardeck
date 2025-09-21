@@ -22,6 +22,11 @@ const (
 	KeyExitRelease              = 12
 )
 
+const (
+	NilFloat float64 = -1.0
+	NilInt   int64   = -1
+)
+
 func AddKeyActivityReportMatchSignal(conn *dbus.Conn) error {
 	err := conn.AddMatchSignal(
 		dbus.WithMatchObjectPath("/"),
@@ -88,11 +93,11 @@ func (lcd *Client) SendData(row byte, column byte, data []byte, timeout float64,
 }
 
 func (lcd *Client) Splash() error {
-	if err := lcd.SendData(0, 0, []byte("YES THIS"), -1.0, -1); err != nil {
+	if err := lcd.SendData(0, 0, []byte("YES THIS"), NilFloat, NilInt); err != nil {
 		return errors.Wrap(err, "Failed to display splash screen")
 	}
 
-	if err := lcd.SendData(1, 0, []byte("IS STARDECK"), -1.0, -1); err != nil {
+	if err := lcd.SendData(1, 0, []byte("IS STARDECK"), NilFloat, NilInt); err != nil {
 		return errors.Wrap(err, "Failed to display splash screen")
 	}
 
@@ -100,13 +105,13 @@ func (lcd *Client) Splash() error {
 }
 
 func (lcd *Client) Reset() error {
-	if err := lcd.SetContrast(lcd.DefaultContrast, -1.0, -1); err != nil {
+	if err := lcd.SetContrast(lcd.DefaultContrast, NilFloat, NilInt); err != nil {
 		return errors.Wrap(err, "Failed to reset LCD")
 	}
-	if err := lcd.SetBacklight(lcd.DefaultLcdBrightness, -1.0, -1.0, -1); err != nil {
+	if err := lcd.SetBacklight(lcd.DefaultLcdBrightness, NilFloat, NilFloat, NilInt); err != nil {
 		return errors.Wrap(err, "Failed to reset LCD")
 	}
-	if err := lcd.ClearScreen(-1.0, -1); err != nil {
+	if err := lcd.ClearScreen(NilFloat, NilInt); err != nil {
 		return errors.Wrap(err, "Failed to reset LCD")
 	}
 

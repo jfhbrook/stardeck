@@ -9,10 +9,10 @@ import (
 type plusdeckManager struct {
 	displayedStates []plusdeck.State
 	state           plusdeck.State
-	sendData        crystalfontzSender
+	line            *lcdLine
 }
 
-func newPlusdeckManager(state plusdeck.State, sendData crystalfontzSender) *plusdeckManager {
+func newPlusdeckManager(state plusdeck.State, line *lcdLine) *plusdeckManager {
 	displayedStates := []plusdeck.State{
 		plusdeck.PlayingA,
 		plusdeck.PausedA,
@@ -25,7 +25,7 @@ func newPlusdeckManager(state plusdeck.State, sendData crystalfontzSender) *plus
 	return &plusdeckManager{
 		displayedStates: displayedStates,
 		state:           state,
-		sendData:        sendData,
+		line:            line,
 	}
 }
 
@@ -37,7 +37,7 @@ func (pd *plusdeckManager) update(state plusdeck.State) bool {
 	pd.state = state
 	displaying := pd.isDisplaying()
 	if displaying {
-		pd.sendData(state)
+		pd.line.update(state)
 	}
 	return displaying
 }
