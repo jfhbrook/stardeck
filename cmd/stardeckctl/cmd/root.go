@@ -37,15 +37,12 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config-file", "", "Config file (default is /etc/stardeck/stardeck.yml)")
 	rootCmd.PersistentFlags().String("log-level", "info", "Log level (default is 'info')")
 	viper.BindPFlag("cli.log_level", rootCmd.PersistentFlags().Lookup("log-level"))
-	viper.SetDefault("cli.log_level", "info")
 
 	rootCmd.PersistentFlags().String("log-format", logger.PrettyFormat, "Log format (default is 'pretty')")
 	viper.BindPFlag("cli.log_format", rootCmd.PersistentFlags().Lookup("log-format"))
-	viper.SetDefault("cli.log_format", logger.PrettyFormat)
 
 	rootCmd.PersistentFlags().Bool("log-color", true, "Show logs in color (default is 'true')")
 	viper.BindPFlag("cli.log_color", rootCmd.PersistentFlags().Lookup("log-color"))
-	viper.SetDefault("cli.log_color", true)
 
 	rootCmd.AddCommand(get.GetCmd)
 	rootCmd.AddCommand(set.SetCmd)

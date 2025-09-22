@@ -15,6 +15,20 @@ const (
 )
 
 func InitConfig(cfgFile string, appType int) {
+	viper.SetDefault("cli.log_level", "info")
+	viper.SetDefault("cli.log_format", logger.PrettyFormat)
+	viper.SetDefault("cli.log_color", true)
+
+	viper.SetDefault("service.log_format", logger.JsonFormat)
+	viper.SetDefault("service.log_level", "info")
+	viper.SetDefault("service.log_color", true)
+
+	viper.SetDefault("crystalfontz.width", 16)
+	viper.SetDefault("crystalfontz.pause", 5.0)
+	viper.SetDefault("crystalfontz.tick", 0.3)
+
+	viper.SetDefault("notifications.timeout", 15.0)
+
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {

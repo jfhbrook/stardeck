@@ -6,14 +6,9 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/crystalfontz"
-)
-
-const (
-	lcdWidth int           = 16
-	lcdPause time.Duration = time.Duration(1.0 * float64(time.Second))
-	lcdTick                = time.Duration(0.3 * float64(time.Second))
 )
 
 type lcdLine struct {
@@ -21,11 +16,23 @@ type lcdLine struct {
 	defaultText string
 	text        string
 	shift       int
+	width       int
+	pause       time.Duration
+	tick        time.Duration
 	running     bool
 	client      *crystalfontz.Client
 }
 
 func newLcdLine(row byte, defaultText string, client *crystalfontz.Client) *lcdLine {
+	width := viper.GetInt("crystalfontz.width")
+
+	pause := time.Duration(
+		viper.GetFloat64("crystalfontz.pause") * float64(time.Second),
+	)
+	tick := time.Duration(
+		viper.GetFloat64("crystalfontz.tick") * float64(time.Second),
+	)
+
 	if row < 0 || row > 1 {
 		panic(fmt.Sprintf("Invalid row: %d", row))
 	}
@@ -35,6 +42,9 @@ func newLcdLine(row byte, defaultText string, client *crystalfontz.Client) *lcdL
 		defaultText: defaultText,
 		text:        "",
 		shift:       0,
+		width:       width,
+		pause:       pause,
+		tick:        tick,
 		running:     false,
 		client:      client,
 	}
@@ -49,12 +59,12 @@ func (l *lcdLine) update(text string) {
 		text = l.defaultText
 	}
 
-	if len(text) > lcdWidth {
+	if len(text) > l.width {
 		// Allow marquee text to scroll out of the screen
-		text += strings.Repeat(" ", lcdWidth)
+		text += strings.Repeat(" ", l.width)
 	} else {
 		// Pad the text to at least the LCD's width
-		text += strings.Repeat(" ", max(lcdWidth-len(text), 0))
+		text += strings.Repeat(" ", max(l.width-len(text), 0))
 	}
 
 	if l.text != text {
@@ -69,7 +79,7 @@ func (l *lcdLine) data() []byte {
 	right := l.text[0:l.shift]
 	data := []byte(left + right)
 	// In case characters are multi-byte
-	return data[0:lcdWidth]
+	return data[0:l.width]
 }
 
 func (l *lcdLine) send(data []byte) {
@@ -99,7 +109,7 @@ func (l *lcdLine) send(data []byte) {
 
 func (l *lcdLine) scroll() {
 	// Only scroll text if it's wider than the LCD
-	if len(l.text) > lcdWidth {
+	if len(l.text) > l.width {
 		l.shift += 1
 	}
 	if l.shift >= len(l.text) {
@@ -117,7 +127,7 @@ func (l *lcdLine) loop() {
 		return
 	}
 
-	time.Sleep(lcdPause)
+	time.Sleep(l.pause)
 
 	for {
 		if !l.running {
@@ -128,7 +138,7 @@ func (l *lcdLine) loop() {
 		l.send(l.data())
 		l.scroll()
 
-		time.Sleep(lcdTick)
+		time.Sleep(l.tick)
 	}
 }
 

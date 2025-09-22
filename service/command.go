@@ -5,13 +5,12 @@ import (
 
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/crystalfontz"
 	"github.com/jfhbrook/stardeck/notifications"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
-
-const notificationTimeout time.Duration = time.Duration(10 * time.Second)
 
 type commandType int
 
@@ -78,6 +77,10 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 	lb := newLoopbackManager(plusdeckState)
 	pd := newPlusdeckManager(plusdeckState, line1)
+
+	notificationTimeout := time.Duration(
+		viper.GetFloat64("notifications.timeout") * float64(time.Second),
+	)
 
 	displayNotification := func(info *notifications.NotificationInfo) {
 		text := info.Summary
