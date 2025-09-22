@@ -24,12 +24,18 @@ func (err ParseError) Error() string {
 }
 
 func notFoundError(lineNo int) *ParseError {
-	err := ParseError{
+	return &ParseError{
 		Code:     CodeNotFound,
 		Message:  "Module not found",
 		LineNo:   lineNo,
 		ColumnNo: 0,
 	}
+}
 
-	return &err
+func nilIfNotFound(err *ParseError) *ParseError {
+	if err.Code == CodeNotFound {
+		return nil
+	}
+
+	return err
 }

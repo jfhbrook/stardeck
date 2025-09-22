@@ -21,6 +21,7 @@ const (
 )
 
 type Status struct {
+	Enabled bool
 	Source  string
 	Latency int32
 	Volume  int32
@@ -131,7 +132,7 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 }
 
 func (lb *LoopbackManager) Status() (*Status, error) {
-	module, err := lb.getModule()
+	mod, err := lb.getModule()
 
 	// TODO: If err is CodeNotFound, then return a disabled status
 
@@ -139,7 +140,17 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 		return nil, pkgerrors.Wrap(err, "Failed to get status")
 	}
 
-	latencyParam := module.Params["--latency_msec"]
+	if mod == nil {
+		st := Status{
+			Enabled: false,
+			Source:  lb.source,
+			Latency: int32(-1),
+			Volume:  int32(-1),
+		}
+		return &st, nil
+	}
+
+	latencyParam := mod.Params["--latency_msec"]
 	latency, err := strconv.Atoi(latencyParam)
 
 	if err != nil {
@@ -154,6 +165,7 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 	}
 
 	st := Status{
+		Enabled: true,
 		Source:  lb.source,
 		Latency: int32(latency),
 		Volume:  int32(volume),

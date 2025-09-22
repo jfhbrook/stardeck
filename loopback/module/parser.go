@@ -10,7 +10,7 @@ func Parse(output []byte) (*Module, error) {
 	lines := bytes.Split(output, []byte("\n"))
 
 	if len(lines) == 0 {
-		return nil, notFoundError(0)
+		return nil, nil
 	}
 
 	i := 0
@@ -39,17 +39,17 @@ func Parse(output []byte) (*Module, error) {
 			if err.Code == CodeComplex {
 				for !closingBraceRe.Match(line) {
 					if err := advance(); err != nil {
-						return nil, err
+						return nil, nilIfNotFound(err)
 					}
 				}
 			} else {
 				if err := advance(); err != nil {
-					return nil, err
+					return nil, nilIfNotFound(err)
 				}
 			}
 		} else {
 			if err := advance(); err != nil {
-				return nil, err
+				return nil, nilIfNotFound(err)
 			}
 		}
 	}
