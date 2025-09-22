@@ -32,7 +32,7 @@ func notFoundError(lineNo int) *ParseError {
 	}
 }
 
-func nilIfNotFound(err *ParseError) *ParseError {
+func nilIfNotFound(err *ParseError) error {
 	if err.Code == CodeNotFound {
 		return nil
 	}
