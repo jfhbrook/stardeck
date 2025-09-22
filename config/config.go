@@ -27,6 +27,8 @@ func InitConfig(cfgFile string, appType int) {
 	viper.SetDefault("crystalfontz.pause", 5.0)
 	viper.SetDefault("crystalfontz.tick", 0.3)
 
+	viper.SetDefault("loopback.managed", true)
+
 	viper.SetDefault("notifications.timeout", 15.0)
 
 	if cfgFile != "" {

@@ -64,7 +64,7 @@ func newStopDisplayingNotificationCommand() *command {
 
 func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
-	loopbackManaged := false
+	loopbackManaged := viper.GetBool("loopback.managed")
 	plusdeckState := plusdeck.Unsubscribed
 
 	lcd := crystalfontz.NewClient(systemConn)
