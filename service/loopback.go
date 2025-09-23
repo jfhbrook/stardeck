@@ -8,12 +8,16 @@ import (
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
+type loopbackSettings struct {
+	managed bool
+	state   plusdeck.State
+}
+
 type loopbackManager struct {
 	managed       bool
 	enabledStates []plusdeck.State
 	state         plusdeck.State
-	managedCh     chan bool
-	stateCh       chan plusdeck.State
+	ch            chan loopbackSettings
 }
 
 func newLoopbackManager(state plusdeck.State) *loopbackManager {
@@ -31,8 +35,7 @@ func newLoopbackManager(state plusdeck.State) *loopbackManager {
 		managed:       false,
 		enabledStates: enabledStates,
 		state:         state,
-		managedCh:     make(chan bool),
-		stateCh:       make(chan plusdeck.State),
+		ch:            make(chan loopbackSettings),
 	}
 
 	go m.worker()
@@ -60,22 +63,11 @@ func (m *loopbackManager) toggle(managed bool, state plusdeck.State) {
 }
 
 func (m *loopbackManager) worker() {
-	for {
-		select {
-		case managed := <-m.managedCh:
-			m.toggle(managed, m.state)
-		case state := <-m.stateCh:
-			m.toggle(m.managed, state)
-		}
+	for settings := range m.ch {
+		m.toggle(settings.managed, settings.state)
 	}
 }
 
 func (m *loopbackManager) update(managed bool, state plusdeck.State) {
-	if managed != m.managed {
-		m.managedCh <- managed
-	}
-
-	if state != m.state {
-		m.stateCh <- state
-	}
+	m.ch <- loopbackSettings{managed, state}
 }
