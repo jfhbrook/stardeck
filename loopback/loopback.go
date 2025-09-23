@@ -10,6 +10,7 @@ import (
 
 	pkgerrors "github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/loopback/module"
 )
@@ -27,34 +28,23 @@ type Status struct {
 	Volume  int32
 }
 
-type LoopbackManager struct {
+type Manager struct {
 	source  string
 	latency int32
 	volume  int32
 }
 
-func NewLoopbackManager(source string, latency int32, volume int32) *LoopbackManager {
-	src := source
-	if src == "" {
-		src = DefaultLoopbackSource
-	}
+func NewManager() *Manager {
+	src := viper.GetString("loopback.source")
+	lt := viper.GetInt32("loopback.latency")
+	vol := viper.GetInt32("loopback.volume")
 
-	lt := latency
-	if lt < 0 {
-		lt = DefaultLoopbackLatency
-	}
-
-	vol := volume
-	if vol < 0 {
-		vol = DefaultLoopbackVolume
-	}
-
-	lb := LoopbackManager{source: src, latency: lt, volume: vol}
+	lb := Manager{source: src, latency: lt, volume: vol}
 
 	return &lb
 }
 
-func (lb *LoopbackManager) getModule() (*module.Module, error) {
+func (lb *Manager) getModule() (*module.Module, error) {
 	output, err := exec.Command(
 		"pactl",
 		"list",
@@ -69,7 +59,7 @@ func (lb *LoopbackManager) getModule() (*module.Module, error) {
 	return module.Parse(output)
 }
 
-func (lb *LoopbackManager) parseSources(output string) (string, error) {
+func (lb *Manager) parseSources(output string) (string, error) {
 	sources := strings.Split(output, "\n")
 
 	for _, source := range sources {
@@ -84,7 +74,7 @@ func (lb *LoopbackManager) parseSources(output string) (string, error) {
 	return "", pkgerrors.Wrap(errors.New("Sink not found"), "Sink not found")
 }
 
-func (lb *LoopbackManager) getSourceNo() (string, error) {
+func (lb *Manager) getSourceNo() (string, error) {
 	output, err := exec.Command(
 		"pactl",
 		"list",
@@ -105,7 +95,7 @@ func parseVolume(output []byte) (int, error) {
 	return strconv.Atoi(string(found))
 }
 
-func (lb *LoopbackManager) getVolume() (int, error) {
+func (lb *Manager) getVolume() (int, error) {
 	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
@@ -131,7 +121,7 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 	return volume, nil
 }
 
-func (lb *LoopbackManager) IsEnabled() (bool, error) {
+func (lb *Manager) IsEnabled() (bool, error) {
 	mod, err := lb.getModule()
 
 	if err != nil {
@@ -142,7 +132,7 @@ func (lb *LoopbackManager) IsEnabled() (bool, error) {
 
 }
 
-func (lb *LoopbackManager) Status() (*Status, error) {
+func (lb *Manager) Status() (*Status, error) {
 	mod, err := lb.getModule()
 
 	if err != nil {
@@ -183,7 +173,7 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 	return &st, nil
 }
 
-func (lb *LoopbackManager) Enable() error {
+func (lb *Manager) Enable() error {
 	isEnabled, err := lb.IsEnabled()
 
 	if err != nil {
@@ -206,7 +196,7 @@ func (lb *LoopbackManager) Enable() error {
 	return lb.setVolume()
 }
 
-func (lb *LoopbackManager) setVolume() error {
+func (lb *Manager) setVolume() error {
 	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
@@ -221,7 +211,7 @@ func (lb *LoopbackManager) setVolume() error {
 	).Run()
 }
 
-func (lb *LoopbackManager) Disable() error {
+func (lb *Manager) Disable() error {
 	isEnabled, err := lb.IsEnabled()
 
 	if err != nil {

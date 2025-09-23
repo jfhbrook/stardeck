@@ -28,6 +28,9 @@ func InitConfig(cfgFile string, appType int) {
 	viper.SetDefault("crystalfontz.tick", 0.3)
 
 	viper.SetDefault("loopback.managed", true)
+	viper.SetDefault("loopback.source", "alsa_input.pci-0000_00_1f.3.analog-stereo")
+	viper.SetDefault("loopback.latency", 1)
+	viper.SetDefault("loopback.volume", 10)
 
 	viper.SetDefault("notifications.timeout", 15.0)
 

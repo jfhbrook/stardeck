@@ -27,7 +27,7 @@ var setLoopbackCmd = &cobra.Command{
 		}
 
 		if enable || disable {
-			manager := loopback.NewLoopbackManager("", -1, -1)
+			manager := loopback.NewManager()
 
 			if enable {
 				manager.Enable()
