@@ -54,6 +54,8 @@ func newDisplayNotificationCommand(notification *notifications.NotificationInfo)
 
 func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
+	// TODO: What if the config changes? Should you be able to toggle managed
+	// state with the ctl tool?
 	loopbackManaged := viper.GetBool("loopback.managed")
 	plusdeckState := plusdeck.Unsubscribed
 

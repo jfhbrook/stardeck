@@ -39,20 +39,24 @@ func (st Status) String() string {
 	return string(bytes)
 }
 
-type Manager struct {
-	source  string
-	latency int32
-	volume  int32
-}
+type Manager struct{}
 
 func NewManager() *Manager {
-	src := viper.GetString("loopback.source")
-	lt := viper.GetInt32("loopback.latency")
-	vol := viper.GetInt32("loopback.volume")
-
-	lb := Manager{source: src, latency: lt, volume: vol}
+	lb := Manager{}
 
 	return &lb
+}
+
+func (lb *Manager) source() string {
+	return viper.GetString("loopback.source")
+}
+
+func (lb *Manager) latency() int32 {
+	return viper.GetInt32("loopback.latency")
+}
+
+func (lb *Manager) volume() int32 {
+	return viper.GetInt32("loopback.volume")
 }
 
 func (lb *Manager) getModule() (*module.Module, error) {
@@ -76,7 +80,7 @@ func (lb *Manager) parseSources(output string) (string, error) {
 	for _, source := range sources {
 		fields := strings.Fields(source)
 		if len(fields) >= 2 {
-			if fields[1] == lb.source {
+			if fields[1] == lb.source() {
 				return fields[0], nil
 			}
 		}
@@ -144,6 +148,7 @@ func (lb *Manager) IsEnabled() (bool, error) {
 }
 
 func (lb *Manager) Status() (*Status, error) {
+	source := lb.source()
 	mod, err := lb.getModule()
 
 	if err != nil {
@@ -153,7 +158,7 @@ func (lb *Manager) Status() (*Status, error) {
 	if mod == nil {
 		st := Status{
 			Enabled: false,
-			Source:  lb.source,
+			Source:  source,
 			Latency: int32(-1),
 			Volume:  int32(-1),
 		}
@@ -176,7 +181,7 @@ func (lb *Manager) Status() (*Status, error) {
 
 	st := Status{
 		Enabled: true,
-		Source:  lb.source,
+		Source:  source,
 		Latency: int32(latency),
 		Volume:  int32(volume),
 	}
@@ -185,6 +190,7 @@ func (lb *Manager) Status() (*Status, error) {
 }
 
 func (lb *Manager) Enable() error {
+	latency := lb.latency()
 	isEnabled, err := lb.IsEnabled()
 
 	if err != nil {
@@ -199,7 +205,7 @@ func (lb *Manager) Enable() error {
 		"pactl",
 		"load-module",
 		"module-loopback",
-		fmt.Sprintf("--latency_msec=%d", lb.latency),
+		fmt.Sprintf("--latency_msec=%d", latency),
 	).Run(); err != nil {
 		return err
 	}
@@ -208,6 +214,7 @@ func (lb *Manager) Enable() error {
 }
 
 func (lb *Manager) setVolume() error {
+	volume := lb.volume()
 	sourceNo, err := lb.getSourceNo()
 
 	if err != nil {
@@ -218,7 +225,7 @@ func (lb *Manager) setVolume() error {
 		"pactl",
 		"set-source-volume",
 		sourceNo,
-		fmt.Sprintf("%d", lb.volume),
+		fmt.Sprintf("%d", volume),
 	).Run()
 }
 

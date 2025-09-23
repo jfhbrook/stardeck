@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 
@@ -13,6 +14,33 @@ const (
 	Cli     int = 0
 	Service     = 1
 )
+
+func configureLogger(appType int) {
+	level := "info"
+	format := logger.JsonFormat
+	color := false
+
+	switch appType {
+	case Cli:
+		level = viper.GetString("cli.log_level")
+		format = viper.GetString("cli.log_format")
+		color = viper.GetBool("cli.log_color")
+	case Service:
+		level = viper.GetString("service.log_level")
+		format = viper.GetString("service.log_format")
+		color = viper.GetBool("service.log_color")
+	}
+
+	logger.ConfigureLogger(level, format, color)
+}
+
+func watchConfig(appType int) {
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		configureLogger(appType)
+	})
+
+	viper.WatchConfig()
+}
 
 func InitConfig(cfgFile string, appType int) {
 	viper.SetDefault("cli.log_level", "info")
@@ -46,26 +74,12 @@ func InitConfig(cfgFile string, appType int) {
 
 	err := viper.ReadInConfig()
 
-	level := "info"
-	format := logger.JsonFormat
-	color := false
-
-	switch appType {
-	case Cli:
-		level = viper.GetString("cli.log_level")
-		format = viper.GetString("cli.log_format")
-		color = viper.GetBool("cli.log_color")
-	case Service:
-		level = viper.GetString("service.log_level")
-		format = viper.GetString("service.log_format")
-		color = viper.GetBool("service.log_color")
-	}
-
-	logger.ConfigureLogger(level, format, color)
+	configureLogger(appType)
 
 	if err != nil {
 		log.Debug().Msg(err.Error())
 	} else {
 		log.Debug().Msg(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
+		watchConfig(appType)
 	}
 }

@@ -59,6 +59,8 @@ func ConfigureLogger(logLevel string, logFormat string, logColor bool) {
 
 	if logFormat == PrettyFormat {
 		log.Logger = log.Output(consoleWriter(logColor))
+	} else {
+		log.Logger = zerolog.New(os.Stderr).With().Timestamp().Logger()
 	}
 }
 

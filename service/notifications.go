@@ -24,22 +24,22 @@ type notificationCommand struct {
 
 type notificationManager struct {
 	commands chan notificationCommand
-	timeout  time.Duration
 	running  bool
 	line     *lcdLine
 }
 
 func newNotificationManager(line *lcdLine) *notificationManager {
-	timeout := time.Duration(
-		viper.GetFloat64("notifications.timeout") * float64(time.Second),
-	)
-
 	return &notificationManager{
 		line:     line,
-		timeout:  timeout,
 		running:  false,
 		commands: make(chan notificationCommand),
 	}
+}
+
+func (m *notificationManager) timeout() time.Duration {
+	return time.Duration(
+		viper.GetFloat64("notifications.timeout") * float64(time.Second),
+	)
 }
 
 func notificationText(info *notifications.NotificationInfo) string {
@@ -67,7 +67,7 @@ func (m *notificationManager) display(text string) {
 	m.line.update(text)
 
 	go func() {
-		time.Sleep(m.timeout)
+		time.Sleep(m.timeout())
 		m.commands <- notificationCommand{clearNotificationCommand, ""}
 	}()
 }
