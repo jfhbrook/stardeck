@@ -42,8 +42,8 @@ link:
 
 # Install local dependencies
 install:
-  go install
   cd playbook && npm i
+  cd kwin && npm i
 
 # Run updates
 update:

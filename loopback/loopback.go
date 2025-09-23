@@ -131,10 +131,19 @@ func (lb *LoopbackManager) getVolume() (int, error) {
 	return volume, nil
 }
 
-func (lb *LoopbackManager) Status() (*Status, error) {
+func (lb *LoopbackManager) IsEnabled() (bool, error) {
 	mod, err := lb.getModule()
 
-	// TODO: If err is CodeNotFound, then return a disabled status
+	if err != nil {
+		return false, pkgerrors.Wrap(err, "Failed to get status")
+	}
+
+	return mod != nil, nil
+
+}
+
+func (lb *LoopbackManager) Status() (*Status, error) {
+	mod, err := lb.getModule()
 
 	if err != nil {
 		return nil, pkgerrors.Wrap(err, "Failed to get status")
@@ -175,6 +184,16 @@ func (lb *LoopbackManager) Status() (*Status, error) {
 }
 
 func (lb *LoopbackManager) Enable() error {
+	isEnabled, err := lb.IsEnabled()
+
+	if err != nil {
+		return err
+	}
+
+	if isEnabled {
+		return nil
+	}
+
 	if err := exec.Command(
 		"pactl",
 		"load-module",
@@ -203,6 +222,16 @@ func (lb *LoopbackManager) setVolume() error {
 }
 
 func (lb *LoopbackManager) Disable() error {
+	isEnabled, err := lb.IsEnabled()
+
+	if err != nil {
+		return err
+	}
+
+	if !isEnabled {
+		return nil
+	}
+
 	return exec.Command(
 		"pactl",
 		"unload-module",
