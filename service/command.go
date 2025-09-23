@@ -1,8 +1,6 @@
 package service
 
 import (
-	"time"
-
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -15,50 +13,42 @@ import (
 type commandType int
 
 const (
-	setWindowNameCommand              commandType = 0
-	setLoopbackCommand                            = 1
-	setPlusdeckStateCommand                       = 2
-	displayNotificationCommand                    = 3
-	stopDisplayingNotificationCommand             = 4
+	setWindowNameCommand    commandType = 0
+	setLoopbackCommand                  = 1
+	setPlusdeckStateCommand             = 2
+	showNotificationCommand             = 3
 )
 
 type command struct {
-	Type  commandType
-	Value any
+	command commandType
+	Value   any
 }
 
 func newSetWindowNameCommand(name string) *command {
 	return &command{
-		Type:  setWindowNameCommand,
-		Value: name,
+		command: setWindowNameCommand,
+		Value:   name,
 	}
 }
 
 func newSetLoopbackCommand(managed bool) *command {
 	return &command{
-		Type:  setLoopbackCommand,
-		Value: managed,
+		command: setLoopbackCommand,
+		Value:   managed,
 	}
 }
 
 func newSetPlusdeckStateCommand(state plusdeck.State) *command {
 	return &command{
-		Type:  setPlusdeckStateCommand,
-		Value: state,
+		command: setPlusdeckStateCommand,
+		Value:   state,
 	}
 }
 
 func newDisplayNotificationCommand(notification *notifications.NotificationInfo) *command {
 	return &command{
-		Type:  displayNotificationCommand,
-		Value: notification,
-	}
-}
-
-func newStopDisplayingNotificationCommand() *command {
-	return &command{
-		Type:  stopDisplayingNotificationCommand,
-		Value: nil,
+		command: showNotificationCommand,
+		Value:   notification,
 	}
 }
 
@@ -69,7 +59,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 	lcd := crystalfontz.NewClient(systemConn)
 
-	line1 := newLcdLine(0, "Hello!", lcd)
+	line1 := newLcdLine(0, "YES THIS IS STARDECK", lcd)
 	line2 := newLcdLine(1, "", lcd)
 
 	line1.start()
@@ -77,45 +67,22 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 	lb := newLoopbackManager(plusdeckState)
 	pd := newPlusdeckManager(plusdeckState, line1)
-
-	notificationTimeout := time.Duration(
-		viper.GetFloat64("notifications.timeout") * float64(time.Second),
-	)
-
-	displayNotification := func(info *notifications.NotificationInfo) {
-		text := info.Summary
-
-		if len(info.Body) > 0 {
-			text += (" - " + info.Body)
-		}
-
-		log.Debug().Str("text", text).Msg("Displaying notification")
-
-		line2.update(text)
-
-		go func() {
-			time.Sleep(notificationTimeout)
-			log.Debug().Msg("Stop displaying notification")
-			commands <- newStopDisplayingNotificationCommand()
-		}()
-	}
+	note := newNotificationManager(line2)
 
 	for {
 		log.Trace().Msg("Waiting for command")
 		command := <-commands
 		log.Trace().Any("command", command).Msg("Received command")
 
-		switch command.Type {
+		switch command.command {
 		case setWindowNameCommand:
 			windowName = command.Value.(string)
 		case setLoopbackCommand:
 			loopbackManaged = command.Value.(bool)
 		case setPlusdeckStateCommand:
 			plusdeckState = command.Value.(plusdeck.State)
-		case displayNotificationCommand:
-			displayNotification(command.Value.(*notifications.NotificationInfo))
-		case stopDisplayingNotificationCommand:
-			line2.update("")
+		case showNotificationCommand:
+			note.update(command.Value.(*notifications.NotificationInfo))
 		}
 
 		log.Debug().
