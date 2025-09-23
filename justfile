@@ -29,6 +29,7 @@ build:
   mkdir -p bin
   go build -o bin/stardeckd ./cmd/stardeckd/main.go
   go build -o bin/stardeckctl ./cmd/stardeckctl/main.go
+  just -f ./kwin/justfile build
 
 stardeckd *argv:
   go run ./cmd/stardeckd/main.go --log-level trace --log-format pretty {{ argv }}

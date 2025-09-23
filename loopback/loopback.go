@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/goccy/go-yaml"
 	pkgerrors "github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -22,10 +23,20 @@ const (
 )
 
 type Status struct {
-	Enabled bool
-	Source  string
-	Latency int32
-	Volume  int32
+	Enabled bool   `yaml:"enabled"`
+	Source  string `yaml:"source"`
+	Latency int32  `yaml:"latency"`
+	Volume  int32  `yaml:"volume"`
+}
+
+func (st Status) String() string {
+	bytes, err := yaml.Marshal(st)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return string(bytes)
 }
 
 type Manager struct {
