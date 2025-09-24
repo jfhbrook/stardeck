@@ -43,16 +43,20 @@ func watchConfig(appType int) {
 }
 
 func InitConfig(cfgFile string, appType int) {
-	viper.SetDefault("cli.log_level", "info")
-	viper.SetDefault("cli.log_format", logger.PrettyFormat)
-	viper.SetDefault("cli.log_color", true)
+	defaultLogLevel := "info"
+	defaultLogColor := true
+	defaultPause := 5.0
 
+	viper.SetDefault("cli.log_level", defaultLogLevel)
+	viper.SetDefault("cli.log_format", logger.PrettyFormat)
+	viper.SetDefault("cli.log_color", defaultLogColor)
+
+	viper.SetDefault("service.log_level", defaultLogLevel)
 	viper.SetDefault("service.log_format", logger.JsonFormat)
-	viper.SetDefault("service.log_level", "info")
-	viper.SetDefault("service.log_color", true)
+	viper.SetDefault("service.log_color", defaultLogColor)
 
 	viper.SetDefault("crystalfontz.width", 16)
-	viper.SetDefault("crystalfontz.pause", 5.0)
+	viper.SetDefault("crystalfontz.pause", defaultPause)
 	viper.SetDefault("crystalfontz.tick", 0.3)
 
 	viper.SetDefault("loopback.managed", true)
@@ -61,6 +65,8 @@ func InitConfig(cfgFile string, appType int) {
 	viper.SetDefault("loopback.volume", 10)
 
 	viper.SetDefault("notifications.timeout", 15.0)
+	viper.SetDefault("notifications.min_wait", defaultPause)
+	viper.SetDefault("notifications.max_queue_length", 5)
 
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
