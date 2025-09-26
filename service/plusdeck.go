@@ -1,43 +1,37 @@
 package service
 
 import (
-	"slices"
-
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 type plusdeckManager struct {
-	displayedStates []plusdeck.State
-	state           plusdeck.State
-	line            *lcdLine
+	states map[plusdeck.State]string
+	state  plusdeck.State
+	line   *lcdLine
 }
 
 func newPlusdeckManager(state plusdeck.State, line *lcdLine) *plusdeckManager {
-	displayedStates := []plusdeck.State{
-		plusdeck.PlayingA,
-		plusdeck.PausedA,
-		plusdeck.PlayingB,
-		plusdeck.PausedB,
-		plusdeck.FastForwardingA,
-		plusdeck.FastForwardingB,
+	states := map[plusdeck.State]string{
+		plusdeck.PlayingA:        "Playing Side A",
+		plusdeck.PausedA:         "Paused Side A",
+		plusdeck.PlayingB:        "Playing Side B",
+		plusdeck.PausedB:         "Paused Side B",
+		plusdeck.FastForwardingA: "Fast Forwarding Side A (Rewinding Side B)",
+		plusdeck.FastForwardingB: "Fast Forwarding Side B (Rewinding Side A)",
 	}
 
 	return &plusdeckManager{
-		displayedStates: displayedStates,
-		state:           state,
-		line:            line,
+		states: states,
+		state:  state,
+		line:   line,
 	}
-}
-
-func (pd *plusdeckManager) isDisplaying() bool {
-	return slices.Contains(pd.displayedStates, pd.state)
 }
 
 func (pd *plusdeckManager) update(state plusdeck.State) bool {
 	pd.state = state
-	displaying := pd.isDisplaying()
-	if displaying {
-		pd.line.update(state)
+	name, ok := pd.states[state]
+	if ok {
+		pd.line.update(name)
 	}
-	return displaying
+	return ok
 }
