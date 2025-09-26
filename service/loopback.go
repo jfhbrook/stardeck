@@ -65,9 +65,6 @@ func (m *loopbackManager) toggle(managed bool, state plusdeck.State) {
 		log.Debug().Msg("Disabling loopback")
 		m.manager.Disable()
 	}
-
-	m.managed = managed
-	m.state = state
 }
 
 func (m *loopbackManager) worker() {
