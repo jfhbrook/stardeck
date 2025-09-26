@@ -36,6 +36,8 @@ func newLcdLine(row byte, defaultText string, client *crystalfontz.Client) *lcdL
 
 	l.update("")
 
+	l.start()
+
 	return &l
 }
 

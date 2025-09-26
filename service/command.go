@@ -52,9 +52,6 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	line1 := newLcdLine(0, "YES THIS IS STARDECK", lcd)
 	line2 := newLcdLine(1, "", lcd)
 
-	line1.start()
-	line2.start()
-
 	lb := newLoopbackManager(plusdeckState)
 	pd := newPlusdeckManager(plusdeckState, line1)
 	note := newNotificationManager(line2)
