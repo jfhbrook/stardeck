@@ -76,6 +76,7 @@ func InitConfig(cfgFile string, appType int) {
 		viper.SetConfigName("stardeck.yml")
 	}
 
+	viper.SetEnvPrefix("stardeck")
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
