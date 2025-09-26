@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/get"
+	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/reset"
 	"github.com/jfhbrook/stardeck/cmd/stardeckctl/cmd/set"
 	"github.com/jfhbrook/stardeck/config"
 	"github.com/jfhbrook/stardeck/logger"
@@ -45,5 +46,6 @@ func init() {
 	viper.BindPFlag("cli.log_color", rootCmd.PersistentFlags().Lookup("log-color"))
 
 	rootCmd.AddCommand(get.GetCmd)
+	rootCmd.AddCommand(reset.ResetCmd)
 	rootCmd.AddCommand(set.SetCmd)
 }

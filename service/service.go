@@ -26,7 +26,6 @@ func serve(commands chan *command) {
 }
 
 func Service() {
-
 	sessionConn, err := dbus.ConnectSessionBus()
 
 	if err != nil {

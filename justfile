@@ -101,11 +101,11 @@ loopback ACTION:
 
 # Reset LCD brightness and contrast, and clear screen
 lcd-reset:
-  @bash ./scripts/lcd-reset.sh
+  @just stardeckctl reset lcd
 
 # Display the LCD splash screen
 lcd-splash: lcd-reset
-  @bash ./scripts/lcd-splash.sh
+  @just stardeckctl set lcd splash
 
 # Stream notifications as newline separated JSON
 notifications:
