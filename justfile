@@ -32,7 +32,7 @@ build:
   just -f ./kwin/justfile build
 
 stardeckd *argv:
-  go run ./cmd/stardeckd/main.go --log-level trace --log-format pretty {{ argv }}
+  go run ./cmd/stardeckd/main.go --log-level debug --log-format pretty {{ argv }}
 
 stardeckctl *argv:
   go run ./cmd/stardeckctl/main.go --log-level debug {{ argv }}
