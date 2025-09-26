@@ -122,6 +122,8 @@ func (l *lcdLine) scroll() {
 }
 
 func (l *lcdLine) loop() {
+	text := l.text
+	shift := l.shift
 	l.running = true
 
 	l.send(l.data())
@@ -138,9 +140,13 @@ func (l *lcdLine) loop() {
 			return
 		}
 
-		// TODO: Debounce this signal
-		l.send(l.data())
-		l.scroll()
+		if text != l.text || shift != l.shift {
+			text = l.text
+			shift = l.shift
+
+			l.send(l.data())
+			l.scroll()
+		}
 
 		time.Sleep(l.tick())
 	}
