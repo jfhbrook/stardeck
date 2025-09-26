@@ -117,3 +117,13 @@ func (lcd *Client) Reset() error {
 
 	return nil
 }
+
+func (lcd *Client) StoreBootState(timeout float64, retryTimes int64) error {
+	call := lcd.object.Call("org.jfhbrook.crystalfontz.StoreBootState", 0, timeout, retryTimes)
+
+	if call.Err != nil {
+		return errors.Wrap(call.Err, "Failed to store boot state")
+	}
+
+	return nil
+}

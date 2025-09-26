@@ -47,6 +47,7 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
 	plusdeckState := plusdeck.Unsubscribed
 
+	// TODO: Move these dependencies to service.go
 	lcd := crystalfontz.NewClient(systemConn)
 
 	line1 := newLcdLine(0, "YES THIS IS STARDECK", lcd)
@@ -55,6 +56,9 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	lb := newLoopbackManager(plusdeckState)
 	pd := newPlusdeckManager(plusdeckState, line1)
 	note := newNotificationManager(line2)
+
+	// TODO: Move this to service.go
+	go signalHandler(lcd)
 
 	for {
 		log.Trace().Msg("Waiting for command")
