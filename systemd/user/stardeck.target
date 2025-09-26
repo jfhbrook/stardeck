@@ -1,0 +1,4 @@
+[Unit]
+Description=Stardeck Service
+Requires=stardeck-core.target
+Requires=stardeck.service

@@ -1,0 +1,5 @@
+[Unit]
+Description=Stardeck Core Services
+Requires=dbus.service
+Wants=plusdeck.service
+Wants=crystalfontz.service

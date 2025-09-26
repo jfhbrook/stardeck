@@ -1,0 +1,15 @@
+[Unit]
+Description=Stardeck service
+CollectMode=inactive-or-failed
+
+Requires=stardeck-core.target
+After=stardeck-core.target
+
+[Service]
+Type=dbus
+BusName=org.jfhbrook.stardeck
+ExecStart=/usr/bin/just -f /home/josh/code/jfhbrook/stardeck/justfile stardeckd
+Restart=on-failure
+
+[Install]
+WantedBy=stardeck.target

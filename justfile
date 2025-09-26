@@ -46,6 +46,16 @@ install:
   cd playbook && npm i
   cd kwin && npm i
 
+# Enable development stardeck service
+enable:
+  ./scripts/enable.sh
+
+# Disable development stardeck service
+disable:
+  ./scripts/disable.sh
+
+
+
 # Run updates
 update:
   @bash ./scripts/playbook-dependencies.sh
