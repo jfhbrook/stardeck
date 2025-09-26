@@ -4,7 +4,9 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/pkg/errors"
 
+	"github.com/jfhbrook/stardeck/crystalfontz"
 	"github.com/jfhbrook/stardeck/logger"
+	"github.com/jfhbrook/stardeck/plusdeck"
 )
 
 func serve(commands chan *command) {
@@ -45,8 +47,25 @@ func Service() {
 	events := make(chan *event, 1)
 	commands := make(chan *command, 1)
 
+	lcd := crystalfontz.NewClient(systemConn)
+
+	line1 := newLcdLine(0, "YES THIS IS STARDECK", lcd)
+	line2 := newLcdLine(1, "", lcd)
+
+	lb := newLoopbackManager(plusdeck.Unsubscribed)
+	pd := newPlusdeckManager(plusdeck.Unsubscribed, line1)
+	note := newNotificationManager(line2)
+
 	go serve(commands)
 	go listen(systemConn, sessionConn, events)
 	go eventHandler(events, commands)
-	CommandRunner(systemConn, commands)
+	go signalHandler(lcd)
+	CommandRunner(
+		line1,
+		line2,
+		lb,
+		pd,
+		note,
+		commands,
+	)
 }

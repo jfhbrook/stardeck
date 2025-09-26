@@ -1,10 +1,8 @@
 package service
 
 import (
-	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/jfhbrook/stardeck/crystalfontz"
 	"github.com/jfhbrook/stardeck/notifications"
 	"github.com/jfhbrook/stardeck/plusdeck"
 )
@@ -43,22 +41,16 @@ func newDisplayNotificationCommand(notification *notifications.NotificationInfo)
 	}
 }
 
-func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
+func CommandRunner(
+	line1 *lcdLine,
+	line2 *lcdLine,
+	lb *loopbackManager,
+	pd *plusdeckManager,
+	note *notificationManager,
+	commands chan *command,
+) {
 	windowName := ""
 	plusdeckState := plusdeck.Unsubscribed
-
-	// TODO: Move these dependencies to service.go
-	lcd := crystalfontz.NewClient(systemConn)
-
-	line1 := newLcdLine(0, "YES THIS IS STARDECK", lcd)
-	line2 := newLcdLine(1, "", lcd)
-
-	lb := newLoopbackManager(plusdeckState)
-	pd := newPlusdeckManager(plusdeckState, line1)
-	note := newNotificationManager(line2)
-
-	// TODO: Move this to service.go
-	go signalHandler(lcd)
 
 	for {
 		log.Trace().Msg("Waiting for command")
