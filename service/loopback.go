@@ -3,9 +3,12 @@ package service
 import (
 	"slices"
 
+	"github.com/fsnotify/fsnotify"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
+
 	"github.com/jfhbrook/stardeck/loopback"
 	"github.com/jfhbrook/stardeck/plusdeck"
-	"github.com/rs/zerolog/log"
 )
 
 type loopbackSettings struct {
@@ -33,13 +36,14 @@ func newLoopbackManager(state plusdeck.State) *loopbackManager {
 	}
 
 	m := &loopbackManager{
-		managed:       false,
+		managed:       viper.GetBool("loopback.managed"),
 		enabledStates: enabledStates,
 		state:         state,
 		manager:       loopback.NewManager(),
 		ch:            make(chan loopbackSettings),
 	}
 
+	m.onConfigChange()
 	go m.worker()
 
 	return m
@@ -72,6 +76,20 @@ func (m *loopbackManager) worker() {
 	}
 }
 
-func (m *loopbackManager) update(managed bool, state plusdeck.State) {
-	m.ch <- loopbackSettings{managed, state}
+func (m *loopbackManager) update(state plusdeck.State) {
+	m.state = state
+	m.ch <- loopbackSettings{m.managed, state}
+}
+
+func (m *loopbackManager) onConfigChange() {
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		managed := viper.GetBool("loopback.managed")
+
+		if managed != m.managed {
+			log.Trace().Bool("managed", managed).Msg("Registered new loopback config")
+
+			m.managed = managed
+			m.ch <- loopbackSettings{managed, m.state}
+		}
+	})
 }

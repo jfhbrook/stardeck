@@ -3,7 +3,6 @@ package service
 import (
 	"github.com/godbus/dbus/v5"
 	"github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
 
 	"github.com/jfhbrook/stardeck/crystalfontz"
 	"github.com/jfhbrook/stardeck/notifications"
@@ -14,9 +13,8 @@ type commandType int
 
 const (
 	setWindowNameCommand    commandType = 0
-	setLoopbackCommand                  = 1
-	setPlusdeckStateCommand             = 2
-	showNotificationCommand             = 3
+	setPlusdeckStateCommand             = 1
+	showNotificationCommand             = 2
 )
 
 type command struct {
@@ -28,13 +26,6 @@ func newSetWindowNameCommand(name string) *command {
 	return &command{
 		command: setWindowNameCommand,
 		Value:   name,
-	}
-}
-
-func newSetLoopbackCommand(managed bool) *command {
-	return &command{
-		command: setLoopbackCommand,
-		Value:   managed,
 	}
 }
 
@@ -54,9 +45,6 @@ func newDisplayNotificationCommand(notification *notifications.NotificationInfo)
 
 func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 	windowName := ""
-	// TODO: What if the config changes? Should you be able to toggle managed
-	// state with the ctl tool?
-	loopbackManaged := viper.GetBool("loopback.managed")
 	plusdeckState := plusdeck.Unsubscribed
 
 	lcd := crystalfontz.NewClient(systemConn)
@@ -79,8 +67,6 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 		switch command.command {
 		case setWindowNameCommand:
 			windowName = command.Value.(string)
-		case setLoopbackCommand:
-			loopbackManaged = command.Value.(bool)
 		case setPlusdeckStateCommand:
 			plusdeckState = command.Value.(plusdeck.State)
 		case showNotificationCommand:
@@ -89,11 +75,11 @@ func CommandRunner(systemConn *dbus.Conn, commands chan *command) {
 
 		log.Debug().
 			Str("windowName", windowName).
-			Bool("loopbackManaged", loopbackManaged).
+			Bool("loopbackManaged", lb.managed).
 			Any("plusdeckState", plusdeckState).
 			Msg("State updated")
 
-		lb.update(loopbackManaged, plusdeckState)
+		lb.update(plusdeckState)
 		if !pd.update(plusdeckState) {
 			line1.update(windowName)
 		}

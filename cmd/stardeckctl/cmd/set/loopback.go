@@ -1,12 +1,10 @@
 package set
 
 import (
-	"github.com/godbus/dbus/v5"
-	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
-	"github.com/jfhbrook/stardeck/client"
 	"github.com/jfhbrook/stardeck/logger"
 	"github.com/jfhbrook/stardeck/loopback"
 )
@@ -39,17 +37,10 @@ var setLoopbackCmd = &cobra.Command{
 		}
 
 		if manage || noManage {
-			conn, err := dbus.ConnectSessionBus()
+			viper.Set("loopback.managed", manage)
+			err := viper.WriteConfig()
 
 			if err != nil {
-				logger.FlagrantError(errors.Wrap(err, "Failed to connect to Stardeck service"))
-			}
-
-			defer conn.Close()
-
-			cl := client.NewClient(conn)
-
-			if err := cl.SetLoopback(manage); err != nil {
 				logger.FlagrantError(err)
 			}
 
