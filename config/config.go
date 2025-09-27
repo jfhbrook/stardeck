@@ -45,7 +45,7 @@ func watchConfig(appType int) {
 func InitConfig(cfgFile string, appType int) {
 	defaultLogLevel := "info"
 	defaultLogColor := true
-	defaultPause := 5.0
+	defaultPause := 3.0
 
 	viper.SetDefault("cli.log_level", defaultLogLevel)
 	viper.SetDefault("cli.log_format", logger.PrettyFormat)

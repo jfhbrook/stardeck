@@ -1,8 +1,5 @@
 set dotenv-load := true
 
-email := 'josh.holbrook@gmail.com'
-destination := 'josh@stardeck.local'
-
 releasever := '42'
 
 default:
@@ -32,10 +29,10 @@ build:
   just -f ./kwin/justfile build
 
 stardeckd *argv:
-  go run ./cmd/stardeckd/main.go --log-level debug --log-format pretty {{ argv }}
+  go run ./cmd/stardeckd/main.go {{ argv }}
 
 stardeckctl *argv:
-  go run ./cmd/stardeckctl/main.go --log-level debug {{ argv }}
+  go run ./cmd/stardeckctl/main.go {{ argv }}
 
 # Link tool
 link:
@@ -53,8 +50,6 @@ enable:
 # Disable development stardeck service
 disable:
   ./scripts/disable.sh
-
-
 
 # Run updates
 update:
