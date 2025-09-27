@@ -29,10 +29,10 @@ build:
   just -f ./kwin/justfile build
 
 stardeckd *argv:
-  go run ./cmd/stardeckd/main.go {{ argv }}
+  @go run ./cmd/stardeckd/main.go {{ argv }}
 
 stardeckctl *argv:
-  go run ./cmd/stardeckctl/main.go {{ argv }}
+  @go run ./cmd/stardeckctl/main.go {{ argv }}
 
 # Link tool
 link:
