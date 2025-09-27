@@ -8,6 +8,13 @@ import (
 )
 
 func journalctl(args ...string) {
+	if boot {
+		args = append(args, "-b")
+	}
+	if follow {
+		args = append(args, "-f")
+	}
+
 	cmd := exec.Command("journalctl", args...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
