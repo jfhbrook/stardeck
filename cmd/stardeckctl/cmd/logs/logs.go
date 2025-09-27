@@ -12,5 +12,8 @@ logs are available through journalctl.`,
 }
 
 func init() {
+	LogsCmd.AddCommand(crystalfontzLogsCmd)
+	LogsCmd.AddCommand(kwinLogsCmd)
+	LogsCmd.AddCommand(plusdeckLogsCmd)
 	LogsCmd.AddCommand(stardeckLogsCmd)
 }
