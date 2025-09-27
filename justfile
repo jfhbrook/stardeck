@@ -90,10 +90,6 @@ playbook *ARGV:
 scan-music:
   sudo mopidyctl local scan
 
-# Control loopback
-loopback ACTION:
-  @perl ./scripts/loopback.pl '{{ ACTION }}'
-
 # Reset LCD brightness and contrast, and clear screen
 lcd-reset:
   @just stardeckctl reset lcd
@@ -102,13 +98,9 @@ lcd-reset:
 lcd-splash: lcd-reset
   @just stardeckctl set lcd splash
 
-# Stream notifications as newline separated JSON
-notifications:
-  @bash ./scripts/notifications.sh
-
 # Logs for a service
-logs SERVICE:
-  journalctl -b -u '{{ SERVICE }}.service'
+logs *argv:
+  @just stardeckctl logs {{ argv }}
 
 # Put the computer to sleep
 nini:
