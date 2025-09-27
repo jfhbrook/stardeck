@@ -28,4 +28,6 @@ func signalHandler(client *crystalfontz.Client) {
 	if err != nil {
 		log.Warn().Msg(err.Error())
 	}
+
+	os.Exit(0)
 }
