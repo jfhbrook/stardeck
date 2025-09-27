@@ -20,6 +20,7 @@ func init() {
 
 	LogsCmd.AddCommand(crystalfontzLogsCmd)
 	LogsCmd.AddCommand(kwinLogsCmd)
+	LogsCmd.AddCommand(mopidyLogsCmd)
 	LogsCmd.AddCommand(plusdeckLogsCmd)
 	LogsCmd.AddCommand(stardeckLogsCmd)
 }
