@@ -9,7 +9,15 @@ var kwinLogsCmd = &cobra.Command{
 	Short: "Get KWin logs",
 	Long:  `Get the logs for KWin, using journald.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		journalctl("-b", "QT_CATEGORY=js", "QT_CATEGORY=kwin_scripting")
+		argv := []string{}
+		if boot {
+			argv = append(argv, "-b")
+		}
+		if follow {
+			argv = append(argv, "-f")
+		}
+		argv = append(argv, "QT_CATEGORY=js", "QT_CATEGORY=kwin_scripting")
+		journalctl(argv...)
 	},
 }
 
