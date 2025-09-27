@@ -8,7 +8,7 @@ After=stardeck-core.target
 [Service]
 Type=dbus
 BusName=org.jfhbrook.stardeck
-ExecStart=/usr/bin/just -f /home/josh/code/jfhbrook/stardeck/justfile stardeckd
+ExecStart=/home/josh/code/jfhbrook/stardeck/scripts/stardeckd.sh
 Restart=on-failure
 
 [Install]
