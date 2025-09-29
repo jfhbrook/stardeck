@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-cp ./systemd/* ~/.config/systemd/user/
+cp ./systemd/user/* ~/.config/systemd/user/
 
 systemctl --user enable stardeck.service
 systemctl --user start stardeck.service
