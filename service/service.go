@@ -59,7 +59,6 @@ func Service() {
 	go serve(commands)
 	go listen(systemConn, sessionConn, events)
 	go eventHandler(events, commands)
-	go signalHandler(lcd)
 	CommandRunner(
 		line1,
 		line2,

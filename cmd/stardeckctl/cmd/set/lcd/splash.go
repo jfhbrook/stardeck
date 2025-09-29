@@ -32,6 +32,12 @@ Stardeck service, if it is running.`,
 			logger.FlagrantError(err)
 		}
 
+		err = lcd.StoreBootState(crystalfontz.NilFloat, crystalfontz.NilInt)
+
+		if err != nil {
+			logger.FlagrantError(err)
+		}
+
 		log.Info().Msg("Set splash screen on LCD")
 	},
 }
