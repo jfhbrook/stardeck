@@ -83,7 +83,7 @@ func (m *loopbackManager) onConfigChange() {
 		managed := viper.GetBool("loopback.managed")
 
 		if managed != m.managed {
-			log.Trace().Bool("managed", managed).Msg("Registered new loopback config")
+			log.Debug().Bool("managed", managed).Msg("Registered new loopback config")
 
 			m.managed = managed
 			m.ch <- loopbackSettings{managed, m.state}

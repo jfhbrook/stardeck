@@ -73,7 +73,7 @@ func (m *notificationManager) update(info *notifications.NotificationInfo) {
 }
 
 func (m *notificationManager) display(id uint, text string) {
-	log.Trace().
+	log.Debug().
 		Uint("id", id).
 		Str("text", text).
 		Msg("Displaying notification")
@@ -90,15 +90,15 @@ func (m *notificationManager) display(id uint, text string) {
 func (m *notificationManager) wait(id uint) {
 	minWait := m.minWait()
 
-	log.Trace().
+	log.Debug().
 		Uint("id", id).
 		Float64("min_wait", minWait.Seconds()).
 		Msg("Waiting before displaying next notification")
 	time.Sleep(m.minWait())
 }
 
-func (m *notificationManager) clear() {
-	log.Trace().Msg("Clearing notification")
+func (m *notificationManager) clear(id uint) {
+	log.Debug().Uint("id", id).Msg("Clearing notification")
 	m.line.update("")
 }
 
@@ -123,7 +123,7 @@ func (m *notificationManager) loop() {
 		case clearNotificationCommand:
 			// Clear the notification if it's the current notification
 			if command.id == id {
-				m.clear()
+				m.clear(id)
 			}
 		case stopNotifyingCommand:
 			m.running = false

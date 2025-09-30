@@ -45,9 +45,9 @@ func eventHandler(events chan *event, commands chan *command) {
 	plusdeckState := plusdeck.Unsubscribed
 
 	for {
-		log.Trace().Msg("Waiting for event")
+		log.Debug().Msg("Waiting for event")
 		ev := <-events
-		log.Trace().Any("event", ev).Msg("Received event")
+		log.Debug().Any("event", ev).Msg("Received event")
 
 		switch ev.Type {
 		case windowEvent:

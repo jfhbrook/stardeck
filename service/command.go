@@ -53,9 +53,9 @@ func CommandRunner(
 	plusdeckState := plusdeck.Unsubscribed
 
 	for {
-		log.Trace().Msg("Waiting for command")
+		log.Debug().Msg("Waiting for command")
 		command := <-commands
-		log.Trace().Any("command", command).Msg("Received command")
+		log.Debug().Any("command", command).Msg("Received command")
 
 		switch command.command {
 		case setWindowNameCommand:

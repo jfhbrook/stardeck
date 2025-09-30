@@ -33,7 +33,7 @@ type Iface struct {
 }
 
 func (i Iface) SetWindow(name string) *dbus.Error {
-	log.Trace().Str("name", name).Msg("Received SetWindow")
+	log.Debug().Str("name", name).Msg("Received SetWindow")
 	i.commands <- newSetWindowNameCommand(name)
 	return nil
 }
