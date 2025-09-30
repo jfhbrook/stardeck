@@ -50,7 +50,8 @@ restart:
 
 # Tail KWin logs
 logs:
-  journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting
+  just -f ../justfile logs kwin --follow
+  # journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting
 
 # Build for release
 build:
