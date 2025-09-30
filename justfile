@@ -45,11 +45,22 @@ install:
 
 # Enable development stardeck service
 enable:
-  ./scripts/enable.sh
+  cp ./systemd/user/* ~/.config/systemd/user/
+  systemctl --user enable stardeck.service
+  @just start
+
+# Start stardeck service
+start:
+  systemctl --user start stardeck.service
 
 # Disable development stardeck service
 disable:
-  ./scripts/disable.sh
+  @just stop
+  for file in ./systemd/user/*; do rm ~/.config/systemd/user/"$(basename "${file}")"; done
+
+# Stop stardeck service
+stop:
+  systemctl --user stop stardeck.service
 
 # Run updates
 update:
